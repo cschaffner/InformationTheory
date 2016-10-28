@@ -264,30 +264,30 @@ For the forward direction, suppose we have a prefix-free code $C$ with image ${\
 %\end{figure}
 
 \noindent Note that the weight of each node is exactly the sum of the weight of its direct children, and thereby that the weight of the root is exactly the weight of all of the leafs. Since every codeword $c_i$ resides on a leaf of depth $\ell_i$ (but not all leafs are necessarily occupied), the weight of the root is \emph{at least} the sum of all the codeword weights:
-\[
+\begin{align}
 \sum_{i=1}^{m} 2^{-\ell_i} \leq 2^0 = 1.
-\]
+\end{align}
 
 For the backward direction, we build a code ${\cal C} = \{c_1, ..., c_m\}$ with $\ell(c_i) = \len_i$ by selecting the appropriate leafs of a binary tree as codewords, assigning the most `expensive' (i.e. those with small depth) first. We proceed by induction on the number of codewords, $m$:
 
 For $m = 1$, the construction is clear: we can assign any string of length $\len_1$ to represent the single codeword.
 
 For $m > 1$, assume without loss of generality that $\ell_1 \leq \cdots \leq \ell_{m-1} \leq \ell_{m}$. We will first try to build a code with $(m-1)$ code words, of lengths $\ell_1, ..., \ell_{m-2}, (\ell_{m-1} - 1)$. In order to be able to invoke the induction hypothesis, we do need to check that
-\[
+\begin{align}
 \left(\sum_{i=1}^{m-2} 2^{\ell_{i}}\right) + 2^{(\ell_{m-1} - 1)} \leq 1.
-\]
+\end{align}
 This can be seen by first noting that
-\[
+\begin{align}
 1 \ > \ 1 - 2^{-\len_m} \ \geq \ \sum_{i=1}^{m-1} 2^{-\len_i} \ = \ \sum_{i=1}^m \frac{2^{\len_{m-1} - \len_i}}{2^{\len_{m-1}}} \ = \ \frac{\sum_{i=1}^{m-1} 2^{\len_{m-1} - \len_i}}{2^{\len_{m-1}}}.
-\]
+\end{align}
 and then, because both the denominator and the enumerator of the fraction are integers,
-\[
+\begin{align}
 1
 \ \geq \ \frac{\left(\sum_{i=1}^{m-1} 2^{\len_{m-1} - \len_i}\right) + 1}{2^{\len_{m-1}}}
-\ = \ \left(\sum_{i=1}^{m-1} 2^{-\len_i}\right) + 2^{-\len_{m-1}}
-\ = \ \left(\sum_{i=1}^{m-2} 2^{-\len_i}\right) + 2\cdot 2^{-\len_{m-1}}
-\ = \ \left(\sum_{i=1}^{m-2} 2^{\ell_{i}}\right) + 2^{(\ell_{m-1} - 1)},
-\]
+&= \ \left(\sum_{i=1}^{m-1} 2^{-\len_i}\right) + 2^{-\len_{m-1}}\nonumber\\
+&= \ \left(\sum_{i=1}^{m-2} 2^{-\len_i}\right) + 2\cdot 2^{-\len_{m-1}}\nonumber\\
+&= \ \left(\sum_{i=1}^{m-2} 2^{\ell_{i}}\right) + 2^{(\ell_{m-1} - 1)},
+\end{align}
 as desired. So we invoke the induction hypothesis to create a prefix-free code ${\cal C}' = \{c'_1, ..., c'_{m-1}\}$ with lengths $\len_1, ..., \len_{m-2}, (\len_{m-1} - 1)$. The new code ${\cal C}$ is then constructed by setting $c_i = c'_i$ for all $i \leq m-2$, and furthermore setting $c_{m-1} = c'_{m-1}|0$ and $c_m = c'_{m-1}|10\cdots 0$, padding with enough zeroes to achieve $\len(c_m) = \len_m$. This new code is necessarily also prefix-free.
 
 The following image illustrates the induction step for $\ell_1 = \ell_2 = \ell_3 = 2$ and $\ell_4 = 3$. The code is constructed from a prefix-free code ${\cal C}'$ with code lengths $2, 2$ and 1.
@@ -361,21 +361,21 @@ If there exists a uniquely decodable code with image ${\cal C} = \set{c_1, ..., 
 \end{theorem}
 \begin{proof}
 Let ${\cal C}$ be a uniquely decodable code as in the theorem statement. We can write
-\[
+\begin{align}
 S := \sum_{c \in \cal C} \frac{1}{2^{\len(c)}} = \sum_{\ell = L_{\min}}^{L_{\max}} \frac{n_\ell}{2^\ell} 
-\]
+\end{align}
 where $L_{\min} = \min_{c \in \cal C} \len(c)$, $L_{\max} = \max_{c \in \cal C} \len(c)$, and $n_{\ell} = |\Set{c \in {\cal C}}{\len(c) = \ell}|$. Furthermore, for any $k \in \N$,  consider the $k$th power of $S$,
-\[
+\begin{align}
 S^k = \sum_{c_1,\ldots,c_k \in \cal C} \frac{1}{2^{\len(c_1)+\ldots+\len(c_k)}} = \sum_{\ell = k L_{\min}}^{k L_{\max}} \frac{n_\ell^{(k)}}{2^\ell} 
-\]
+\end{align}
 where $n_\ell^{(k)}$ is defined as $n_\ell^{(k)} = \big|\SET[\big]{(c_1,\ldots,c_k) \in {\cal C}^k}{\sum_i\len(c_i) = \len(c_1|\ldots|c_k) = \ell}\big|$. Note that
-\[
+\begin{align}
 n_\ell^{(k)} = \sum_{x \in \set{0,1}^{\ell}} \big|\SET{(c_1,\ldots,c_k) \in {\cal C}^k}{\,c_1|\ldots|c_k = x}\big| \leq \sum_{x \in \set{0,1}^{\ell}} 1 = 2^{\ell}
-\]
+\end{align}
 where the inequality follows from the unique decodability of $\cal C$. Thus, we can conclude that 
-\[
+\begin{align}
 S^k \leq (L_{\max} - L_{\min}) \cdot k 
-\]
+\end{align}
 for all $k \in \N$, so $S^k$ grows at most linearly in $k$, from which follows that $S \leq 1$ (for if not, $S^k$ would grow exponentially in $k$).
 \end{proof}
 Kraft's and McMillan's inequality together lead to the conclusion that the lengths of an optimal prefix-free code and an optimal uniquely decodable code coincide:
@@ -408,13 +408,13 @@ H(X) - \len_C(X) &= - \sum_{x \in {\cal X}} P_X(x) \log(P_X(x)) - \sum_{x \in X}
 &\leq \log(1) = 0&&\mbox{(by Kraft's inequality)}
 \end{align}
 For the upper bound, let us define, for any $x \in {\cal X}$,
-\[
+\begin{align}
 \len_x := \left\lceil\log\frac{1}{P_X(x)}\right\rceil,
-\]
+\end{align}
 and note that
-\[
+\begin{align}
 \sum_{x \in {\cal X}} 2^{-\len_x} \leq \sum_{x \in {\cal X}} 2^{-\log\frac{1}{P_X(x)}} = \sum_{x \in {\cal X}} P_X(x) = 1.
-\]
+\end{align}
 Therefore, by Kraft's inequality, there exists a prefix-free code $C$ such that $\len(C(x)) = \len_x$ for all $x \in {\cal X}$. This code satisfies
 \begin{align}
 \len_C(X) &= \sum_{x \in {\cal X}} P_X(x) \len_x \nonumber\\
@@ -500,9 +500,9 @@ Let the random variable $X$ be given with $\mathcal{X} = \{a,b,c,d,e\}$ and $P_X
 We build up the tree from left to right, pairing the symbols (or groups of symbols) with smallest (combined) probabilities at every step. The codeword for every symbol is then determined by following the branches of the tree \emph{from right to left} until the symbol is reached. Note that this way, the symbols with the smallest probabilities get assigned the longest codewords (paths).
 
 The average codeword length for this code is
-\[
+\begin{align}
 0.25 \cdot 2 + 0.25 \cdot 2 + 0.2 \cdot 2 + 0.15 \cdot 3 + 0.15 \cdot 3 = 2.3. 
-\]
+\end{align}
 Compare this to $H(X) \approx 2.285$. The average codeword length lies between $H(X)$ and $H(X) + 1$.
 \end{example}
 
@@ -676,13 +676,13 @@ For any $X$, the arithmetic code has average length $\len_{AC}(X) \leq H(X) + 1$
 \end{proposition}
 \begin{proof}
 Let $x \in \mathcal{X}$, and define $\len_x := \lceil \log (1/P_X(x))\rceil$. Then
-\[
+\begin{align}
 2^{-\len} = 2^{-\lceil \log (1/P_X(x))\rceil} \leq 2^{-\log (1/P_X(x))} = 2^{\log P_X(x)} = P_X(x).
-\]
+\end{align}
 Therefore, since the size of the interval $I_x$ is $P_X(x)$, there must be some $0 \leq s < 2^\len$ such that $\frac{s}{2^{-\len}}$ lies within $I_x$. This number has binary representation of length $\len \leq -\log P_X(x) + 1$. Thus,
-\[
+\begin{align}
 \len_AC(X) = \mathbb{E}[\len(AC(X))] = \sum_x P_X(x) \len(AC(x)) \leq \sum_x P_X(x) (-\log P_X(x) + 1) = H(X) + 1.
-\]
+\end{align}
 \end{proof}
 
 As we can see from Example~\ref{example:arithmetic}, this construction for arithmetic codes do not necessarily result in a prefix-free code. However, at the expense of one extra bit of code (on average), the construction can be adapted into a prefix-free code. One example of this is the \term{Shannon-Fano-Elias code} (see \CT, Section 5.9), which provides a more sophisticated way of selecting a number within each interval than simply selecting the number with the shortest binary representation. This alternative selection procedure ensures prefix-freeness. Another option is to select \emph{binary intervals} within each interval:
@@ -793,16 +793,16 @@ Since the variables $X_i$ are independent, so are the random variables $\log P_X
 by the weak law of large numbers.
 \end{proof}
 
-\begin{example}[Biased coin flip]
-Consider flipping a biased coin, with probability of 1 (heads) being $p_1 = 0.1$ and probability of 0 (tails) being $p_0 = 0.9$. (This is an example of a \term{Bernoulli distribution} with success probability $p_1$ and failure probability $p_0 = 1 - p_1$.) We can compute that $H(X) = h(0.1) \approx 0.469$.
-
-Clearly, for every $n$, $P_{X_1 \cdots X_n}(x_1\cdots x_n) = p_0^{n-r(x)}p_1^{r(x)}$, where $r(x)$ is the number of ones in the string $x = x_1\cdots x_n$. In particular, this gives us the \term{binomial distribution} by considering the random variable $R = r(X_1, ..., X_n)$, since $P(r) = \binom{n}{r} p_0^{n-r} p_1^r$.
-\end{example}
+%\begin{example}[Biased coin flip]
+%Consider flipping a biased coin, with probability of 1 (heads) being $p_1 = 0.1$ and probability of 0 (tails) being $p_0 = 0.9$. (This is an example of a \term{Bernoulli distribution} with success probability $p_1$ and failure probability $p_0 = 1 - p_1$.) We can compute that $H(X) = h(0.1) \approx 0.469$.
+%
+%Clearly, for every $n$, $P_{X_1 \cdots X_n}(x_1\cdots x_n) = p_0^{n-r(x)}p_1^{r(x)}$, where $r(x)$ is the number of ones in the string $x = x_1\cdots x_n$. In particular, this gives us the \term{binomial distribution} by considering the random variable $R = r(X_1, ..., X_n)$, since $P(r) = \binom{n}{r} p_0^{n-r} p_1^r$.
+%\end{example}
 
 \begin{definition}[Typical set]
 A typical set $\typset$ with respect to $P_X$ is the set of strings $(x_1, ..., x_n) \in {\cal X}^n$ such that
 \[
-2^{-n (H(X) + \epsilon)} \leq P_{X^n}(x_1, ..., x_n) \leq 2^{-n(H(X) - \epsilon)}
+2^{-n (H(X) + \epsilon)} \leq P_{X^n}(x_1, ..., x_n) \leq 2^{-n(H(X) - \epsilon)}.
 \]
 \end{definition}
 The typical set is relatively small, but contains almost all of the probability mass. We start by establishing some general properties of typical sets.
@@ -820,17 +820,18 @@ A typical set $\typset$ satisfies the following:
 \begin{enumerate}
 \item This is immediate from the definition (take the logarithm and divide by $-n$).
 \item This follows from the Asymptotic Equipartition Property: for all $\epsilon > 0$, $P[|-\frac{1}{n} \log P_{X^n}(X_1, ..., X_n) - H(X)| > \epsilon] \convto 0$, that is,
-\[\forall (\epsilon > 0) \ \forall (\delta > 0) \ \exists n_0 \ \forall (n \geq n_0) \ P[|-\frac{1}{n} \log P_{X^n}(X_1, ..., X_n) - H(X)| \leq \epsilon] > 1 - \delta.
-\]
+\begin{align}\forall (\epsilon > 0) \ \forall (\delta > 0) \ \exists n_0 \ \forall (n \geq n_0) \ P[|-\frac{1}{n} \log P_{X^n}(X_1, ..., X_n) - H(X)| \leq \epsilon] > 1 - \delta.
+\end{align}
 By choosing $\delta := \epsilon$, the result follows from the first property.
 \item First, observe that
-\[
+\begin{align}
 1 = \sum_{\vec{x} \in \mathcal{X}^n} P_{X^n}(\vec{x}) \geq \sum_{\vec{x} \in \typset} P_{X^n}(\vec{x}) \geq |\typset| \cdot 2^{-n(H(X) + \epsilon},
-\]
+\end{align}
 where the last inequality follows by property 1. The result now follows by multiplying both sides of the equation by $2^{n(H(X) + \epsilon)}$.
 \item By property 2, we can choose an $n$ large enough so that
-\[1 - \epsilon < P[\typset] = \sum_{\vec{x} \in \typset} P_{X^n}(\vec{x}) \leq |\typset| \cdot 2^{-n(H(X)-\epsilon)},
-\]
+\begin{align}
+1 - \epsilon < P[\typset] = \sum_{\vec{x} \in \typset} P_{X^n}(\vec{x}) \leq |\typset| \cdot 2^{-n(H(X)-\epsilon)},
+\end{align}
 where again, the last inequality follows by property 1.
 \end{enumerate}
 \end{proof}

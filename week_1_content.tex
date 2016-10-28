@@ -63,7 +63,7 @@ This example shows that in general, $P[\evA | \evB]$ is \emph{not
   equal} to $P[\evB | \evA]$.
 \end{example}
 
-\begin{definition}[(Discrete Random Variable (RV)]
+\begin{definition}[Discrete Random Variable (RV)]
 Let $(\Omega, \mathcal{F}, P)$ be a discrete probability space. A
 random variable $X$ is a function $X : \Omega \to \mathcal{X}$ where
 $\mathcal{X}$ is a set, and we may assume it to be discrete.
@@ -144,9 +144,9 @@ If we now condition on the event $\evA = \set{2,4,6}$ (the outcome being even), 
 \]
 \end{example}
 If $X$ is a random variable and $f : \mathcal{X} \to \mathcal{Y}$ is a surjective function, then $f(X)$ is a random variable, defined by composing the map $f$ with the map $X$. Its image is $\mathcal{Y}$. Clearly,
-\[
+\begin{align}
 P_{f(X)}(y) = \sum_{x \in \mathcal{X} : f(x) = y} P_X(x).
-\]
+\end{align}
 For example, $1/P_X(X)$ denotes the real random variable obtained from another random variable $X$ by composing with the map $1/P_X$ that assigns $1/P_X(x) \in \mathbb{R}$ to $x \in \mathcal{X}$.
 
 \begin{definition}[Expectation]
@@ -156,9 +156,9 @@ The expectation of a \emph{real} random variable $X$ is defined as
 \]
 \end{definition}
 Note that if $X$ is not real, then we can still consider the expectation of some function $f : \mathcal{X} \to \mathbb{R}$, where
-\[
+\begin{align}
 \Exp[f(X)] = \sum_{x \in \mathcal{X}} P_X(x) \cdot f(X).
-\]
+\end{align}
 \begin{definition}[Variance]
 The variance of a \emph{real} random variable $X$ is defined as
 \[
@@ -186,26 +186,26 @@ $\Var[X]=p(1-p)$.
 When $n$ coins $X_1, X_2, \ldots, X_n$ are flipped independently and
 every $X_i$ is Bernoulli($p$) distributed, let $S=\sum_{i=1}^n X_i$ be
 their sum, i.e.\ the number of heads in $n$ throws of a biased
-coin. Then, $S$ has the \href{https://en.wikipedia.org/wiki/Binomial_distribution}{\term{Binomial($n,p$)} distribution}:
-\[
-P_S(k) = \binom{n}{k} p^k (1-p)^{n-k} \mbox{ where } k=0,1,2,\ldots,n
-\, .
-\] 
+coin. Then, $S$ has the \href{https://en.wikipedia.org/wiki/Binomial_distribution}{\term{binomial($n,p$)} distribution}:
+\begin{align}
+P_S(k) = \binom{n}{k} p^k (1-p)^{n-k} &\ \ \ \ \ \mbox{ where } k=0,1,2,\ldots,n
+\, .\\
+\intertext{
 From simple properties of the expected value and variance, one can
 show that $\Exp[S]=np$ and $\Var[S]=np(1-p)$.
 \item
 The
-\href{https://en.wikipedia.org/wiki/Geometric_distribution}{\term{Geometric($p$)}
+\href{https://en.wikipedia.org/wiki/Geometric_distribution}{\term{geometric($p$)}
   distribution} of a random variable $Y$ is defined as the number of
-times one has to flip a Bernoulli($p$) coin before it lands heads:
-\[ P_Y(k) = (1-p)^{k-1} p \mbox{ where } k=1,2,3,\ldots \, .
-\]
+times one has to flip a Bernoulli($p$) coin before it lands heads:}
+ P_Y(k) = (1-p)^{k-1} p &\ \ \ \ \ \mbox{ where } k=1,2,3,\ldots \, .\\
+\intertext{
 There is another variant of the geometric distribution used in the literature,
 where one excludes the final success event of landing
 heads in the counting:
-\[
-P_Z(k) = (1-p)^k p \,  \mbox{ where } k=0,1,2,3,\ldots \, .
-\] 
+}
+P_Z(k) = (1-p)^k p \, &\ \ \ \ \ \mbox{ where } k=0,1,2,3,\ldots \, .
+\end{align}
 While the expected values are slightly different, namely
 $\Exp[Y]=\frac{1}{p}$ and $\Exp[Z]=\frac{1-p}{p}$, their variances are
 the same $\Var[Y]=\Var[Z]=\frac{1-p}{p^2}$.
@@ -354,20 +354,25 @@ $P_X(x)=1/|{\cal X}|$ for all $x\in {\cal X}$.
 The function $f:
 \R_{>0} \to \R$ defined by $y\mapsto \log y$ is strictly
  concave on $\R_{>0}$. Thus, by Jensen's inequality: 
-\[
+\begin{align}
 H(X)=\sum_{x\in {\cal X}} P_X(x) \cdot \log \frac{1}{P_X(x)}\leq
 \log\bigl(\textstyle\sum_{x\in {\cal X}} 1\bigr)=\log(|{\cal X}|).
-\]
+\end{align}
 Furthermore, since we may restrict the sum to all $x$ with $P_X(x)>0$, equality holds if and only if  $\log(1/P_X(x)) = \log(1/P_X(x'))$, and thus $P_X(x) = P_X(x')$, for all $x,x' \in \cal X$. 
 
 Finally, for the characterization of the lower bound, it is obvious that $H(X) = 0$ if $P_X(x) = 1$ for some $x$, and, on the other hand, if $H(X) = 0$ then for any $x$ with $P_X(x) > 0$ it must be that $\log(1/P_X(x)) = 0$ and hence $P_X(x) = 1$. 
 \end{proof}
 
-For a binary random variable $X$ with image ${\cal X} = \{x_0,x_1\}$ and probabilities $P_X(x_0) = p$ and $P_X(x_1) = 1-p$, we can write $H(X) = h(p)$, where $h$ denotes the \term{binary entropy function} defined as 
+For a binary random variable $X$ with image ${\cal X} = \{x_0,x_1\}$ and probabilities $P_X(x_0) = p$ and $P_X(x_1) = 1-p$, we can write $H(X) = h(p)$, where $h$ denotes the binary entropy function:
+
+\begin{definition}[Binary entropy function $h$]
+The binary entropy function is defined for $0 < q < 1$ as 
 \[
-h(q) := q \log\frac{1}{q} + (1-q)\log\frac{1}{1-q}
+h(q) := q \log\frac{1}{q} + (1-q)\log\frac{1}{1-q},
 \]
-for $0 < q < 1$ and $h(q) = 0$ for $q=0$ or $q=1$. This binary entropy function is used, for example, to measure the entropy of a biased coin flip. The graph of $h$ on the interval $[0,1]$ is shown in Figure~\ref{fig:bin-entropy}.
+and is defined as $h(q) = 0$ for $q=0$ or $q=1$. The graph of $h$ on the interval $[0,1]$ is shown in Figure~\ref{fig:bin-entropy}.
+\end{definition}
+This binary entropy function is used, for example, to measure the entropy of a biased coin flip. 
 \begin{figure}[h]
 \centering\begin{tikzpicture}
 \begin{axis}[xlabel={$p$},ylabel={$h(p)$},domain=0:1,samples=100, no markers,xtick={0,0.5,1}]
@@ -379,17 +384,17 @@ for $0 < q < 1$ and $h(q) = 0$ for $q=0$ or $q=1$. This binary entropy function 
 
 \begin{example}
 Consider a random variable $X$ with $\mathcal{X} = \set{a,b,c}$ and $P_X(a) = \frac{1}{2}$, $P_X(b) = P_X(c) = \frac{1}{4}$. The entropy of $X$ is
-\[
+\begin{align}
 H(X) = \frac{1}{2} \log 2 + \frac{1}{4} \log 4 + \frac{1}{4} \log 4 = \frac{1}{2} + \frac{1}{2} + \frac{1}{2} = \frac{3}{2}.
-\]
+\end{align}
 Another approach to computing the entropy of $X$ by coming up with an appropriate underlying probability space $(\Omega,P)$: we toss a fair coin twice, giving $\Omega = \set{\mathsf{hh}, \mathsf{ht}, \mathsf{th}, \mathsf{tt}}$ and $P(\omega) = \frac{1}{4}$ for all $\omega \in \Omega$. The we define the function $X : \Omega \to \mathcal{X}$ as
 \[
 X(\mathsf{hh}) = X(\mathsf{ht}) = a, \ \ \ \ \ \ \ \ \ \ X(\mathsf{th}) = b, \ \ \ \ \ \ \ \ \ \ X(\mathsf{tt}) = c.
 \]
 This yields the correct distribution $P_X$. The following computation now leads to the entropy of $X$:
-\[
+\begin{align}
 H(X) = h\left(\frac{1}{2}\right) + \frac{1}{2}h(0) + \frac{1}{2}h\left(\frac{1}{2}\right) = \frac{3}{2}.
-\]
+\end{align}
 The first coin toss determines whether the outcome is $a$ (on heads $\mathsf{h}$) or something else (on tails $\mathsf{t}$). On heads, the second coin toss does not give any more information, whereas on tails, the second coin toss still decides between outcome $b$ and outcome $c$. In general, the entropy of a random variable with probabilities $p_1, ..., p_n$ can be expressed as
 \begin{align}
 H(p_1, ..., p_k, p_{k+1}, ..., p_n) &= h(p_1 + \cdots + p_k) +\nonumber\\
@@ -435,20 +440,20 @@ $X$ and $Y$ are independent.
 %
 \begin{proof}
 The lower bound follows trivially from the definition and from Proposition~\ref{prop:positivity}, and so does the characterization of when $H(X|Y) = 0$. For the upper bound, note that
-\[
+\begin{align}
 H(X|Y) = \sum_{y} P_Y(y) \sum_x P_{X|Y}(x|y) \log\frac{1}{P_{X|Y}(x|y)} = \sum_{x,y} P_{XY}(x,y) \log\frac{P_Y(y)}{P_{XY}(x,y)}
-\]
+\end{align}
 and
-\[
+\begin{align}
 H(X) = \sum_x P_{X}(x) \log\frac{1}{P_{X}(x)} = \sum_{x,y} P_{XY}(x,y) \log\frac{1}{P_{X}(x)}
-\]
+\end{align}
 where the last equality is derived by marginalization. Note that in both expressions, we may restrict the sum to those pairs $(x,y)$ with $P_{XY}(x,y) > 0$. 
 Using Jensen's inequality, it follows that
-\begin{align*}
+\begin{align}
 H(X|Y) - H(X) &= \sum_{x,y} P_{XY}(x,y)\log
-\frac{P_X(x)P_Y(y)}{P_{XY}(x,y)} \\
+\frac{P_X(x)P_Y(y)}{P_{XY}(x,y)} \nonumber \\
 &\leq \log\Bigl( \sum_{x,y} P_X(x)P_Y(y) \Bigr) \leq \log\Bigl(\big(\sum_{x}P_X(x)\big)\big(\sum_{y}P_Y(y)\big)\Bigr) = \log 1 = 0 \, .
-\end{align*}
+\end{align}
 Note that in the second inequality, we replaced the summation over all $(x,y)$ with $P_{XY}(x,y) > 0$ by the summation over all $(x,y) \in {\cal X} \times {\cal Y}$. Inequality then follows by the monotonicity of the logarithm function.
 
 For the first inequality, equality holds if and only if $P_{XY}(x,y) = P_X(x) P_Y(y)$ for all $(x,y)$ with $P_{XY}(x,y) > 0$, and for the second inequality, equality holds if and only if $P_{XY}(x,y) = 0$ implies $P_X(x) P_Y(y) = 0$ for any $x \in \cal X$ and $y \in \cal Y$. It follows that $H(X|Y) = H(X)$ if and only if $P_{XY}(x,y) = P_X(x) P_Y(y)$ for all $(x,y) \in {\cal X} \times {\cal Y}$. 
@@ -465,16 +470,16 @@ H(XY)= H(X) + H(Y|X) \, .
 \begin{proof}
 The chain rule is a simple matter of rewriting:
 
-\begin{align*}
-H(XY) &= -\sum_{x,y} P_{XY}(x,y)\log P_{XY}(x,y) \\
-&= -\sum_{x,y} P_{XY}(x,y)\log\bigl(P_X(x)P_{Y|X}(y|x)\bigr) \\
+\begin{align}
+H(XY) &= -\sum_{x,y} P_{XY}(x,y)\log P_{XY}(x,y) \nonumber \\
+&= -\sum_{x,y} P_{XY}(x,y)\log\bigl(P_X(x)P_{Y|X}(y|x)\bigr) \nonumber \\
 &= -\sum_{x,y} P_{XY}(x,y) \log P_X(x)  -\sum_{x,y}
-P_{XY}(x,y) \log P_{Y|X}(y|x) \\
-%&= -\sum_{x}P_X(x)\log P_X(x) -\sum_{x,y} P_{XY}(x,y) \log P_{Y|X}(y|x) \\
+P_{XY}(x,y) \log P_{Y|X}(y|x) \nonumber \\
+%&= -\sum_{x}P_X(x)\log P_X(x) -\sum_{x,y} P_{XY}(x,y) \log P_{Y|X}(y|x) \nonumber \\
 &=  -\sum_{x}P_X(x)\log P_X(x) - \sum_{x} P_X(x)\sum_{y} P_{Y|X}(y|x) \log
-P_{Y|X}(y|x) \\
+P_{Y|X}(y|x) \nonumber \\
 &= H(X) + H(Y|X) \, .
-\end{align*}
+\end{align}
 This was to be shown. 
 \end{proof}
 The following inequality, also known as the `independence bound', follows from the fact that $H(Y|X)\leq H(Y)$:
@@ -487,9 +492,9 @@ Equality holds iff $X$ and $Y$ are independent.
 
 Note that applying Definition~\ref{def:CondEntropy} to the conditional distribution $P_{XY|\cal A}$ naturally defines $H(X|Y,{\cal A})$, the entropy of $X$ given $Y$ and conditioned on the event $\cal A$. 
 Since the entropy is a function of the distribution of a random variable, the chain rule also holds when conditioning on an event ${\cal A}$. Furthermore, it holds that
-\[
+\begin{align}
 H(X|YZ) = \sum_z P_Z(z) H(X|Y,Z\!=\!z) \, ,
-\]
+\end{align}
 which is straightforward to verify. With this observation, it is easy to see that the chain rule generalizes as follows. 
 
 \begin{corollary}
@@ -499,10 +504,10 @@ H(XY|Z) = H(X|Z) + H(Y|XZ) \, .
 \]
 \end{corollary}%
 Inductively applying the (generalized) chain rule implies that for any sequence $X_1,\ldots,X_n$ of random variables: 
-\[
+\begin{align}
 H(X_1\cdots X_n)= H(X_1) + H(X_2|X_1) + \cdots + H(X_n|X_{n-1}\cdots
 X_1) \, .
-\]
+\end{align}
 %In particular,
 %$$
 %\sum_{i=1}^n H(X_1\cdots X_n)\leq \sum_{i=1}^n H(X_i).
