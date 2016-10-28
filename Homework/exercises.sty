@@ -1,0 +1,222 @@
+\ProvidesPackage{exercises}[2014/01/03 Exercises Package]
+
+%%%$
+% Exercises Package by Bas Cornelissen
+% January 3, 2013
+% v1.1
+%%%
+%  TO DO:
+%  -  Define custom list (\newlist) instead of custom enumerate
+%%%
+
+% PACKAGES
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{multicol}
+
+%%
+% English language strings
+\DeclareOption{english}{
+	\def\languageTxt{english}
+	\def\exerciseTxt{Exercise}
+}
+
+\DeclareOption{styled-red}{
+	\definecolor{color1}{rgb}{.5,0,0}
+	\def\questionstyle{\slshape\color{color1}\small}
+	\def\answerstyle{\upshape\color{black}\normalsize}
+}
+\DeclareOption{styled-grayscale}{
+	\definecolor{color1}{gray}{.35}
+	\def\questionstyle{\slshape\color{color1}\small}
+	\def\answerstyle{\upshape\color{black}\normalsize}
+}
+	
+% Default language strings
+\def\languageTxt{dutch}
+\def\exerciseTxt{Opgave}
+
+% Some definitions
+\def\defspace{10pt}
+\definecolor{color1}{gray}{0}
+\def\questionstyle{\upshape}
+\def\answerstyle{\upshape}
+
+\ProcessOptions
+
+% Language
+\usepackage[english,dutch,\languageTxt]{babel}
+
+% Spacing between subexercise numers and text
+\def\subexlabelsep{1.25em}
+\def\sepafterex{.25em}
+
+%
+%%	 Exercise
+\newcounter{exCount}
+\newenvironment{exercise}[1][\theexCount]{%
+	\stepcounter{exCount}%
+	\subsection*{\exerciseTxt{} \theexCount{}\ifx&#1&\else: \fi#1}%
+	\questionstyle}{\answerstyle}
+
+
+%
+%% 	Subexercise
+\newtheoremstyle{subex}
+ %	before		after			body font
+   	{.5em}		{\sepafterex}	{\questionstyle}	
+% 	indent				head font		punctuation	space after head
+  	{-2.75em}		{}			{}			{0pt}
+%	\subexlabelsep-1.5em
+%	Head
+	{\makebox[1.5em][r]{\textbf{\thmnumber{(#2)}}}\hspace{\subexlabelsep}%
+	\thmnote{\textbf{#3}\hspace{\defspace}}}
+
+	\theoremstyle{subex}
+	\newcounter{subexCount}[exCount] % reset everytime excount is increased
+	\renewcommand*{\thesubexCount}{\alph{subexCount}}
+	\newtheorem{subex}[subexCount]{}
+
+
+
+%
+%% 	Subexercise
+\newtheoremstyle{subexsimple}
+ %	before		after			body font
+   	{1.5em}		{\sepafterex}	{\questionstyle}	
+% 	indent		head font		punctuation	space after head
+  	{}			{}			{}			{0pt}
+%	Head
+	{\thmnote{\textbf{#3.}\hspace{\defspace}}}
+
+	\theoremstyle{subexsimple}
+	\newtheorem*{subex*}{}
+	
+%% 	Subexercise
+\newtheoremstyle{subexbonus}
+ %	before		after			body font
+   	{1.5em}		{\sepafterex}	{\questionstyle}	
+% 	indent		head font		punctuation	space after head
+  	{-2.75em}	{}			{}			{0pt}
+%	Head
+	{\makebox[1.5em][r]{\textbf{$\bigstar$}}\hspace{\subexlabelsep}%
+	\thmnote{\textbf{#3}\hspace{\defspace}}}
+
+	\theoremstyle{subexbonus}
+	\newtheorem*{subex**}{}
+	
+
+
+%
+%% 	Solution
+\newtheoremstyle{solution}
+ %	before		after			body font
+   	{.25em}		{1.5em}		{\answerstyle}	
+% 	indent		head font		punctuation	space after head
+  	{}			{}			{}			{0pt}
+%	Head
+	{\textsl{\thmnote{(#3)\hspace{12pt}}}}
+	
+	\theoremstyle{solution}
+	\newtheorem*{solution}{}
+
+
+
+%
+%% Listsolution
+\newenvironment{solutionlist}{%
+	\begin{enumerate}[label=\bfseries\upshape(\alph*),leftmargin=0pt,labelsep=\subexlabelsep,topsep=\sepafterex]
+	\itemsep0em\parskip0.5em\parsep0pt
+}{\end{enumerate}}
+
+	%	question
+	\newcommand{\question}[1][]{
+		\questionstyle\item%
+		\ifx&#1&\relax\else\textbf{#1} \fi
+	}
+	
+	%	answer
+	\newcommand{\answer}[1][]{
+		\\[.25em]\answerstyle%
+		\ifx&#1&\relax\else(\textsl{#1})\hspace{\defspace}\fi%
+		\vspace{\sepafterex}%
+	}
+	
+	% 	answeronly
+	\newcommand{\answeronly}[1][]{
+		\raggedright\questionstyle\item\answerstyle%
+		\ifx&#1&\relax\else{\questionstyle#1.} \fi%
+	}
+
+\newenvironment{solutioncols}[1]{%
+	\begin{multicols}{#1}%
+	\begin{enumerate}[label=\bfseries\upshape(\alph*),leftmargin=0pt,labelsep=\subexlabelsep,topsep=\sepafterex,
+		rightmargin=\dimexpr\subexlabelsep+1.5em\relax]% note 1.5em is width of the subex label box 
+	\itemsep0em\parskip0.5em\parsep0pt%
+}{\end{enumerate}\end{multicols}}
+
+%%\renewcommand\sfdefault{iwona}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath,amssymb}
+\usepackage[empty]{fullpage}
+\usepackage{comment}
+
+% Styling
+\usepackage{tgpagella}
+\usepackage{AlegreyaSans}
+\setkomafont{section}{\Large\textsc}
+%\RedeclareSectionCommand[afterskip=.3\baselineskip]{subsection}
+\setlength{\columnsep}{7em}
+\renewcommand\exerciseTxt{Problem}
+\definecolor{gray}{gray}{.4}
+\definecolor{RED}{rgb}{.5,0,0}
+\renewcommand*{\pagemark}{}
+
+% Environments etc
+\ifcomments
+	\newenvironment{mycomment}[0]{\sffamily\color{RED}}{\\}
+\else
+	\excludecomment{mycomment}
+\fi
+
+\newcommand\generalheader{
+	{\sffamily\flushleft\color{gray}
+		\textsc{\bfseries information theory}\\
+		Master of Logic, University of Amsterdam, 2016\\
+		\textsc{teacher:} Christian Schaffner,
+		\textsc{ta:} Yfke Dulek%
+	}
+}
+
+% Practice problems
+\newcommand\practiceproblems{%
+	\generalheader
+	{\sffamily\flushleft\huge\bfseries
+		Practice problem set \problemset
+	}\\[1em]%
+}
+
+% Homework problems
+\newcommand\homeworkproblems{%
+	\generalheader
+	{\sffamily\flushleft\huge\bfseries
+		Homework problem set \problemset
+	}\\[1em]%
+}
+
+% Solutions
+\newcommand\solutions{%
+	\generalheader
+	{\sffamily\flushleft\huge\bfseries
+		Solutions problem set \problemset
+	}\\[1em]%
+}
+
+\endinput

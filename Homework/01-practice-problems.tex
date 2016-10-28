@@ -1,0 +1,103 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{1}
+\newcommand\deadline{Friday November 11th, 20:00h}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercises}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\begin{document}
+
+\practiceproblems
+
+{\sffamily\noindent
+%This week's exercises deal with sets, counting and uniform probabilities.
+This week's exercises deal with the basics of probability theory and entropy, as well as with different proof techniques. Problems marked with a $\bigstar$ are optional and are generally a bit harder. You do not have to hand in these exercises, they are for practicing only. If you have questions about them, please post those in the discussion forum on Moodle, and try to help each other. We will also keep an eye on the forum.
+%Your homework must be handed in \textbf{electronically via Moodle before \deadline}. This deadline is strict and late submissions are graded with a 0. At the end of the course, the lowest of your 7 weekly homework grades will be dropped. You are strongly encouraged to work together on the exercises, including the homework. However, after this discussion phase, you have to write down and submit your own individual solution. Numbers alone are never sufficient, always motivate your answers.
+}
+
+\begin{exercise}[Inverse probabilities]
+What is the probability that two (or more) students in this exercise class have the same birthday? (Assume everybody was born in the same year.)
+\end{exercise}
+
+\begin{exercise}[Events]
+Let $\mathcal{A}, \mathcal{B}$ be events (subsets of some sample space $\Omega$). Prove the following identities:
+	\begin{subex}
+	$P[\overline{\mathcal{A}}] = 1 - P[\mathcal{A}]$
+	\end{subex}
+	
+	\begin{subex}
+	$P[\mathcal{A} \cup \mathcal{B}] = P[\mathcal{A}] + P[\mathcal{B}] - P[\mathcal{A},\mathcal{B}]$
+	\end{subex}
+	
+	\begin{subex}
+	$P[\mathcal{A}] = P[\mathcal{A},\mathcal{B}] + P[\mathcal{A},\overline{\mathcal{B}}]$
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Proof by induction]
+
+	\begin{subex}
+	Prove by induction on $n$ that for all $n \in \mathbb{N}_+$,
+	\[
+	\sum_{i=1}^n i = \frac{n(n+1)}{2}.
+	\]
+	\end{subex}
+	
+	\begin{subex}[Union bound]
+	Prove the union bound for a finite number of events, which states that for arbitrary events $\mathcal{A}_1, \mathcal{A}_2, ..., \mathcal{A}_n$,
+	\[
+	P \left( \bigcup_{i=1}^n \mathcal{A}_i \right) \leq \sum_{i=1}^n P(\mathcal{A}_i).
+	\]
+	\end{subex}
+
+	\begin{subex**}
+	Can you find an exact formula for $P\left( \bigcup_{i=1}^n \mathcal{A}_i \right)$?
+	\end{subex**}
+
+\end{exercise}
+
+\begin{exercise}[]
+Let $X$ be a random variable on the sample space $\mathcal{X}$, with associated distribution $P_X$.
+	\begin{subex}
+	Verify that $(\mathcal{X},\mathcal{P}(X),P_X)$ is a probability space.
+	\end{subex}
+	
+	\begin{subex}
+	...%Let $f : \mathcal{X} \to \mathbb{R}$. Describe the probability space induced by $f(X)$.
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Entropy of a deck of cards]
+	\begin{subex}
+	Compute the entropy of a perfectly shuffled (i.e. uniformly distributed over all possible orders) deck of 52 cards.
+	\end{subex}
+	
+	\begin{subex}
+	Now suppose we have a perfectly shuffled big deck, consisting of two \emph{identical} decks of 52 cards (104 cards in total). You cannot tell the difference between, for example, the ace of spades of one deck and the ace of spades of the other. Compute the entropy of the shuffled big deck.
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Properties of entropy]
+Let $X$ and $Y$ be random variables.
+	\begin{subex}
+	Prove that $H(X) = 0$ if and only if $X$ is \emph{constant}, i.e. there is an $x \in \mathcal{X}$ such that $P_X(x) = 1$, and $P_X(x') = 0$ for all $x' \neq x$.
+	\end{subex}
+	
+	\begin{subex}
+	Prove that $H(X) = \log |\mathcal{X}|$ if and only if $X$ is uniformly distributed.
+	\end{subex}
+	
+	\begin{subex}
+	Prove that $H(XY) = H(X) + H(Y)$ if and only if $X$ and $Y$ are independent.
+	\end{subex}
+\end{exercise}
+
+\end{document}
