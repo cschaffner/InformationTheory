@@ -871,5 +871,23 @@ Let $X_1, ..., X_n$ be i.i.d. random variables distributed according to $P_X$. F
 for sufficiently large $n$.
 \end{theorem}
 \begin{proof}
-\yfke{todo}
+Let $\delta,\epsilon < \frac{1}{2}$, and consider some $\typsetb$ such that $P[\typsetb] > 1 - \delta$. We know that by Proposition~\ref{prop:typset-properties}, $P[\typset] > 1 - \epsilon$, for large enough $n$. Thus, by the union bound,
+\begin{align}
+1 - \epsilon - \delta &< 1 - P[\overline{\typset}] - P[\overline{\typsetb}]\
+&\leq P[\typset \cap \typsetb]\nonumber\\
+&= \sum_{\vec{x} \in \typset \cap \typsetb} P_{X^n}(\vec{x})\nonumber\\
+&\leq \sum{\vec{x} \in \typset \cap typsetb} 2^{-n(H(X) - \epsilon}\nonumber\\
+&= |\typset \cap \typsetb| \cdot 2^{-n}(H(X) - \epsilon)\nonumber\\
+&\leq |\typsetb| \cdot 2^{-n}(H(X) - \epsilon).
+\end{align}
+Rearranging this expression and taking the logarithm, we get
+\begin{align}
+H(X) - \epsilon + \frac{1}{n} \log (1 - \epsilon - \delta) < \frac{1}{n} \log |\typsetb|.
+\end{align}
+If we now set $\delta' := \epsilon - \frac{1}{n} \log (1 - \epsilon - \delta)$, then
+\begin{align}
+H(X) - \delta' < \frac{1}{n} \log |\typsetb|,
+\end{align}
+as desired.
+\yfke{I'm not sure what happens to $\delta'$ here: the proof should work for any $\delta' > 0$, aren't we restricting the freedom here? Or can we always find an epsilon to accommodate for the values of $\delta$ and $\delta'$ that are given?}
 \end{proof}
