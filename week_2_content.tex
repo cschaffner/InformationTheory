@@ -793,11 +793,12 @@ Since the variables $X_i$ are independent, so are the random variables $\log P_X
 by the weak law of large numbers.
 \end{proof}
 
-%\begin{example}[Biased coin flip]
-%Consider flipping a biased coin, with probability of 1 (heads) being $p_1 = 0.1$ and probability of 0 (tails) being $p_0 = 0.9$. (This is an example of a \term{Bernoulli distribution} with success probability $p_1$ and failure probability $p_0 = 1 - p_1$.) We can compute that $H(X) = h(0.1) \approx 0.469$.
-%
-%Clearly, for every $n$, $P_{X_1 \cdots X_n}(x_1\cdots x_n) = p_0^{n-r(x)}p_1^{r(x)}$, where $r(x)$ is the number of ones in the string $x = x_1\cdots x_n$. In particular, this gives us the \term{binomial distribution} by considering the random variable $R = r(X_1, ..., X_n)$, since $P(r) = \binom{n}{r} p_0^{n-r} p_1^r$.
-%\end{example}
+\begin{example}[Biased coin flip]
+Consider flipping a biased coin, with probability of 1 (heads) being $p_1 = 0.1$ and probability of 0 (tails) being $p_0 = 0.9$. (This is an example of a \term{Bernoulli distribution} with success probability $p_1$ and failure probability $p_0 = 1 - p_1$.) We can compute that $H(X) = h(0.1) \approx 0.469$.
+
+Clearly, for every $n$, $P_{X_1 \cdots X_n}(x_1\cdots x_n) = p_0^{n-r(x)}p_1^{r(x)}$, where $r(x)$ is the number of ones in the string $x = x_1\cdots x_n$. In particular, this gives us the \term{binomial distribution} by considering the random variable $R = r(X_1, ..., X_n)$, since $P(r) = \binom{n}{r} p_0^{n-r} p_1^r$.
+\end{example}
+\yfke{the connection with the AEP is not really clear in this example}
 
 \begin{definition}[Typical set]
 A typical set $\typset$ with respect to $P_X$ is the set of strings $(x_1, ..., x_n) \in {\cal X}^n$ such that
