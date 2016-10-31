@@ -1,10 +1,14 @@
-Suppose we sample from a random variable $X$ with image $\cal X$. In the context of data compression, $X$ is typically called a \term{source} that `spits out' the value $x \in {\cal X}$ with probability $P_X(x)$. We want to compress (or encode) $x$ in such a way that we can later decompress (or decode) it reliably, without losing any information about the value $x$.
+Suppose we sample $x$ from a distribution $P_X$ with image $\cal
+X$. In the context of data compression, $P_X$ is typically called a
+\term{source} that emits value $x \in {\cal X}$ with probability
+$P_X(x)$. We want to compress (or encode) symbols $x$ sampled from
+$P_X$ in such a way that we can later decompress (or decode) it reliably, without losing any information about the value $x$.
 
 \begin{figure}[h]
 \begin{center}
 \begin{tikzpicture}
 \draw[fill=black!5] (0,0) rectangle (2,2);
-\node at (1,1.25) {$X$};
+\node at (1,1.25) {$P_X$};
 \node at (1,0.75) {(source)};
 
 \draw[-latex] (2,1) -- (5,1);
@@ -33,11 +37,14 @@ Suppose we sample from a random variable $X$ with image $\cal X$. In the context
 \end{center}
 \end{figure}
 
-\noindent A counting argument shows that it is possible to encode the elements of ${\cal X}$ by bit strings of length $n$, where $n=\lceil \log (|{\cal X}|) \rceil $: we simply list all elements of ${\cal X}$, and use the index of $x$ in the list as its encoding. 
+\noindent A counting argument shows that it is possible to encode the
+elements of ${\cal X}$ by bit strings of length $n$, where $n=\lceil
+\log (|{\cal X}|) \rceil $: we simply list all elements of ${\cal X}$,
+and use the (binary) index of $x$ in the list as its encoding. 
 Thus, to store or to transmit an element $x\in {\cal X}$, $n$ bits
-of information always suffice. However, if not all $x \in \cal X$ are equally likely with respect to $X$, one should be able to
+of information always suffice. However, if not all $x \in \cal X$ are equally likely according to $P_X$, one should be able to
 exploit this to achieve codes with shorter {\em average} length. The idea is to use encodings of varying lengths, assigning shorter codewords to the elements in ${\cal X}$ that have higher probabilities, and vice versa.
-The question we answer in this chapter is: how short can such a code be (on average over the choice of~$x$)?
+The question we answer in this chapter is: how short can such a code be (on average over repeated samples $x$ from $P_X$)?
 
 We explore both \term{lossless} codes (where we want to recover the original data with certainty) and \term{lossy} codes (where with small probability, the data is lost).
 %The average length of the code is inversely related the amount of information that is contained in $X$.
@@ -53,7 +60,7 @@ We explore both \term{lossless} codes (where we want to recover the original dat
 
 
 \section{Symbol codes}
-We start by investigating codes that encode a source one symbol as a time. Later on, we will also see codes that group the source symbols together into blocks.
+We start by investigating codes that encode a source one symbol at a time. Later on, we will also see codes that group the source symbols together into blocks.
 \begin{definition}[Binary symbol code]
 Let $X$ be a random variable with image ${\cal X}$. A binary symbol code for $X$ is an injective function $C : {\cal X} \to \strg$.
 
@@ -892,3 +899,10 @@ H(X) - \delta' < \frac{1}{n} \log |\typsetb|,
 as desired.
 \yfke{I'm not sure what happens to $\delta'$ here: the proof should work for any $\delta' > 0$, aren't we restricting the freedom here? Or can we always find an epsilon to accommodate for the values of $\delta$ and $\delta'$ that are given?}
 \end{proof}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "InfTheory3.tex"
+%%% End:
