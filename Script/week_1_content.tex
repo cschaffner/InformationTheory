@@ -335,7 +335,10 @@ taking a limit).%
 %
 It is important to realize that the entropy of $X$ is a function (solely) of the {\em distribution} $P_X$ of $X$. However, it is customary to write $H(X)$ instead of the formally correct $H(P_X)$. 
 
-%The entropy of $X$ can also be expressed as the expectation of the random variable $\log\bigl(1/P_X(X)\bigr)$: 
+\begin{exercise}
+Prove that $\lim_{p \rightarrow 0} p \log(p) = 0$.
+\end{exercise}
+% The entropy of $X$ can also be expressed as the expectation of the random variable $\log\bigl(1/P_X(X)\bigr)$: 
 %$$
 %H(X)= \Exp\Bigl[\log\frac{1}{P_X(X)}\Bigr] \, .
 %$$
@@ -601,7 +604,7 @@ I(WX;Y|Z) &= H(WX|Z) - H(WX|YZ)\nonumber\\
 \section{Relative entropy}
 A measure that is related to the mutual information is the relative entropy: it reflects how different two distributions are:
 \begin{definition}[Relative entropy]
-The relative entropy (or: \term{Kullback leibner distance}) of two probability distributions $P$ and $Q$ over the same $\mathcal{X}$ is defined by
+The relative entropy (or: \href{https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence}{\term{Kullback-Leibler divergence}}) of two probability distributions $P$ and $Q$ over the same $\mathcal{X}$ is defined by
 \[
 D(P||Q) := \sum_{\substack{x \in \mathcal{X} \\ P(x) > 0}} P(x) \log \frac{P(x)}{Q(x)},
 \]
@@ -624,11 +627,13 @@ Equality holds if and only if $P = Q$.
 \begin{proof}
 Left as an exercise. Hint: use Jensen's inequality.
 \end{proof}
-
+Even though relative entropy is always nonnegative, it is not a proper
+distance measure, because it is not symmetric and does not satisfy the
+triangle inequality. 
 
 
 \section{Entropy Diagrams}\label{sec:Venn}
-We finish this chapter by visually summing up the relations between entropy, joint entropy, conditional entropy, mutual information, and conditional mutual information. For two and three random variables, the relations between these different information-theoretic measures can be nicely represented by means of a Venn-diagram-like \term{entropy diagram}. The case of two random variables is illustrated in Figure~\ref{fig:entropy-diagram} (left). From the diagram, one can for instance easily read off the relations $H(X|Y) \leq H(X)$, $I(X;Y) = H(X) + H(Y) - H(XY)$ etc. The case of three random variables is illustrated in Figure~\ref{fig:entropy-diagram} (right). Also here, one can easily read off all the relations between the information-theoretic measures, like for instance $H(X|YZ) = H(X) -I(X;Z) - I(X;Y|Z)$, which is a relation that is otherwise maybe not immediately obvious.
+We finish this chapter by visually summing up the relations between entropy, joint entropy, conditional entropy, mutual information, and conditional mutual information. For two and three random variables, the relations between these different information-theoretic measures can be nicely represented by means of a Venn-diagram-like \term{entropy diagram}. The case of two random variables is illustrated in Figure~\ref{fig:entropy-diagram} (left). From the diagram, one can for instance easily read off the relations $H(X|Y) \leq H(X)$, $I(X;Y) = H(X) + H(Y) - H(XY)$ etc. The case of three random variables is illustrated in Figure~\ref{fig:entropy-diagram} (right). Also here, one can easily read off all the relations between the information-theoretic measures, like for instance $H(X|YZ) = H(X) -I(X;Z) - I(X;Y|Z)$, which is a relation that is otherwise not immediately obvious.
 
 \begin{figure}[H]
 %\begin{center}
