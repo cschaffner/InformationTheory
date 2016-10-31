@@ -23,6 +23,22 @@ This week's exercises deal with the basics of probability theory and entropy, as
 %Your homework must be handed in \textbf{electronically via Moodle before \deadline}. This deadline is strict and late submissions are graded with a 0. At the end of the course, the lowest of your 7 weekly homework grades will be dropped. You are strongly encouraged to work together on the exercises, including the homework. However, after this discussion phase, you have to write down and submit your own individual solution. Numbers alone are never sufficient, always motivate your answers.
 }
 
+\begin{exercise}[Two dice]
+Consider an experiment where we throw two fair six-sided dice: a red one and a blue one.
+	\begin{subex}
+	What is the probability space $(\Omega,\mathcal{F},P)$ for this experiment? What would be the probability space if the dice were both red (i.e. indistinguishable)?
+	\end{subex}
+	\begin{subex}
+	Let $X$ be the random variable that describes the sum of the two outcomes. Describe its range $\mathcal{X}$ and distribution $P_X$. What is $P_X(7) = P(X=7)$?
+	\end{subex}
+	\begin{subex}
+	Let $Y$ be the random variable that describes the \emph{parity} of the sum, i.e. $\mathcal{Y} = \{\mathsf{even}, \mathsf{odd}\}$. What is $P_{X|Y}(7|\mathsf{odd})$? And $P_{X|Y}(7|\mathsf{even})$?
+	\end{subex}
+	\begin{subex}
+	Verify that for an arbitrary random variable $X$, $(\mathcal{X},\mathcal{P}(X),P_X)$ is a probability space.
+	\end{subex}
+\end{exercise}
+
 \begin{exercise}[Inverse probabilities]
 What is the probability that two (or more) students in this exercise class have the same birthday? (Assume everybody was born in the same year.)
 \end{exercise}
@@ -64,16 +80,6 @@ Let $\mathcal{A}, \mathcal{B}$ be events (subsets of some sample space $\Omega$)
 
 \end{exercise}
 
-\begin{exercise}[]
-Let $X$ be a random variable on the sample space $\mathcal{X}$, with associated distribution $P_X$.
-	\begin{subex}
-	Verify that $(\mathcal{X},\mathcal{P}(X),P_X)$ is a probability space.
-	\end{subex}
-	
-	\begin{subex}
-	...%Let $f : \mathcal{X} \to \mathbb{R}$. Describe the probability space induced by $f(X)$.
-	\end{subex}
-\end{exercise}
 
 \begin{exercise}[Entropy of a deck of cards]
 	\begin{subex}
