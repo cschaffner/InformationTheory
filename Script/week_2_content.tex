@@ -793,11 +793,12 @@ Since the variables $X_i$ are independent, so are the random variables $\log P_X
 by the weak law of large numbers.
 \end{proof}
 
-%\begin{example}[Biased coin flip]
-%Consider flipping a biased coin, with probability of 1 (heads) being $p_1 = 0.1$ and probability of 0 (tails) being $p_0 = 0.9$. (This is an example of a \term{Bernoulli distribution} with success probability $p_1$ and failure probability $p_0 = 1 - p_1$.) We can compute that $H(X) = h(0.1) \approx 0.469$.
-%
-%Clearly, for every $n$, $P_{X_1 \cdots X_n}(x_1\cdots x_n) = p_0^{n-r(x)}p_1^{r(x)}$, where $r(x)$ is the number of ones in the string $x = x_1\cdots x_n$. In particular, this gives us the \term{binomial distribution} by considering the random variable $R = r(X_1, ..., X_n)$, since $P(r) = \binom{n}{r} p_0^{n-r} p_1^r$.
-%\end{example}
+\begin{example}[Biased coin flip]
+Consider flipping a biased coin, with probability of 1 (heads) being $p_1 = 0.1$ and probability of 0 (tails) being $p_0 = 0.9$. (This is an example of a \term{Bernoulli distribution} with success probability $p_1$ and failure probability $p_0 = 1 - p_1$.) We can compute that $H(X) = h(0.1) \approx 0.469$.
+
+Clearly, for every $n$, $P_{X_1 \cdots X_n}(x_1\cdots x_n) = p_0^{n-r(x)}p_1^{r(x)}$, where $r(x)$ is the number of ones in the string $x = x_1\cdots x_n$. In particular, this gives us the \term{binomial distribution} by considering the random variable $R = r(X_1, ..., X_n)$, since $P(r) = \binom{n}{r} p_0^{n-r} p_1^r$.
+\end{example}
+\yfke{the connection with the AEP is not really clear in this example}
 
 \begin{definition}[Typical set]
 A typical set $\typset$ with respect to $P_X$ is the set of strings $(x_1, ..., x_n) \in {\cal X}^n$ such that
@@ -871,5 +872,23 @@ Let $X_1, ..., X_n$ be i.i.d. random variables distributed according to $P_X$. F
 for sufficiently large $n$.
 \end{theorem}
 \begin{proof}
-\yfke{todo}
+Let $\delta,\epsilon < \frac{1}{2}$, and consider some $\typsetb$ such that $P[\typsetb] > 1 - \delta$. We know that by Proposition~\ref{prop:typset-properties}, $P[\typset] > 1 - \epsilon$, for large enough $n$. Thus, by the union bound,
+\begin{align}
+1 - \epsilon - \delta &< 1 - P[\overline{\typset}] - P[\overline{\typsetb}]\
+&\leq P[\typset \cap \typsetb]\nonumber\\
+&= \sum_{\vec{x} \in \typset \cap \typsetb} P_{X^n}(\vec{x})\nonumber\\
+&\leq \sum{\vec{x} \in \typset \cap typsetb} 2^{-n(H(X) - \epsilon}\nonumber\\
+&= |\typset \cap \typsetb| \cdot 2^{-n}(H(X) - \epsilon)\nonumber\\
+&\leq |\typsetb| \cdot 2^{-n}(H(X) - \epsilon).
+\end{align}
+Rearranging this expression and taking the logarithm, we get
+\begin{align}
+H(X) - \epsilon + \frac{1}{n} \log (1 - \epsilon - \delta) < \frac{1}{n} \log |\typsetb|.
+\end{align}
+If we now set $\delta' := \epsilon - \frac{1}{n} \log (1 - \epsilon - \delta)$, then
+\begin{align}
+H(X) - \delta' < \frac{1}{n} \log |\typsetb|,
+\end{align}
+as desired.
+\yfke{I'm not sure what happens to $\delta'$ here: the proof should work for any $\delta' > 0$, aren't we restricting the freedom here? Or can we always find an epsilon to accommodate for the values of $\delta$ and $\delta'$ that are given?}
 \end{proof}
