@@ -13,16 +13,18 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
 
+\usepackage{tikz}
+
 \begin{document}
 
 \homeworkproblems
 
 {\sffamily\noindent
 %This week's exercises deal with sets, counting and uniform probabilities.
-Your homework must be handed in \textbf{electronically via Moodle before \deadline}. This deadline is strict and late submissions are graded with a 0. At the end of the course, the lowest of your 7 weekly homework grades will be dropped. You are strongly encouraged to work together on the exercises, including the homework. However, after this discussion phase, you have to write down and submit your own individual solution. Numbers alone are never sufficient, always motivate your answers.
+Your homework must be handed in \textbf{electronically via Moodle before \deadline}. This deadline is strict and late submissions are graded with a 0. At the end of the course, the lowest of your 6 weekly homework grades will be dropped. You are strongly encouraged to work together on the exercises, including the homework. However, after this discussion phase, you have to write down and submit your own individual solution. Numbers alone are never sufficient, always motivate your answers.
 }
 
-\begin{exercise}[Throwing dice (8 pt)]
+\begin{exercise}[Throwing dice (6 pt)]
 Consider the following random experiment with two fair (regular six-sided) dice. First, the first die is thrown -- let the outcome be $A$. Then, the second die is thrown until the outcome has the same parity (even, odd) as $A$. Let this final outcome of the second die be $B$. The random variables $X$, $Y$ and $Z$ are defined as follows:
 \[
 X = (A + B) \mod 2, \ \ \ \ \ Y = (A \cdot B) \mod 2, \ \ \ \ \ Z = |A - B|.
@@ -30,7 +32,7 @@ X = (A + B) \mod 2, \ \ \ \ \ Y = (A \cdot B) \mod 2, \ \ \ \ \ Z = |A - B|.
 	\begin{subex}[(1pt)]
 	Find the joint distribution $P_{AB}$.
 	\end{subex}
-	\begin{subex}[(3pt)]
+	\begin{subex}[(1pt)]
 	Determine $H(X), H(Y)$ and $H(Z)$.
 	\end{subex}
 	\begin{subex}[(1pt)]
@@ -40,25 +42,28 @@ X = (A + B) \mod 2, \ \ \ \ \ Y = (A \cdot B) \mod 2, \ \ \ \ \ Z = |A - B|.
 	Compute $H(AB)$, i.e.\ the joint entropy of $A$ and $B$.
 	\end{subex}
 	\begin{subex}[(2pt)]
-	A random variable $M$ describes whether the sum $A + B$ is strictly larger than seven, between five and seven (both included) or scrictly smaller than five. How much entropy is present in this random variable $M$?
+	A random variable $M$ describes whether the sum $A + B$ is strictly larger than seven, between five and seven (both included) or scrictly smaller than five. How much entropy is present in $M$?
 	\end{subex}
 \end{exercise}
 
-\newpage
+\begin{exercise}[Mutual information (2pt)]
+Let the binary random variables $X$ and $Y$ be defined by the joint probability distribution $P_{XY}(00) = 0.3$, $P_{XY}(01) = 0.1$, $P_{XY}(10) = 0.2$, $P_{XY}(11) = 0.4$.
 
-\begin{exercise}[Mutual information (1pt)]
-Let the binary random variables $X$ and $Y$ be defined by the joint probability distribution in the following table:
+%in the following table:
+%\begin{center}
+%\begin{tabular}{c | c | c}
+%& $X = 0$ & $X = 1$\\\hline
+%$Y = 0$ & 0.3 & 0.2\\
+%$Y = 1$ & 0.1 & 0.4
+%\end{tabular}
+%\end{center}
+Draw the entropy diagram for $X$ and $Y$, and compute $H(X)$, $H(Y)$, $H(XY)$, $H(X|Y)$, $H(Y|X)$, and $I(X;Y)$. Reading off a value from the diagram is a valid `computation', as long as you clearly state how you did it.
 \begin{center}
-\begin{tabular}{c | c | c}
-& $X = 0$ & $X = 1$\\\hline
-$Y = 0$ & 0.3 & 0.2\\
-$Y = 1$ & 0.1 & 0.4
-\end{tabular}
+\entropydiagramXY[1]{?}{?}{?}{?}{?}{?}
 \end{center}
-Compute $I(X;Y)$.
 \end{exercise}
 
-\begin{exercise}[Variance (2pt)]
+\begin{exercise}[Expectation and variance (2pt)]
 	\begin{subex}[(1pt)]
 	Show that expectation is linear: for arbitrary $a,b \in \mathbb{R}$ and arbitrary real random variables $X,Y$,
 	\[
@@ -82,6 +87,7 @@ Let $X$ be a random variable, and let $f$ be a function of $X$.
 
 
 \begin{exercise}[Relative entropy (9pt)]
+This exercise is about relative entropy, as defined in Section 1.8 of the \href{https://github.com/cschaffner/InformationTheory/raw/master/Script/InfTheory3.pdf}{lecture notes}. 
 	\begin{subex}[(5pt)]
 	Prove that for any two distributions $P$ and $Q$ over $\mathcal{X}$, $D(P||Q) \geq 0$, and that equality holds if and only if $P = Q$.
 	\end{subex}
@@ -92,6 +98,8 @@ Let $X$ be a random variable, and let $f$ be a function of $X$.
 	Use (a) and (b) to show that $H(X|Y) \leq H(X)$.
 	\end{subex}
 \end{exercise}
+
+
 
 
 
