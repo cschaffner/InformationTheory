@@ -59,7 +59,7 @@ We explore both \term{lossless} codes (where we want to recover the original dat
 
 
 
-\section{Symbol codes}
+\section{Symbol Codes}
 We start by investigating codes that encode a source one symbol at a time. Later on, we will also see codes that group the source symbols together into blocks.
 \begin{definition}[Binary symbol code]
 Let $X$ be a random variable with image ${\cal X}$. A binary symbol code for $X$ is an injective function $C : {\cal X} \to \strg$.
@@ -102,21 +102,22 @@ in the entire string before being able to even recover the first word.
 \begin{example}\label{example:codes}
 The following are three codes for the random variable $X$, with ${\cal X} = \{a,b,c,d\}$:
 \[
-\begin{array}{c | c | l | l | l}
-x & P_X(x) & C_1(x) & C_2(x) & C_3(x)\\
+\begin{array}{c | c | l | l | l | l}
+x & P_X(x) & C_1(x) & C_2(x) & C_3(x) & C_4(x)\\
 \hline
-a & 1/2 & 0   & 0   & 0   \\
+a & 1/2 & 00 & 0   & 0   & 0   \\
 \hline
-b & 1/4 & 10  & 010 & 01  \\
+b & 1/4 & 01 & 10  & 010 & 01  \\
 \hline
-c & 1/8 & 110 & 01  & 011 \\
+c & 1/8 & 10 & 110 & 01  & 011 \\
 \hline
-d & 1/8 & 111 & 10  & 111
+d & 1/8 & 11 & 111 & 10  & 111
 \end{array}
 \]
-These codes can be visualised a as a binary tree, with marked codewords, as follows:
+These codes can be visualised a as binary trees, with marked
+codewords, as follows: \chris{todo: draw tree of $C_1$ and label them.}
 \begin{center}
-%C1:
+%C2:
 \begin{tikzpicture}
   [
     grow                    = right,
@@ -142,7 +143,7 @@ These codes can be visualised a as a binary tree, with marked codewords, as foll
 %
 \qquad
 %
-%C2:
+%C3:
 \begin{tikzpicture}
   [
     grow                    = right,
@@ -174,7 +175,7 @@ These codes can be visualised a as a binary tree, with marked codewords, as foll
 %
 \qquad
 %
-%C3:
+%C4:
 \begin{tikzpicture}
   [
     grow                    = right,
@@ -198,26 +199,40 @@ These codes can be visualised a as a binary tree, with marked codewords, as foll
       edge from parent node [above] {0} };
 \end{tikzpicture}
 \end{center}
-$C_1$ is prefix-free, and therefore also uniquely decodable. $C_2$ is not uniquely decodable, as $C_2(ad) = C_2(b)$.  $C_3$ is not prefix-free, but it is uniquely decodable, since it can be decoded from right to left (it is ``postfix-free"). Note that the binary tree for the prefix-free code $C_1$ only has codewords at the leafs. (The same holds for the postfix-free code $C_3$).
+$C_1$ and $C_2$ are prefix-free, and therefore also uniquely
+decodable. $C_3$ is not uniquely decodable, as $C_3(ad) = C_3(b)$.
+$C_4$ is not prefix-free, but it is uniquely decodable, since it can
+be decoded from right to left (it is ``postfix-free"). Note that the
+binary trees for the prefix-free codes $C_1, C_2$ only have codewords at the leaves. (The same holds for the postfix-free code $C_4$).
 \end{example}
 For efficiency reasons, we are often interested in the average (expected) length of a code $C$:
 \begin{definition}[Average length]
-Let $\len(s)$ denote the length of a string $s \in \strg$. The (average) length of a code $C$ for a source $X$ is defined as
+Let $\len(s)$ denote the length of a string $s \in \strg$. The (average) length of a code $C$ for a source $P_X$ is defined as
 \[
-\len_C(X) := E[\len(C(X))] = \sum_{x \in \cal X} P_X(x) \len(C(x)) \, .
+\len_C(P_X) := \Exp[\len(C(X))] = \sum_{x \in \cal X} P_X(x) \len(C(x)) \, .
 \]
 \end{definition}
+\begin{example} For the codes from Example~\ref{example:codes}, we
+  obtain the following average codeword lengths: $\len_{C_1}(P_X) = 2,
+  \len_{C_2}(P_X)=\len_{C_4}(P_X)=\frac{1}{2} \cdot 1 + \frac{1}{4} \cdot 2 +
+  \frac{1}{8} \cdot 3 + \frac{1}{8} \cdot 3 = \frac{7}{4} = 1.75$ and
+  $\len_{C_4}(P_X) =  \frac{1}{2} \cdot 1 + \frac{1}{4} \cdot 3 +
+  \frac{1}{8} \cdot 2 + \frac{1}{8} \cdot 2 = \frac{7}{4} = 1.75 \,$. We see that the codes $C_2,C_3,C_4$ have a smaller average codeword length, but $C_2$ and $C_4$ are preferred over $C_3$ because their unique decodability. 
+
+Notice that the individual codeword lengths of codes $C_2$ and $C_4$ correspond exactly to the surprisal values of $P_X$ in bits, e.g.\ $\ell(C_2(b)) = \ell(C_4(b))  = 2 = -\log P_X(b)$. Therefore, the computations of the entropy $H(X)$ and of the average code length $\ell_{C_2}(P_X)$ are exactly the same, and we have that $H(X) = \ell_{C_2}(P_X) = \ell_{C_4}(P_X)$. We will see in Section~\ref{sec:sourcecoding} below that this property characterizes optimal codes.
+\end{example}
+
 \begin{definition}[Minimal code length]
-The minimal code length of a source $X$ is defined as
+The minimal code length of a source $P_X$ is defined as
 \[
-\len_{\min}(X) := \min_{C \in \frak{C}} \len_C(X)
+\len_{\min}(P_X) := \min_{C \in \frak{C}} \len_C(P_X)
 \]
 where $\frak{C}$ is some class of codes, for example the set of all prefix-free codes (resulting in $\len_{\min}^{\text{\rm p.f.}}$), or the set of all uniquely decodable codes (resulting in $\len_{\min}^{\text{\rm u.d.}}$). 
 \end{definition}
 
 
 
-\section{Kraft's inequality}\label{sec:kraft}
+\section{Kraft's Inequality}\label{sec:kraft}
 As argued, prefix-freeness is a nice feature, but it is also considerably more restrictive than mere unique decodability; thus, it is natural to ask: how much do we lose (in terms of the average codeword length) by requiring the encoding to be prefix-free rather than merely uniquely decodable? Surprisingly, the answer is: {\em nothing}. In this section, we will show that the length of an optimal prefix-free code and the length of an optimal uniquely decodable code coincide. In the next section, we will see that these lengths are essentially given by the Shannon entropy.
 
 \begin{theorem}[Kraft's inequality]
@@ -227,7 +242,7 @@ There exists a prefix-free code with image ${\cal C} = \set{c_1, ..., c_m}$ and 
 \]
 \end{theorem}
 \begin{proof}
-For the forward direction, suppose we have a prefix-free code $C$ with image ${\cal C} = \set{c_1, ..., c_m}$ and codeword lengths $\len_i := \len(c_i)$. View this code as a tree, with codewords only on the leafs (but not necessarily all the leafs), and assign a weight of $2^{-d}$ to every node in the tree at depth $d$ (including the leafs):
+For the forward direction, suppose we have a prefix-free code $C$ with image ${\cal C} = \set{c_1, ..., c_m}$ and codeword lengths $\len_i := \len(c_i)$. View this code as a tree, with codewords only on the leaves (but not necessarily all the leaves), and assign a weight of $2^{-d}$ to every node in the tree at depth $d$ (including the leaves):
 %\begin{figure}[h]
 \begin{center}
 \begin{tikzpicture}
@@ -270,30 +285,30 @@ For the forward direction, suppose we have a prefix-free code $C$ with image ${\
 \end{center}
 %\end{figure}
 
-\noindent Note that the weight of each node is exactly the sum of the weight of its direct children, and thereby that the weight of the root is exactly the weight of all of the leafs. Since every codeword $c_i$ resides on a leaf of depth $\ell_i$ (but not all leafs are necessarily occupied), the weight of the root is \emph{at least} the sum of all the codeword weights:
+\noindent Note that the weight of each node is exactly the sum of the weight of its direct children, and thereby that the weight of the root is exactly the weight of all of the leaves. Since every codeword $c_i$ resides on a leaf of depth $\ell_i$ (but not all leaves are necessarily occupied), the weight of the root is \emph{at least} the sum of all the codeword weights:
 \begin{align}
 \sum_{i=1}^{m} 2^{-\ell_i} \leq 2^0 = 1.
 \end{align}
 
-For the backward direction, we build a code ${\cal C} = \{c_1, ..., c_m\}$ with $\ell(c_i) = \len_i$ by selecting the appropriate leafs of a binary tree as codewords, assigning the most `expensive' (i.e. those with small depth) first. We proceed by induction on the number of codewords, $m$:
+For the backward direction, we build a code ${\cal C} = \{c_1, ..., c_m\}$ with $\ell(c_i) = \len_i$ by selecting the appropriate leaves of a binary tree as codewords, assigning the most `expensive' (i.e. those with small depth) first. We proceed by induction on the number of codewords, $m$:
 
 For $m = 1$, the construction is clear: we can assign any string of length $\len_1$ to represent the single codeword.
 
 For $m > 1$, assume without loss of generality that $\ell_1 \leq \cdots \leq \ell_{m-1} \leq \ell_{m}$. We will first try to build a code with $(m-1)$ code words, of lengths $\ell_1, ..., \ell_{m-2}, (\ell_{m-1} - 1)$. In order to be able to invoke the induction hypothesis, we do need to check that
 \begin{align}
-\left(\sum_{i=1}^{m-2} 2^{\ell_{i}}\right) + 2^{(\ell_{m-1} - 1)} \leq 1.
+\left(\sum_{i=1}^{m-2} 2^{-\ell_{i}}\right) + 2^{-(\ell_{m-1} - 1)} \leq 1.
 \end{align}
 This can be seen by first noting that
 \begin{align}
 1 \ > \ 1 - 2^{-\len_m} \ \geq \ \sum_{i=1}^{m-1} 2^{-\len_i} \ = \ \sum_{i=1}^m \frac{2^{\len_{m-1} - \len_i}}{2^{\len_{m-1}}} \ = \ \frac{\sum_{i=1}^{m-1} 2^{\len_{m-1} - \len_i}}{2^{\len_{m-1}}}.
 \end{align}
-and then, because both the denominator and the enumerator of the fraction are integers,
+and then, because both the denominator and the enumerator of the fraction are integers, \chris{???}
 \begin{align}
 1
 \ \geq \ \frac{\left(\sum_{i=1}^{m-1} 2^{\len_{m-1} - \len_i}\right) + 1}{2^{\len_{m-1}}}
 &= \ \left(\sum_{i=1}^{m-1} 2^{-\len_i}\right) + 2^{-\len_{m-1}}\nonumber\\
 &= \ \left(\sum_{i=1}^{m-2} 2^{-\len_i}\right) + 2\cdot 2^{-\len_{m-1}}\nonumber\\
-&= \ \left(\sum_{i=1}^{m-2} 2^{\ell_{i}}\right) + 2^{(\ell_{m-1} - 1)},
+&= \ \left(\sum_{i=1}^{m-2} 2^{-\ell_{i}}\right) + 2^{-(\ell_{m-1} - 1)},
 \end{align}
 as desired. So we invoke the induction hypothesis to create a prefix-free code ${\cal C}' = \{c'_1, ..., c'_{m-1}\}$ with lengths $\len_1, ..., \len_{m-2}, (\len_{m-1} - 1)$. The new code ${\cal C}$ is then constructed by setting $c_i = c'_i$ for all $i \leq m-2$, and furthermore setting $c_{m-1} = c'_{m-1}|0$ and $c_m = c'_{m-1}|10\cdots 0$, padding with enough zeroes to achieve $\len(c_m) = \len_m$. This new code is necessarily also prefix-free.
 
@@ -361,7 +376,7 @@ The following image illustrates the induction step for $\ell_1 = \ell_2 = \ell_3
 \end{proof}
 A stronger version of Kraft's inequality holds as well, this time for uniquely decodable codes:
 \begin{theorem}[McMillan inequality]
-If there exists a uniquely decodable code with image ${\cal C} = \set{c_1, ..., c_m}$ and codeword lengths $\len_i := \len(c_i)$, then
+For a uniquely decodable code with image ${\cal C} = \set{c_1, ..., c_m}$ and codeword lengths $\len_i := \len(c_i)$, it holds that
 \[
 \sum_{i=1}^m 2^{-\ell_i} \leq 1.
 \]
@@ -373,7 +388,7 @@ S := \sum_{c \in \cal C} \frac{1}{2^{\len(c)}} = \sum_{\ell = L_{\min}}^{L_{\max
 \end{align}
 where $L_{\min} = \min_{c \in \cal C} \len(c)$, $L_{\max} = \max_{c \in \cal C} \len(c)$, and $n_{\ell} = |\Set{c \in {\cal C}}{\len(c) = \ell}|$. Furthermore, for any $k \in \N$,  consider the $k$th power of $S$,
 \begin{align}
-S^k = \sum_{c_1,\ldots,c_k \in \cal C} \frac{1}{2^{\len(c_1)+\ldots+\len(c_k)}} = \sum_{\ell = k L_{\min}}^{k L_{\max}} \frac{n_\ell^{(k)}}{2^\ell} 
+S^k = \sum_{c_1,\ldots,c_k \in \mathcal{C}^k} \frac{1}{2^{\len(c_1)+\ldots+\len(c_k)}} = \sum_{\ell = k L_{\min}}^{k L_{\max}} \frac{n_\ell^{(k)}}{2^\ell} 
 \end{align}
 where $n_\ell^{(k)}$ is defined as $n_\ell^{(k)} = \big|\SET[\big]{(c_1,\ldots,c_k) \in {\cal C}^k}{\sum_i\len(c_i) = \len(c_1|\ldots|c_k) = \ell}\big|$. Note that
 \begin{align}
@@ -387,22 +402,22 @@ for all $k \in \N$, so $S^k$ grows at most linearly in $k$, from which follows t
 \end{proof}
 Kraft's and McMillan's inequality together lead to the conclusion that the lengths of an optimal prefix-free code and an optimal uniquely decodable code coincide:
 \begin{corollary}
-Let $X$ be a source. For every uniquely decodable code $C$, there exists a prefix-free code $C'$ such that $\ell_C(X) = \ell_{C'}(X)$. Hence,
+Let $P_X$ be a source. For every uniquely decodable code $C$, there exists a prefix-free code $C'$ such that $\ell_C(P_X) = \ell_{C'}(P_X)$. Hence,
 \[
-\ell_{\min}^{\text{\rm p.f.}}(X) = \ell_{\min}^{\text{\rm u.d.}}(X).
+\ell_{\min}^{\text{\rm p.f.}}(P_X) = \ell_{\min}^{\text{\rm u.d.}}(P_X).
 \]
 \end{corollary}
-From now on, we will just write $\len_{\min}(X)$ from now on to denote either of these measures for average length. A code $C$ for which $\len_C(X) = \len_{\min}(X)$ is called \term{optimal} for the source $X$. 
+From now on, we will just write $\len_{\min}(P_X)$ to denote either of these measures for average length. A code $C$ for which $\len_C(P_X) = \len_{\min}(P_X)$ is called \term{optimal} for the source $P_X$. 
 
 
 
 
-\section{Shannon's source coding theorem}
-We now know that prefix-free codes can achieve the same minimal code lengths for a source $X$ as the more general class of uniquely decodable codes. How small is this minimal code length in general? In this section we explore the following relation between the minimal code length and the entropy of the source:
-\begin{theorem}[Shannon's source coding theorem]
-For any source $X$:
+\section{Shannon's Source-Coding Theorem} \label{sec:sourcecoding}
+We now know that prefix-free codes can achieve the same minimal code lengths for a source $P_X$ as the more general class of uniquely decodable codes. How small is this minimal code length in general? In this section we explore the following relation between the minimal code length and the entropy of the source:
+\begin{theorem}[Shannon's source-coding theorem (for symbol codes)]
+For any source $P_X$, we have the following bounds:
 \[
-H(X) \leq \len_{\min}(x) \leq H(X) + 1.
+H(X) \leq \len_{\min}(P_X) \leq H(X) + 1.
 \]
 \end{theorem}
 \begin{proof}
@@ -414,7 +429,7 @@ H(X) - \len_C(X) &= - \sum_{x \in {\cal X}} P_X(x) \log(P_X(x)) - \sum_{x \in X}
 &\leq \log\left(\sum_{x \in {\cal X}} \frac{1}{2^{\len_x}}\right) &&\mbox{(by Jensen's inequality)}\nonumber\\
 &\leq \log(1) = 0&&\mbox{(by Kraft's inequality)}
 \end{align}
-For the upper bound, let us define, for any $x \in {\cal X}$,
+For the upper bound, let us denote by $\len_x$ the surprisal value in bits rounded up to the next integer, i.e.\ for any $x \in {\cal X}$,
 \begin{align}
 \len_x := \left\lceil\log\frac{1}{P_X(x)}\right\rceil,
 \end{align}
@@ -432,8 +447,8 @@ Therefore, by Kraft's inequality, there exists a prefix-free code $C$ such that 
 We have thus constructed a code $C$ with $\len_C(X) \leq H(X) + 1$, so $\len_{\min}(X) \leq H(X) + 1$.
 \end{proof}
 
-\section{Huffman codes}
-Shannon's source coding theorem shows us that in theory, the minimal code length for a source $X$ is roughly $H(X)$. In this section we will investigate \term{Huffman codes}, which provide a specific construction for optimal prefix-free codes. A binary Huffman code for a source $X$ is constructed by iteratively pairing the two symbols with the smallest probability together, building a binary tree on the way. This is best explained by example:
+\section{Huffman Codes}
+Shannon's source-coding theorem shows us that in theory, the minimal code length for a source $P_X$ is roughly $H(X)$. In this section we will investigate \term{Huffman codes}, which provide an explicit and neat construction for optimal prefix-free codes. A binary Huffman code for a source $P_X$ is constructed by iteratively pairing the two symbols with the smallest probability together, building a binary tree on the way. This is best explained by example:
 
 \begin{example}[Binary Huffman code]\label{example:bin-huffman}
 Let the random variable $X$ be given with $\mathcal{X} = \{a,b,c,d,e\}$ and $P_X(a) = P_X(b) = 0.25$, $P_X(c) = 0.2$, and $P_X(d) = P_X(e) = 0.15$. The following is a binary Huffman code for $X$:
@@ -510,7 +525,7 @@ The average codeword length for this code is
 \begin{align}
 0.25 \cdot 2 + 0.25 \cdot 2 + 0.2 \cdot 2 + 0.15 \cdot 3 + 0.15 \cdot 3 = 2.3. 
 \end{align}
-Compare this to $H(X) \approx 2.285$. The average codeword length lies between $H(X)$ and $H(X) + 1$.
+This very close to the entropy $H(X) \approx 2.285$. The average codeword length lies between $H(X)$ and $H(X) + 1$.
 \end{example}
 
 The above was an example of how to construct \emph{binary} Huffman codes. We can also generate Huffman codes for larger alphabets, resulting in ternary, quaternary, or, more generally, \term{$d$-ary Huffman codes}.
@@ -568,16 +583,16 @@ We build a Huffman code with the alphabet $\set{0,1,2}$ for the same distributio
 \end{example}
 
 \begin{exercise}\label{exercise:ter-huffman}
-Use the above procedure to construct a ternary code for the source $X$ with $\mathcal{X} = \set{a,b,c,d,e,f}$ and $P_X(a) = P_X(b) = 0.25$, $P_X(c) = 0.2$, $P_X(d) = P_X(e) = P_X(f) = 0.1$. Can you find another code with a smaller average codeword length?
+Use the above procedure to construct a ternary code for the source $P_X$ with $\mathcal{X} = \set{a,b,c,d,e,f}$ and $P_X(a) = P_X(b) = 0.25$, $P_X(c) = 0.2$, $P_X(d) = P_X(e) = P_X(f) = 0.1$. Can you find another code with a smaller average codeword length?
 \end{exercise}
-We have to be careful, because with an alphabet size of greater than 2, the above procedure does not always give an optimal code! In fact, a $d$-ary code is only optimal if $|\mathcal{X}|$ is of the form $k(d-1)+1$ for some $k \in \mathbb{N}$. This ensures that at every step, we can combine exactly $d$ symbols to use the alphabet at full capacity. The ternary code in Example~\ref{example:ter-huffman} is optimal because $|\mathcal{X}| = 5 = 2(3-1) + 1$, but the code you constructed in Exercise~\ref{exercise:ter-huffman} is not. To remedy this, one can add one or more `dummy' symbols to the source (each with probability zero) until an appropriate size of $\mathcal{X}$ is reached. The codewords for those dummy symbols are discarded at the end.
+We have to be careful, because with an alphabet size of greater than 2, the above procedure does not always give an optimal code! In fact, a $d$-ary code is only optimal if $|\mathcal{X}|$ is of the form $k(d-1)+1$ for some $k \in \mathbb{N}$. This ensures that at every step, we can combine exactly $d$ symbols to use the alphabet at full capacity. The ternary code in Example~\ref{example:ter-huffman} is optimal because $|\mathcal{X}| = 5 = 2(3-1) + 1$, but the code you constructed in Exercise~\ref{exercise:ter-huffman} is not. To remedy this, one can add one or more `dummy' symbols to the source (each with probability zero) until an appropriate size of $\mathcal{X}$ of the form $|\mathcal{X}| = k(d-1)+1$ for some $k \in \mathbb{N}$ is reached. The codewords for those dummy symbols are discarded at the end.
 
-We now show that Huffman codes indeed produce an optimal code length.
+We now show that Huffman codes indeed have optimal code length.
 
 \begin{theorem}[Optimality of Huffman codes]
-Let $X$ be a source, and let $C^*$ be the associated Huffman code. For any other uniquely decodable code $C'$ with the same alphabet,
+Let $P_X$ be a source, and let $C^*$ be the associated Huffman code. For any other uniquely decodable code $C'$ with the same alphabet,
 \[
-\len_{C^*}(X) \leq \len_{C'}(X).
+\len_{C^*}(P_X) \leq \len_{C'}(X).
 \]
 \end{theorem}
 \begin{proof}[Proof (sketch)]
@@ -590,11 +605,13 @@ Let $a,b \in \mathcal{X}$ be the two symbols with lowest probability, and $P_X(a
 \end{enumerate}
 In both cases, we can swap the codewords for $a$ and $c$, achieving a code that is at least as efficient as $C'$. Therefore, we may assume that for all source symbols $x_i, x_j \in \mathcal{X}$ with $P_X(x_i) \leq P_X(x_j)$, $\len_{x_i} \geq \len_{x_j}$.
 
-Using this assumption, we can transform any code $C'$ into a Huffman code using induction on the size of the source. The full proof can be found in \CT{} (Theorem 5.8.1).
+Using this assumption, we can transform any code $C'$ into a Huffman code using induction on the size of the source. The full proof can be found in \CT{} (Theorem 5.8.1). \chris{I'm not sure if this ``proof'' is useful in its current form, I always struggled to give some good intuition here instead of the painfully long proof in CT. I think that the short proof in the solution of Ex 5.16 in MacKay on page 105 is also hard to follow...}
 \end{proof}
 
 \begin{example}[20 questions]
-In the game of `20 questions' (20Q), the goal is to identify an object from a set of objects using (at most) 20 yes/no questions. Assume we know the probability distribution $P_X$ over all possible objects. We can view the sequence of questions as the `code' for an object \yfke{Your blackboard photo says it's the sequence of questions, but I don't understand: it's still a binary tree right? So the code seems to be the sequence of answers (yes/no).}: the number of questions asked is the length of the codeword. By Shannon's source coding theorem,
+In the game of `20 questions' (20Q) the goal is to identify an object from a set of objects using (at most) 20 yes/no questions. Please go and \href{http://www.20q.net/}{play it online} right now if you have never heard of it before.  Assume we know the probability distribution $P_X$ over all possible objects, what is the most efficient sequence of questions to ask in order to determine the object? We can use Huffman coding to answer this question!
+
+On the one hand, the Huffman code for $P_X$ has optimal average code length and we could (in principle) ask the player about the first, second, third, etc.\ bit of the object in question (admittedly, these questions would be rather boring...). On the other hand, we can see the sequence of (questions and) answers as the `code' for an object, because every object as a unique sequence of yes/no answers. The number of questions asked is the length of the codeword. By Shannon's source-coding theorem,
 \[
 H(X) \leq \mbox{expected number of questions} \leq H(X) + 1,
 \]
@@ -603,10 +620,10 @@ and the Huffman code procedure can be used to determine the optimal sequence of 
 As we have seen, the average codeword length of Huffman codes is theoretically optimal. However, Huffman codes (and symbol codes in general) still have a number of disadvantages:
 \begin{itemize}
 \item When compressing, for example, an English text symbol-by-symbol, the probability distribution for each position may depend on the string of text that precedes it: for example, the letter \texttt{n} is a lot more likely than the letter \texttt{a} if it comes after the string \texttt{informatio}. Given this change of distribution, the Huffman code may not produce the shortest possible code. This can be resolved by recomputing the Huffman code after every symbol, but this results in a lot of overhead.
-\item The average codeword length is upper bounded by $H(X) + 1$. This is fine when $H(X)$ is very large, but can be a significant overhead when $H(X)$ is small.
+\item The average codeword length is upper bounded by $H(X) + 1$. This additive cost of 1 bit is fine when $H(X)$ is very large, but can be a significant overhead when $H(X)$ is small itself.
 \end{itemize}
 
-\section{Arithmetic codes}
+\section{Arithmetic Codes}
 In this section, we study a different kind of code that can handle context-dependent distributions, unlike the Huffman code.
 
 \begin{definition}[Standard binary representation]
@@ -616,12 +633,12 @@ r = \sum_i c_i \cdot 2^{-i},
 \]
 where by convention, 0 is represented by the string 0.
 \end{definition}
-For example, $\frac{1}{2}$ is represented by $1$, $\frac{1}{4}$ by $01$, $\frac{11}{32}$ by $01011$ (note also that $01011$ represents the natural number 11), and $\frac{1}{3}$ by $010101\cdots$. Not all reals in $[0,1)$ have a finite representation, but any interval $[a,b)$ with $0 \leq a < b \leq 1$ contains at least one number with a finite binary representation.
+For example, $\frac{1}{2}$ is represented by $1$, $\frac{1}{4}$ by $01$, $\frac{11}{32}$ by $01011$ (note also that $01011$ represents the natural number 11\chris{I don't quite get this remark}), and $\frac{1}{3}$ by $010101\cdots$. Not all reals in $[0,1)$ have a finite representation, but any interval $[a,b)$ with $0 \leq a < b \leq 1$ contains at least one number with a finite binary representation.
 
 \begin{definition}[Arithmetic code]\label{def:arithmetic}
-Given a source $P_X$ with $\mathcal{X} = \{x_1, .., x_m\}$, construct the arithmetic code as follows. Divide the interval $[0,1)$ into disjoint subintervals $I_{x_j} = [a_j, b_j)$ (for $1 \leq j \leq m$) such that $b_j - a_j = P_X(x_j)$, and $a_j = b_{j-1}$ (and $a_1 = 0, b_m = 1$).
+Given a source $P_X$ with $\mathcal{X} = \{x_1, .., x_m\}$, construct the arithmetic code as follows. Divide the interval $[0,1)$ into disjoint subintervals $I_{x_j} = [a_j, b_j)$ (for $1 \leq j \leq m$) such that $b_j - a_j = P_X(x_j)$, and $a_j = b_{j-1}$ (and $a_1 = 0, b_m = 1$). \chris{wouldn't it be more clear to use only $a$'s instead of both $a,b$'s?}
 
-The encoding $AC(x_j)$ of the element $x_j$ is the (shortest possible) standard binary representation of some number in $I_{x_j}$. 
+The encoding $AC(x_j)$ of the element $x_j$ is the (shortest possible) standard binary representation of some number in the interval $I_{x_j}$. 
 \end{definition}
 
 \begin{example}\label{example:arithmetic}
@@ -679,20 +696,20 @@ For $X$, the codewords happen to fall exactly \emph{on} the boundaries of the in
 
 
 \begin{proposition}\label{prop:arithmetic-length}
-For any $X$, the arithmetic code has average length $\len_{AC}(X) \leq H(X) + 1$.
+For any $X$, the arithmetic code has average length $\len_{AC}(P_X) \leq H(X) + 1$.
 \end{proposition}
 \begin{proof}
-Let $x \in \mathcal{X}$, and define $\len_x := \lceil \log (1/P_X(x))\rceil$. Then
+Let $x \in \mathcal{X}$, and define $\len_x := \lceil \log (1/P_X(x))\rceil$ to be the rounded surprisal value of $x$. Then
 \begin{align}
-2^{-\len} = 2^{-\lceil \log (1/P_X(x))\rceil} \leq 2^{-\log (1/P_X(x))} = 2^{\log P_X(x)} = P_X(x).
+2^{-\len_x} = 2^{-\lceil \log (1/P_X(x))\rceil} \leq 2^{-\log (1/P_X(x))} = 2^{\log P_X(x)} = P_X(x).
 \end{align}
-Therefore, since the size of the interval $I_x$ is $P_X(x)$, there must be some $0 \leq s < 2^\len$ such that $\frac{s}{2^{-\len}}$ lies within $I_x$. This number has binary representation of length $\len \leq -\log P_X(x) + 1$. Thus,
+Therefore, since the size of the interval $I_x$ is $P_X(x)$, there must exist $0 \leq s_x < 2^{\len_x}$ such that $s_x \cdot 2^{-\len_x}$ lies in the interval $I_x$. This number $s_x \cdot 2^{-\len_x}$ has a binary representation of length $\len_x \leq -\log P_X(x) + 1$. Repeating this argument for every $x$, we obtain
 \begin{align}
-\len_AC(X) = \mathbb{E}[\len(AC(X))] = \sum_x P_X(x) \len(AC(x)) \leq \sum_x P_X(x) (-\log P_X(x) + 1) = H(X) + 1.
+\len_{AC}(P_X) = \mathbb{E}[\len(AC(X))] = \sum_x P_X(x) \len(AC(x)) \leq \sum_x P_X(x) (-\log P_X(x) + 1) = H(X) + 1.
 \end{align}
 \end{proof}
 
-As we can see from Example~\ref{example:arithmetic}, this construction for arithmetic codes do not necessarily result in a prefix-free code. However, at the expense of one extra bit of code (on average), the construction can be adapted into a prefix-free code. One example of this is the \term{Shannon-Fano-Elias code} (see \CT, Section 5.9), which provides a more sophisticated way of selecting a number within each interval than simply selecting the number with the shortest binary representation. This alternative selection procedure ensures prefix-freeness. Another option is to select \emph{binary intervals} within each interval:
+As we can see from Example~\ref{example:arithmetic}, this construction for arithmetic codes does not necessarily yield prefix-free codes. However, at the expense of one extra bit of code (on average), the construction can be adapted into a prefix-free code. One example of this is the \term{Shannon-Fano-Elias code} (see \CT, Section 5.9 or \href{https://en.wikipedia.org/wiki/Shannon%E2%80%93Fano%E2%80%93Elias_coding}{wikipedia}), which provides a more sophisticated way of selecting a number within each interval than simply selecting the number with the shortest binary representation. This alternative selection procedure ensures prefix-freeness. Another option is to select \emph{binary intervals} within each interval:
 
 \begin{definition}[Binary interval]
 A binary interval is an interval of the form
@@ -705,7 +722,7 @@ with $s, \len \in \mathbb{N}$ and $0 \leq s < 2^{\len}$. The \term{name} of the 
 \begin{definition}[Arithmetic code (prefix-free version)]
 The prefix-free arithmetic code is identical to Definition~\ref{def:arithmetic}, except that the encoding $AC^{pf}(x_j)$ of the element $x_j$ is now the name of the largest binary interval that fits entirely in $I_{x_j}$.
 \end{definition}
-Similarly to Proposition~\ref{prop:arithmetic-length}, it can be shown that for any source  $X$, $\len_{AC^{pf}}(X) \leq H(X) + 2$. Note that we get prefix-freeness only at the expense of an extra bit on average.
+Similarly to Proposition~\ref{prop:arithmetic-length}, it can be shown that for any source  $P_X$, $\len_{AC^{pf}}(P_X) \leq H(X) + 2$. Note that we get prefix-freeness only at the expense of an extra bit on average.
 
 \begin{example}
 Let $Y$ be the random variable as in Example~\ref{example:arithmetic}, that is, $P_Y(1) = P_Y(2) = 0.3$ and $P_Y(3) = 0.4$. The prefix-free code for $Y$ is constructed as follows:
@@ -744,7 +761,7 @@ Let $Y$ be the random variable as in Example~\ref{example:arithmetic}, that is, 
 \end{center}
 This results in the codewords $\mathcal{C}(1) = 00$, $\mathcal{C}(2) = 011$, and $\mathcal{C}(3) = 11$.
 \end{example}
-The arithmetic code is slightly less efficient than the Huffman code in terms of average codeword length. A big advantage is the way it is able to adapt to changing distributions, such as when we are encoding a stream of English text. Suppose we are given the (not necessarily i.i.d.) random variables $X_1, X_2, ..., X_n$, and we want to encode the source $X_1X_2 \cdots X_n$. We start by dividing the interval $[0,1)$ into subintervals according to $P_{X_1}$. If, for example, the event $X_1 = b$ happens, we zoom into the interval corresponding to $b$, and subdivide \emph{that} interval according to $P_{X_2|X_1}$, so that the sizes of these intervals add up to $P_{X_1}(b)$. This principle is used in the keyboard alternative \href{http://wol.ra.phy.cam.ac.uk/djw30/dasher/}{Dasher}.
+The arithmetic code is slightly less efficient than the Huffman code in terms of average codeword length. A big advantage is the way it is able to adapt to changing distributions, such as when we are encoding a stream of English text. Suppose we are given the (not necessarily i.i.d.) random variables $X_1, X_2, ..., X_n$, and we want to encode the source $P_{X_1X_2 \cdots X_n}$. We start by dividing the interval $[0,1)$ into subintervals according to $P_{X_1}$. If, for example, the event $X_1 = b$ happens, we zoom into the interval corresponding to $b$, and subdivide \emph{that} interval according to $P_{X_2|X_1}$, so that the sizes of these intervals add up to $P_{X_1}(b)$. The concept of arithmetic coding is exploited as an accessibility tool in the keyboard alternative \href{http://wol.ra.phy.cam.ac.uk/dasher/}{Dasher}, invented by the group of David MacKay at Cambridge University, UK.
 
 \section{Asymptotic Equipartition Property (AEP)}
 \newcommand{\convto}{\xrightarrow{n \to \infty}}
@@ -767,7 +784,7 @@ A sequence $X_1, X_2, X_3, ...$ of real random variables converges to a random v
 \\where the definition of $X_n \convtoAS X$ can be interpreted as $P[\set{\omega \in \Omega \mid X_n(\omega) \convto X(\omega)}] = 1$.
 \end{definition}
 
-\yfke{maybe add example here?}
+\yfke{maybe add example here?}\chris{yes, or at least refer to \href{https://en.wikipedia.org/wiki/Convergence_of_random_variables}{wikipedia}}
 
 
 In general, the following implications hold (although their converses do not):
@@ -775,7 +792,7 @@ In general, the following implications hold (although their converses do not):
 X_n \convtoMS X \ \ \ &\Rightarrow\ \ \  X_n \convtoP X\\
 X_n \convtoAS X \ \ \ &\Rightarrow\ \ \  X_n \convtoP X
 \end{align}
-The following well-known law states that if we sample several times from the same distribution, the average converges (in probability) to the expected value of the distribution.
+The following important weak law of large numbers states that if we sample several times from the same distribution, the average converges (in probability) to the expected value of the distribution.
 \begin{theorem}[Weak Law of Large Numbers]
 Let $X_1, X_2, ...$ be real i.i.d. random variables with mean $\mu = \mathbb{E}[X_i]$ and variance $\sigma^2 = \mathbb{E}[(X_i - \mu)^2] < \infty$. Define the random variables
 \[
@@ -805,10 +822,10 @@ Consider flipping a biased coin, with probability of 1 (heads) being $p_1 = 0.1$
 
 Clearly, for every $n$, $P_{X_1 \cdots X_n}(x_1\cdots x_n) = p_0^{n-r(x)}p_1^{r(x)}$, where $r(x)$ is the number of ones in the string $x = x_1\cdots x_n$. In particular, this gives us the \term{binomial distribution} by considering the random variable $R = r(X_1, ..., X_n)$, since $P(r) = \binom{n}{r} p_0^{n-r} p_1^r$.
 \end{example}
-\yfke{the connection with the AEP is not really clear in this example}
+\yfke{the connection with the AEP is not really clear in this example}\chris{it only becomes clear from the slides! There, one can see the concentration, maybe we can actually re-use MacKay's figures here.}\chris{also, we introduced these distributions now in Chapter 1 already.}
 
 \begin{definition}[Typical set]
-A typical set $\typset$ with respect to $P_X$ is the set of strings $(x_1, ..., x_n) \in {\cal X}^n$ such that
+The typical set $\typset$ with respect to $P_X$ is the set of strings $(x_1, ..., x_n) \in {\cal X}^n$ such that
 \[
 2^{-n (H(X) + \epsilon)} \leq P_{X^n}(x_1, ..., x_n) \leq 2^{-n(H(X) - \epsilon)}.
 \]
@@ -820,7 +837,7 @@ A typical set $\typset$ satisfies the following:
 \begin{enumerate}
 \item For all $(x_1, ..., x_n) \in \typset$, \[H(X) - \epsilon \leq - \frac{1}{n} \log P_{X^n}(x_1, ..., x_n) \leq H(X) + \epsilon.\]
 \item $P[\typset] > 1 - \epsilon$ (for large enough $n$).
-\item $|\typset| \leq 2^{n(H(X) + \epsilon)}$
+\item $|\typset| \leq 2^{n(H(X) + \epsilon)} \,$.
 \item $|\typset| \geq (1-\epsilon) 2^{n(H(X) - \epsilon)}$ (for large enough $n$).
 \end{enumerate}
 \end{proposition}
@@ -845,7 +862,7 @@ where again, the last inequality follows by property 1.
 \end{proof}
 
 
-Typical sets and their properties allow us to code a source $X$, $n$ symbols at a time, in either a lossy or a lossless way. For a lossy code, simply assign binary labels of length (at most) $\lceil n (H(X) + \epsilon)\rceil$ to the elements of $\typset$, and assign some constant (dummy) codeword to all elements outside of the set. Decoding this dummy codeword will result in an error (data loss), but this error occurs with probability at most $\epsilon$.
+Typical sets and their properties allow us to code a source $P_X$, $n$ symbols at a time, in either a lossy or a lossless way. For a lossy code, simply assign binary labels of length (at most) $\lceil n (H(X) + \epsilon)\rceil$ to the elements of $\typset$, and assign some constant (dummy) codeword to all elements outside of the set. Decoding this dummy codeword will result in an error (data loss), but this error occurs with probability at most $\epsilon$.
 
 The above scheme can be extended to a lossless version by assigning longer labels to the elements outside of $\typset$, for example binary labels of length $\lceil \log |\mathcal{X}|^n\rceil = \lceil n \log |\mathcal{X}|\rceil$. An extra `flag' bit is needed to indicate whether the element is inside or outside the typical set. For large enough $n$, this code is quite efficient:
 \begin{theorem}
