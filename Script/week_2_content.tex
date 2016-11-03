@@ -62,7 +62,7 @@ We explore both \term{lossless} codes (where we want to recover the original dat
 \section{Symbol Codes}
 We start by investigating codes that encode a source one symbol at a time. Later on, we will also see codes that group the source symbols together into blocks.
 \begin{definition}[Binary symbol code]
-Let $X$ be a random variable with image ${\cal X}$. A binary symbol code for $X$ is an injective function $C : {\cal X} \to \strg$.
+Let $P_X$ be the distribution of a random variable $X$ (with image ${\cal X}$). A binary symbol code for $P_X$ is an injective function $C : {\cal X} \to \strg$.
 
 The \term{extended} code $C^* : {\cal X}^* \to \strg$ is defined by concatenation:
 \[
@@ -100,7 +100,7 @@ The other direction does not hold: uniquely decodable codes need not be prefix-f
 in the entire string before being able to even recover the first word. 
 
 \begin{example}\label{example:codes}
-The following are three codes for the random variable $X$, with ${\cal X} = \{a,b,c,d\}$:
+The following are three codes for the source $P_X$, with ${\cal X} = \{a,b,c,d\}$:
 \[
 \begin{array}{c | c | l | l | l | l}
 x & P_X(x) & C_1(x) & C_2(x) & C_3(x) & C_4(x)\\
@@ -115,8 +115,36 @@ d & 1/8 & 11 & 111 & 10  & 111
 \end{array}
 \]
 These codes can be visualised a as binary trees, with marked
-codewords, as follows: \chris{todo: draw tree of $C_1$ and label them.}
+codewords, as follows:
 \begin{center}
+%C1:
+\begin{tikzpicture}
+  [
+    grow                    = right,
+    sibling distance        = 2.5em,
+    level distance          = 2.5em,
+    edge from parent/.style = {draw},
+    every node/.style       = {font=\footnotesize}
+  ]
+  \tikzstyle{level 1}=[sibling distance=5em]
+  \tikzstyle{level 2}=[sibling distance=2.5em]
+  \node [dummy] {}
+    child { node [dummy] {}
+      child { node [marked] {}
+      	edge from parent node [below] {1} }
+      child { node [marked] {} 
+        edge from parent node [above] {0} }
+      edge from parent node [below] {1} }
+    child { node [dummy] {}
+      child { node [marked] {}
+      	edge from parent node [below] {1} }
+      child { node [marked] {} 
+        edge from parent node [above] {0} }
+      edge from parent node [below] {1} };
+\end{tikzpicture}
+%
+\qquad
+%
 %C2:
 \begin{tikzpicture}
   [
@@ -184,20 +212,45 @@ codewords, as follows: \chris{todo: draw tree of $C_1$ and label them.}
     edge from parent/.style = {draw},
     every node/.style       = {font=\footnotesize}
   ]
+  \tikzstyle{level 1}=[sibling distance=5em]
+  \tikzstyle{level 2}=[sibling distance=2.5em]
   \node [dummy] {}
-    child { node [marked] {}
-      edge from parent node [below] {1} }
-    child { node [dummy] {}
-      child { node [marked] {}
-      	edge from parent node [below] {1} }
-      child { node [dummy] {} 
-        child { node [marked] {}
-          edge from parent node [below] {1} }
-        child { node [marked] {} 
-          edge from parent node [above] {0} }
-        edge from parent node [above] {0} }
-      edge from parent node [above] {0} };
+  	child { node [dummy] {} %1
+  	  child { node [dummy] {} %11
+  	    child { node [marked] {} %111
+  	      edge from parent node [below] {1} }
+  	    child { node [dummy] {} %110
+  	      edge from parent node [above] {0} }
+  	    edge from parent node [below] {1} }
+  	  child { node [dummy] {} %10
+  	    edge from parent node [above] {0} }
+  	  edge from parent node [below] {1} }
+  	child { node [marked] {} %0
+  	  child { node [marked] {} %01
+  	    child { node [marked] {} %011
+  	      edge from parent node [below] {1} }
+  	    child { node [dummy] {} %010
+  	      edge from parent node [above] {0} }
+  	    edge from parent node [below] {1} }
+  	  child { node [dummy] {} %00
+  	    edge from parent node [above] {0} }
+  	  edge from parent node [above] {0} };
+%  \node [dummy] {}
+%    child { node [marked] {}
+%      edge from parent node [below] {1} }
+%    child { node [dummy] {}
+%      child { node [marked] {}
+%      	edge from parent node [below] {1} }
+%      child { node [dummy] {} 
+%        child { node [marked] {}
+%          edge from parent node [below] {1} }
+%        child { node [marked] {} 
+%          edge from parent node [above] {0} }
+%        edge from parent node [above] {0} }
+%      edge from parent node [above] {0} };
 \end{tikzpicture}
+\\
+$C_1$ {\hskip7em\relax} $C_2$ {\hskip8em\relax} $C_3$ {\hskip7em\relax} $C_4$ {\hskip6em\relax}
 \end{center}
 $C_1$ and $C_2$ are prefix-free, and therefore also uniquely
 decodable. $C_3$ is not uniquely decodable, as $C_3(ad) = C_3(b)$.
@@ -216,7 +269,7 @@ Let $\len(s)$ denote the length of a string $s \in \strg$. The (average) length 
   obtain the following average codeword lengths: $\len_{C_1}(P_X) = 2,
   \len_{C_2}(P_X)=\len_{C_4}(P_X)=\frac{1}{2} \cdot 1 + \frac{1}{4} \cdot 2 +
   \frac{1}{8} \cdot 3 + \frac{1}{8} \cdot 3 = \frac{7}{4} = 1.75$ and
-  $\len_{C_4}(P_X) =  \frac{1}{2} \cdot 1 + \frac{1}{4} \cdot 3 +
+  $\len_{C_3}(P_X) =  \frac{1}{2} \cdot 1 + \frac{1}{4} \cdot 3 +
   \frac{1}{8} \cdot 2 + \frac{1}{8} \cdot 2 = \frac{7}{4} = 1.75 \,$. We see that the codes $C_2,C_3,C_4$ have a smaller average codeword length, but $C_2$ and $C_4$ are preferred over $C_3$ because their unique decodability. 
 
 Notice that the individual codeword lengths of codes $C_2$ and $C_4$ correspond exactly to the surprisal values of $P_X$ in bits, e.g.\ $\ell(C_2(b)) = \ell(C_4(b))  = 2 = -\log P_X(b)$. Therefore, the computations of the entropy $H(X)$ and of the average code length $\ell_{C_2}(P_X)$ are exactly the same, and we have that $H(X) = \ell_{C_2}(P_X) = \ell_{C_4}(P_X)$. We will see in Section~\ref{sec:sourcecoding} below that this property characterizes optimal codes.
@@ -302,7 +355,7 @@ This can be seen by first noting that
 \begin{align}
 1 \ > \ 1 - 2^{-\len_m} \ \geq \ \sum_{i=1}^{m-1} 2^{-\len_i} \ = \ \sum_{i=1}^m \frac{2^{\len_{m-1} - \len_i}}{2^{\len_{m-1}}} \ = \ \frac{\sum_{i=1}^{m-1} 2^{\len_{m-1} - \len_i}}{2^{\len_{m-1}}}.
 \end{align}
-and then, because both the denominator and the enumerator of the fraction are integers, \chris{???}
+Thus, on the right-hand side, we end up with a fraction of the form $\frac{a}{b} < 1$, where $a$ and $b$ are both integers, with $a < b$. In this case it must follow that $a + 1 \leq b$, and hence $\frac{a+1}{b} \leq 1$. So we get
 \begin{align}
 1
 \ \geq \ \frac{\left(\sum_{i=1}^{m-1} 2^{\len_{m-1} - \len_i}\right) + 1}{2^{\len_{m-1}}}
@@ -312,7 +365,7 @@ and then, because both the denominator and the enumerator of the fraction are in
 \end{align}
 as desired. So we invoke the induction hypothesis to create a prefix-free code ${\cal C}' = \{c'_1, ..., c'_{m-1}\}$ with lengths $\len_1, ..., \len_{m-2}, (\len_{m-1} - 1)$. The new code ${\cal C}$ is then constructed by setting $c_i = c'_i$ for all $i \leq m-2$, and furthermore setting $c_{m-1} = c'_{m-1}|0$ and $c_m = c'_{m-1}|10\cdots 0$, padding with enough zeroes to achieve $\len(c_m) = \len_m$. This new code is necessarily also prefix-free.
 
-The following image illustrates the induction step for $\ell_1 = \ell_2 = \ell_3 = 2$ and $\ell_4 = 3$. The code is constructed from a prefix-free code ${\cal C}'$ with code lengths $2, 2$ and 1.
+The following image illustrates the induction step for $\ell_1 = \ell_2 = \ell_3 = 2$ and $\ell_4 = 3$. The code is constructed from a prefix-free code ${\cal C}'$ with code lengths $2, 2$ and 1 by replacing the bottom codeword (of length 1) with two new codewords (of lengths 2 and 3).
 
 %\begin{figure}[h]
 \begin{center}
@@ -423,7 +476,7 @@ H(X) \leq \len_{\min}(P_X) \leq H(X) + 1.
 \begin{proof}
 The proof relies on Kraft's inequality (Section~\ref{sec:kraft}). Let $C$ be a code, and write $\len_x$ for $\len(C(x))$ as a notational convenience. For the lower bound, we have that
 \begin{align}
-H(X) - \len_C(X) &= - \sum_{x \in {\cal X}} P_X(x) \log(P_X(x)) - \sum_{x \in X} P_X(x) \len_x\nonumber\\
+H(X) - \len_C(P_X) &= - \sum_{x \in {\cal X}} P_X(x) \log(P_X(x)) - \sum_{x \in X} P_X(x) \len_x\nonumber\\
 &=  \sum_{x \in {\cal X}} P_X(x) \left(-\log(P_X(x)) - \log\left(2^{\len_x}\right)\right)\nonumber\\
 &=  \sum_{x \in {\cal X}} P_X(x) \log \left(\frac{1}{P_X(x)\cdot 2^{\len_x}}\right)\nonumber\\
 &\leq \log\left(\sum_{x \in {\cal X}} \frac{1}{2^{\len_x}}\right) &&\mbox{(by Jensen's inequality)}\nonumber\\
@@ -439,19 +492,19 @@ and note that
 \end{align}
 Therefore, by Kraft's inequality, there exists a prefix-free code $C$ such that $\len(C(x)) = \len_x$ for all $x \in {\cal X}$. This code satisfies
 \begin{align}
-\len_C(X) &= \sum_{x \in {\cal X}} P_X(x) \len_x \nonumber\\
+\len_C(P_X) &= \sum_{x \in {\cal X}} P_X(x) \len_x \nonumber\\
 &\leq \sum_{x \in {\cal X}} P_X(x) \left(\log \frac{1}{P_X(x)} + 1 \right)\nonumber\\
 &= -\sum_{x \in {\cal X}} P_X(x)\log P_X(x) + \sum_{x \in {\cal X}} P_X(x) \nonumber\\
 &= H(X) + 1.
 \end{align}
-We have thus constructed a code $C$ with $\len_C(X) \leq H(X) + 1$, so $\len_{\min}(X) \leq H(X) + 1$.
+We have thus constructed a code $C$ with $\len_C(P_X) \leq H(X) + 1$, so $\len_{\min}(P_X) \leq H(X) + 1$.
 \end{proof}
 
 \section{Huffman Codes}
 Shannon's source-coding theorem shows us that in theory, the minimal code length for a source $P_X$ is roughly $H(X)$. In this section we will investigate \term{Huffman codes}, which provide an explicit and neat construction for optimal prefix-free codes. A binary Huffman code for a source $P_X$ is constructed by iteratively pairing the two symbols with the smallest probability together, building a binary tree on the way. This is best explained by example:
 
 \begin{example}[Binary Huffman code]\label{example:bin-huffman}
-Let the random variable $X$ be given with $\mathcal{X} = \{a,b,c,d,e\}$ and $P_X(a) = P_X(b) = 0.25$, $P_X(c) = 0.2$, and $P_X(d) = P_X(e) = 0.15$. The following is a binary Huffman code for $X$:
+Let the random variable $X$ be given with $\mathcal{X} = \{a,b,c,d,e\}$ and $P_X(a) = P_X(b) = 0.25$, $P_X(c) = 0.2$, and $P_X(d) = P_X(e) = 0.15$. The following is a binary Huffman code for $P_X$:
 \begin{center}
 \begin{tikzpicture}
 \pgfmathsetmacro{\dist}{0.75}
@@ -592,7 +645,7 @@ We now show that Huffman codes indeed have optimal code length.
 \begin{theorem}[Optimality of Huffman codes]
 Let $P_X$ be a source, and let $C^*$ be the associated Huffman code. For any other uniquely decodable code $C'$ with the same alphabet,
 \[
-\len_{C^*}(P_X) \leq \len_{C'}(X).
+\len_{C^*}(P_X) \leq \len_{C'}(P_X).
 \]
 \end{theorem}
 \begin{proof}[Proof (sketch)]
@@ -633,10 +686,26 @@ r = \sum_i c_i \cdot 2^{-i},
 \]
 where by convention, 0 is represented by the string 0.
 \end{definition}
-For example, $\frac{1}{2}$ is represented by $1$, $\frac{1}{4}$ by $01$, $\frac{11}{32}$ by $01011$ (note also that $01011$ represents the natural number 11\chris{I don't quite get this remark}), and $\frac{1}{3}$ by $010101\cdots$. Not all reals in $[0,1)$ have a finite representation, but any interval $[a,b)$ with $0 \leq a < b \leq 1$ contains at least one number with a finite binary representation.
+Not all reals in $[0,1)$ have a finite representation, but any interval $[a,b)$ with $0 \leq a < b \leq 1$ contains at least one number with a finite binary representation.
+\begin{example}
+The following table lists some numbers $r \in [0,1)$ and their standard binary representation.
 
+\[
+\begin{array}{c | c}
+r & \mbox{binary representation of } r\\\hline
+1/2 & 1\\
+1/3 & 01010101\cdots\\
+1/4 & 01\\
+3/4 & 11\\
+13/16 & 1101\\
+13/32 & 01101\\
+\end{array}
+\]
+Note that 1101 is also the binary form of the natural number 13. Adding a 0 on the left divides the represented value by 2.
+\end{example}
+These binary representations of numbers in the interval $[0,1)$ give rise to a very elegant code: 
 \begin{definition}[Arithmetic code]\label{def:arithmetic}
-Given a source $P_X$ with $\mathcal{X} = \{x_1, .., x_m\}$, construct the arithmetic code as follows. Divide the interval $[0,1)$ into disjoint subintervals $I_{x_j} = [a_j, b_j)$ (for $1 \leq j \leq m$) such that $b_j - a_j = P_X(x_j)$, and $a_j = b_{j-1}$ (and $a_1 = 0, b_m = 1$). \chris{wouldn't it be more clear to use only $a$'s instead of both $a,b$'s?}
+Given a source $P_X$ with $\mathcal{X} = \{x_1, .., x_m\}$, construct the arithmetic code as follows. Divide the interval $[0,1)$ into disjoint subintervals $I_{x_j} = [a_j, a_{j+1})$, where $a_1, ..., a_{m+1}$ are defined such that $a_{j+1} - a_j = P_X(x_j)$, and $a_1 = 0, a_{m+1} = 1$.
 
 The encoding $AC(x_j)$ of the element $x_j$ is the (shortest possible) standard binary representation of some number in the interval $I_{x_j}$. 
 \end{definition}
@@ -667,7 +736,7 @@ Let $X$ be a random variable with $\mathcal{X} = \set{1,2,3}$ and $P_X(1) = \fra
 \end{center}
 This image results in the arithmetic code $\mathcal{C}$ with $\mathcal{C}(1) = 0$ (the representation of 0), $\mathcal{C}(2) = 1$ (the representation of $\frac{1}{2}$), $\mathcal{C}(2) = 11$ (the representation of $\frac{3}{4}$).
 
-For $X$, the codewords happen to fall exactly \emph{on} the boundaries of the intervals. This is not always the case, however. The same code would have resulted from this procedure if we started with the random variable $Y$ with $\mathcal{Y} = \set{1,2,3}$ and $P_Y(1) = P_Y(2) = 0.3$ and $P_Y(3) = 0.4$:
+For $P_X$, the codewords happen to fall exactly \emph{on} the boundaries of the intervals. This is not always the case, however. The same code would have resulted from this procedure if we started with the random variable $Y$ with $\mathcal{Y} = \set{1,2,3}$ and $P_Y(1) = P_Y(2) = 0.3$ and $P_Y(3) = 0.4$:
 
 \begin{center}
 \begin{tikzpicture}
@@ -696,7 +765,7 @@ For $X$, the codewords happen to fall exactly \emph{on} the boundaries of the in
 
 
 \begin{proposition}\label{prop:arithmetic-length}
-For any $X$, the arithmetic code has average length $\len_{AC}(P_X) \leq H(X) + 1$.
+For any $(X,P_X)$, the arithmetic code has average length $\len_{AC}(P_X) \leq H(X) + 1$.
 \end{proposition}
 \begin{proof}
 Let $x \in \mathcal{X}$, and define $\len_x := \lceil \log (1/P_X(x))\rceil$ to be the rounded surprisal value of $x$. Then
@@ -709,7 +778,7 @@ Therefore, since the size of the interval $I_x$ is $P_X(x)$, there must exist $0
 \end{align}
 \end{proof}
 
-As we can see from Example~\ref{example:arithmetic}, this construction for arithmetic codes does not necessarily yield prefix-free codes. However, at the expense of one extra bit of code (on average), the construction can be adapted into a prefix-free code. One example of this is the \term{Shannon-Fano-Elias code} (see \CT, Section 5.9 or \href{https://en.wikipedia.org/wiki/Shannon%E2%80%93Fano%E2%80%93Elias_coding}{wikipedia}), which provides a more sophisticated way of selecting a number within each interval than simply selecting the number with the shortest binary representation. This alternative selection procedure ensures prefix-freeness. Another option is to select \emph{binary intervals} within each interval:
+As we can see from Example~\ref{example:arithmetic}, this construction for arithmetic codes does not necessarily yield prefix-free codes. However, at the expense of one extra bit of code (on average), the construction can be adapted into a prefix-free code. One example of this is the \term{Shannon-Fano-Elias code} (see \CT, Section 5.9 or \href{https://en.wikipedia.org/wiki/Shannon%E2%80%93Fano%E2%80%93Elias_coding}{Wikipedia}), which provides a more sophisticated way of selecting a number within each interval than simply selecting the number with the shortest binary representation. This alternative selection procedure ensures prefix-freeness. Another option is to select \emph{binary intervals} within each interval:
 
 \begin{definition}[Binary interval]
 A binary interval is an interval of the form
