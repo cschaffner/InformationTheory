@@ -853,7 +853,15 @@ A sequence $X_1, X_2, X_3, ...$ of real random variables converges to a random v
 \\where the definition of $X_n \convtoAS X$ can be interpreted as $P[\set{\omega \in \Omega \mid X_n(\omega) \convto X(\omega)}] = 1$.
 \end{definition}
 
-\yfke{maybe add example here?}\chris{yes, or at least refer to \href{https://en.wikipedia.org/wiki/Convergence_of_random_variables}{wikipedia}}
+\begin{example}
+Consider the following game: you flip a coin, and if it comes up heads you win one euro. You flip it again, and if it comes up head again, you win the double amount. You continue doing this, until a tails comes up: then you have to give back everything you won so far, and the game is over. To formalize this, let the sequence $X_1, X_2, ...$ denote the amount you won after $1, 2, $ etc coin flips. They are defined by $X_n = 2^n$ if you just flipped $n$ heads in a row (probability $\frac{1}{2^n}$), and $X_n = 0$ otherwise. Furthermore, define $X$ to be the constant-zero random variable with $P_X(0) = 1$.
+
+\begin{itemize}
+\item This sequence converges to $X$ in probability: for every $n$ and every $0 < \epsilon \leq 1$, $P[|X_n - X| > \epsilon] = P[X_n > \epsilon] = \frac{1}{2^n}$, and from standard calculus we know that $\frac{1}{2^n} \convto 0$.
+\item This sequence does not converge to $X$ in mean square, because $\mathbb{E}[(X_n - X)^2] = \mathbb{E}[(X_n)^2] = \frac{1}{2^n} \cdot 2^{2n} + \left(1 - \frac{1}{2^n}\right) \cdot 0 = 2^n$. Clearly, $2^n$ does not go to zero as $n$ goes to infinity.
+\item This sequence almost surely converges to $X$: let $\Omega$ be the set of all possible (infinite) strings representing the coin toss outcomes (note that $\Omega$ itself is now also infinite). For any string $\omega$ that is \emph{not} the all-heads string $\mathsf{hhhhh}\cdots$, we have that $X_n(\omega) \convto 0$, since there is an $n_0$ such that $X_{n_0}(\omega) = 0$ (namely if $\omega$ has a tails at the $n_0$th position), and remains zero for all $n > n_0$. Hence, $P[\Set{\omega \in \Omega}{X_n(\omega) \convto X(\omega)}] = P[\Omega \ \set{\mathsf{hhhhh}\cdots}] = 1$.
+\end{itemize}
+\end{example}
 
 
 In general, the following implications hold (although their converses do not):
@@ -861,7 +869,7 @@ In general, the following implications hold (although their converses do not):
 X_n \convtoMS X \ \ \ &\Rightarrow\ \ \  X_n \convtoP X\\
 X_n \convtoAS X \ \ \ &\Rightarrow\ \ \  X_n \convtoP X
 \end{align}
-The following important weak law of large numbers states that if we sample several times from the same distribution, the average converges (in probability) to the expected value of the distribution.
+The following law that if we sample several times from the same distribution, the average converges (in probability) to the expected value of the distribution.
 \begin{theorem}[Weak Law of Large Numbers]
 Let $X_1, X_2, ...$ be real i.i.d. random variables with mean $\mu = \mathbb{E}[X_i]$ and variance $\sigma^2 = \mathbb{E}[(X_i - \mu)^2] < \infty$. Define the random variables
 \[
