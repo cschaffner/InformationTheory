@@ -343,7 +343,7 @@ For the forward direction, suppose we have a prefix-free code $C$ with image ${\
 \sum_{i=1}^{m} 2^{-\ell_i} \leq 2^0 = 1.
 \end{align}
 
-For the backward direction, we build a code ${\cal C} = \{c_1, ..., c_m\}$ with $\ell(c_i) = \len_i$ by selecting the appropriate leaves of a binary tree as codewords, assigning the most `expensive' (i.e. those with small depth) first. We proceed by induction on the number of codewords, $m$:
+For the backward direction, we build a code ${\cal C} = \{c_1, ..., c_m\}$ with $\ell(c_i) = \len_i$ by selecting the appropriate leaves of a binary tree as codewords, assigning the most `expensive' (i.e.\ those with small depth) first. We proceed by induction on the number of codewords, $m$:
 
 For $m = 1$, the construction is clear: we can assign any string of length $\len_1$ to represent the single codeword.
 
@@ -859,7 +859,7 @@ Consider the following game: you flip a coin, and if it comes up heads you win o
 \begin{itemize}
 \item This sequence converges to $X$ in probability: for every $n$ and every $0 < \epsilon \leq 1$, $P[|X_n - X| > \epsilon] = P[X_n > \epsilon] = \frac{1}{2^n}$, and from standard calculus we know that $\frac{1}{2^n} \convto 0$.
 \item This sequence does not converge to $X$ in mean square, because $\mathbb{E}[(X_n - X)^2] = \mathbb{E}[(X_n)^2] = \frac{1}{2^n} \cdot 2^{2n} + \left(1 - \frac{1}{2^n}\right) \cdot 0 = 2^n$. Clearly, $2^n$ does not go to zero as $n$ goes to infinity.
-\item This sequence almost surely converges to $X$: let $\Omega$ be the set of all possible (infinite) strings representing the coin toss outcomes (note that $\Omega$ itself is now also infinite). For any string $\omega$ that is \emph{not} the all-heads string $\mathsf{hhhhh}\cdots$, we have that $X_n(\omega) \convto 0$, since there is an $n_0$ such that $X_{n_0}(\omega) = 0$ (namely if $\omega$ has a tails at the $n_0$th position), and remains zero for all $n > n_0$. Hence, $P[\Set{\omega \in \Omega}{X_n(\omega) \convto X(\omega)}] = P[\Omega \ \set{\mathsf{hhhhh}\cdots}] = 1$.
+\item This sequence almost surely converges to $X$: let $\Omega$ be the set of all possible (infinite) strings representing the coin toss outcomes (note that $\Omega$ itself is now also infinite). For any string $\omega$ that is \emph{not} the all-heads string $\mathsf{hhhhh}\cdots$, we have that $X_n(\omega) \convto 0$, since there is an $n_0$ such that $X_{n_0}(\omega) = 0$ (namely if $\omega$ has a tails at the $n_0$-th position), and remains zero for all $n > n_0$. Hence, $P[\Set{\omega \in \Omega}{X_n(\omega) \convto X(\omega)}] = P[\Omega \setminus \set{\mathsf{hhhhh}\cdots}] = 1$.
 \end{itemize}
 \end{example}
 
@@ -920,7 +920,8 @@ A typical set $\typset$ satisfies the following:
 \end{proposition}
 \begin{proof}\ 
 \begin{enumerate}
-\item This is immediate from the definition (take the logarithm and divide by $-n$).
+\item This is immediate from the definition (take the logarithm and
+  divide by $-n$, thereby reversing the inequalities).
 \item This follows from the Asymptotic Equipartition Property: for all $\epsilon > 0$, $P[|-\frac{1}{n} \log P_{X^n}(X_1, ..., X_n) - H(X)| > \epsilon] \convto 0$, that is,
 \begin{align}\forall (\epsilon > 0) \ \forall (\delta > 0) \ \exists n_0 \ \forall (n \geq n_0) \ P[|-\frac{1}{n} \log P_{X^n}(X_1, ..., X_n) - H(X)| \leq \epsilon] > 1 - \delta.
 \end{align}
@@ -929,17 +930,17 @@ By choosing $\delta := \epsilon$, the result follows from the first property.
 \begin{align}
 1 = \sum_{\vec{x} \in \mathcal{X}^n} P_{X^n}(\vec{x}) \geq \sum_{\vec{x} \in \typset} P_{X^n}(\vec{x}) \geq |\typset| \cdot 2^{-n(H(X) + \epsilon},
 \end{align}
-where the last inequality follows by property 1. The result now follows by multiplying both sides of the equation by $2^{n(H(X) + \epsilon)}$.
-\item By property 2, we can choose an $n$ large enough so that
+where the last inequality follows by the definition of typicality. The claim follows by multiplying both sides of the equation by $2^{n(H(X) + \epsilon)}$.
+\item By Property~2, we can choose an $n$ large enough so that
 \begin{align}
 1 - \epsilon < P[\typset] = \sum_{\vec{x} \in \typset} P_{X^n}(\vec{x}) \leq |\typset| \cdot 2^{-n(H(X)-\epsilon)},
 \end{align}
-where again, the last inequality follows by property 1.
+where again, the last inequality follows by the definition of typicality.
 \end{enumerate}
 \end{proof}
 
 
-Typical sets and their properties allow us to code a source $P_X$, $n$ symbols at a time, in either a lossy or a lossless way. For a lossy code, simply assign binary labels of length (at most) $\lceil n (H(X) + \epsilon)\rceil$ to the elements of $\typset$, and assign some constant (dummy) codeword to all elements outside of the set. Decoding this dummy codeword will result in an error (data loss), but this error occurs with probability at most $\epsilon$.
+Typical sets and their properties allow us to code a source $P_X$, in blocks of $n$ symbols at a time, in either a lossy or a lossless way. For a lossy code, we notice that with overwhelming probability, a sequence of $n$ iid samples from $P_X$ is typical, so it suffices to assign binary labels of length (at most) $\lceil n (H(X) + \epsilon)\rceil$ to the elements of $\typset$, and assign some constant (dummy) codeword to all elements outside of the set. Decoding this dummy codeword will result in an error (data loss), but this error occurs with probability at most $\epsilon$.
 
 The above scheme can be extended to a lossless version by assigning longer labels to the elements outside of $\typset$, for example binary labels of length $\lceil \log |\mathcal{X}|^n\rceil = \lceil n \log |\mathcal{X}|\rceil$. An extra `flag' bit is needed to indicate whether the element is inside or outside the typical set. For large enough $n$, this code is quite efficient:
 \begin{theorem}
@@ -961,12 +962,12 @@ where $\epsilon = \epsilon' + \epsilon' \log |\mathcal{X}| + \frac{2}{n}$ (note 
 \end{proof}
 For large enough blocks of symbols, typical sets thus allow the construction of an efficient code without the 1 bit of overhead that symbol codes may necessarily have. However, this efficiency is only guaranteed for `sufficiently large $n$', a rather theoretical condition that may not be achievable in practice.
 
-We conclude this chapter by showing that the typical set is in a sense `optimal', i.e. that picking a smaller set instead of the typical set does not allow for much shorter codewords on average in a lossy setting, not even if we allow rather large error probabilities by allowing about half of the elements to lie outside of the typical set.
+We conclude this chapter by showing that the typical set is in a sense `optimal', i.e.\ that picking a smaller set instead of the typical set does not allow for much shorter codewords on average in a lossy setting, not even if we allow rather large error probabilities by allowing about half of the elements to lie outside of the typical set.
 
 Let us use the notation $\typsetb$ to denote the smallest subset of $\mathcal{X}^n$ such that $P[\typsetb] > 1 - \delta$ (for some parameter $\delta > 0$). $\typsetb$ can be explicitly constructed by, for example, ordering $\mathcal{X}^n$ in order of decreasing probability, and adding elements to $\typsetb$ until the probability threshold of $1 - \delta$ is reached. The following theorem states that even for large values of $\delta$, we still need almost $n H(X)$ bits to denote an element from $\typsetb$.
 
 \begin{theorem}
-Let $X_1, ..., X_n$ be i.i.d. random variables distributed according to $P_X$. For any $\delta < \frac{1}{2}$, and any $\delta' > 0$, if $P[\typsetb] > 1 - \delta$, then
+Let $X_1, ..., X_n$ be i.i.d.\ random variables distributed according to $P_X$. For any $\delta < \frac{1}{2}$, and any $\delta' > 0$, if $P[\typsetb] > 1 - \delta$, then
 \[
 \frac{1}{n} \log |\typsetb| > H(X) - \delta',
 \]
@@ -975,12 +976,13 @@ for sufficiently large $n$.
 \begin{proof}
 Let $\delta,\epsilon < \frac{1}{2}$, and consider some $\typsetb$ such that $P[\typsetb] > 1 - \delta$. We know that by Proposition~\ref{prop:typset-properties}, $P[\typset] > 1 - \epsilon$, for large enough $n$. Thus, by the union bound,
 \begin{align}
-1 - \epsilon - \delta &< 1 - P[\overline{\typset}] - P[\overline{\typsetb}]\
-&\leq P[\typset \cap \typsetb]\nonumber\\
+1 - \epsilon - \delta &< 1 - P[\overline{\typset}] - P[\overline{\typsetb}]\\
+&\leq 1-P[\overline{\typset} \cup \overline{\typsetb}]\\
+&= P[\typset \cap \typsetb]\nonumber\\
 &= \sum_{\vec{x} \in \typset \cap \typsetb} P_{X^n}(\vec{x})\nonumber\\
-&\leq \sum{\vec{x} \in \typset \cap typsetb} 2^{-n(H(X) - \epsilon}\nonumber\\
-&= |\typset \cap \typsetb| \cdot 2^{-n}(H(X) - \epsilon)\nonumber\\
-&\leq |\typsetb| \cdot 2^{-n}(H(X) - \epsilon).
+&\leq \sum_{\vec{x} \in \typset \cap \typsetb} 2^{-n(H(X) - \epsilon)}\nonumber\\
+&= |\typset \cap \typsetb| \cdot 2^{-n(H(X) - \epsilon)}\nonumber\\
+&\leq |\typsetb| \cdot 2^{-n(H(X) - \epsilon)}.
 \end{align}
 Rearranging this expression and taking the logarithm, we get
 \begin{align}
@@ -990,8 +992,8 @@ If we now set $\delta' := \epsilon - \frac{1}{n} \log (1 - \epsilon - \delta)$, 
 \begin{align}
 H(X) - \delta' < \frac{1}{n} \log |\typsetb|,
 \end{align}
-as desired.
-\yfke{I'm not sure what happens to $\delta'$ here: the proof should work for any $\delta' > 0$, aren't we restricting the freedom here? Or can we always find an epsilon to accommodate for the values of $\delta$ and $\delta'$ that are given?}
+as desired. Observe that we can make the expression for $\delta'$ as small as desired by choosing a large enough $n$, even if $\delta$ is rather large.
+\yfke{I'm not sure what happens to $\delta'$ here: the proof should work for any $\delta' > 0$, aren't we restricting the freedom here? Or can we always find an epsilon to accommodate for the values of $\delta$ and $\delta'$ that are given?} \chris{we have to choose $n$ large enough in order to make $\delta'$ as small as we want.}
 \end{proof}
 
 
