@@ -640,7 +640,7 @@ Use the above procedure to construct a ternary code for the source $P_X$ with $\
 \end{exercise}
 We have to be careful, because with an alphabet size of greater than 2, the above procedure does not always give an optimal code! In fact, a $d$-ary code is only optimal if $|\mathcal{X}|$ is of the form $k(d-1)+1$ for some $k \in \mathbb{N}$. This ensures that at every step, we can combine exactly $d$ symbols to use the alphabet at full capacity. The ternary code in Example~\ref{example:ter-huffman} is optimal because $|\mathcal{X}| = 5 = 2(3-1) + 1$, but the code you constructed in Exercise~\ref{exercise:ter-huffman} is not. To remedy this, one can add one or more `dummy' symbols to the source (each with probability zero) until an appropriate size of $\mathcal{X}$ of the form $|\mathcal{X}| = k(d-1)+1$ for some $k \in \mathbb{N}$ is reached. The codewords for those dummy symbols are discarded at the end.
 
-We now show that Huffman codes indeed have optimal code length.
+It turns out that Huffman codes indeed have optimal code length (see \CT, Section 5.8).
 
 \begin{theorem}[Optimality of Huffman codes]
 Let $P_X$ be a source, and let $C^*$ be the associated Huffman code. For any other uniquely decodable code $C'$ with the same alphabet,
@@ -648,18 +648,7 @@ Let $P_X$ be a source, and let $C^*$ be the associated Huffman code. For any oth
 \len_{C^*}(P_X) \leq \len_{C'}(P_X).
 \]
 \end{theorem}
-\begin{proof}[Proof (sketch)]
-We sketch the proof for binary codes. The proof idea extends to any alphabet size.
-
-Let $a,b \in \mathcal{X}$ be the two symbols with lowest probability, and $P_X(a) \leq P_X(b)$. Suppose, for some prefix-free code $C'$, that $\len_a < \len_b$. We can be in one of two cases:
-\begin{enumerate}
-\item $\len_b$ is not the maximal codeword length. In other words, some $c$ exists with $P_X(c) \geq P_X(a)$ and $\len_c > \len_a$.
-\item $\len_b$ is the maximal codeword length. Then there exists a `sibling' $c$ in the code tree such that $\len_c = \len_b$ (if not, we can remove the last bits of the code for $b$ by prefix-freeness). For this $c$, $P_X(c) \geq P_X(a)$ and $\len_c > \len_a$.
-\end{enumerate}
-In both cases, we can swap the codewords for $a$ and $c$, achieving a code that is at least as efficient as $C'$. Therefore, we may assume that for all source symbols $x_i, x_j \in \mathcal{X}$ with $P_X(x_i) \leq P_X(x_j)$, $\len_{x_i} \geq \len_{x_j}$.
-
-Using this assumption, we can transform any code $C'$ into a Huffman code using induction on the size of the source. The full proof can be found in \CT{} (Theorem 5.8.1). \chris{I'm not sure if this ``proof'' is useful in its current form, I always struggled to give some good intuition here instead of the painfully long proof in CT. I think that the short proof in the solution of Ex 5.16 in MacKay on page 105 is also hard to follow...}
-\end{proof}
+% todo: add proof?
 
 \begin{example}[20 questions]
 In the game of `20 questions' (20Q) the goal is to identify an object from a set of objects using (at most) 20 yes/no questions. Please go and \href{http://www.20q.net/}{play it online} right now if you have never heard of it before.  Assume we know the probability distribution $P_X$ over all possible objects, what is the most efficient sequence of questions to ask in order to determine the object? We can use Huffman coding to answer this question!
@@ -895,11 +884,43 @@ by the weak law of large numbers.
 \end{proof}
 
 \begin{example}[Biased coin flip]
-Consider flipping a biased coin, with probability of 1 (heads) being $p_1 = 0.1$ and probability of 0 (tails) being $p_0 = 0.9$. (This is an example of a \term{Bernoulli distribution} with success probability $p_1$ and failure probability $p_0 = 1 - p_1$.) We can compute that $H(X) = h(0.1) \approx 0.469$.
-
-Clearly, for every $n$, $P_{X_1 \cdots X_n}(x_1\cdots x_n) = p_0^{n-r(x)}p_1^{r(x)}$, where $r(x)$ is the number of ones in the string $x = x_1\cdots x_n$. In particular, this gives us the \term{binomial distribution} by considering the random variable $R = r(X_1, ..., X_n)$, since $P(r) = \binom{n}{r} p_0^{n-r} p_1^r$.
+Consider flipping a biased coin, with probability of heads being $p_1 = 0.1$ and probability of tails being $p_0 = 0.9$, and counting the number of heads that come up. The random variable $X$ describing the outcome is distributed according to the binomial$(n,p)$ distribution, where $n$ is the number of coin flips. Below, the distribution is plotted for $n = 100$ and $n = 1000$:
+\begin{center}
+\begin{tikzpicture}[
+    declare function={binom(\k,\n,\p)=\n!/(\k!*(\n-\k)!)*\p^\k*(1-\p)^(\n-\k);}
+]
+\begin{axis}[
+    samples at={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,30,100},
+    width=5cm, height=4cm,
+    yticklabel style={
+        /pgf/number format/fixed
+    },
+    %ybar=0pt, bar width=1,
+    xlabel={$n = 100$}
+]
+\addplot [fill=ocre] {binom(x,100,0.1)};
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}[
+    declare function={binom(\k,\n,\p)=\n!/(\k!*(\n-\k)!)*\p^\k*(1-\p)^(\n-\k);}
+]
+\begin{axis}[
+    samples at={{0,25,50,75,80,85,90,95,97,98,99,100,101,102,103,105,110,115,120,125,150,175,200,250,300,1000}},
+    width=5cm, height=4cm,
+    scaled ticks=false,
+    y tick label style={
+        /pgf/number format/fixed
+    },
+    %ybar=0pt, bar width=1,
+    xlabel={$n = 1000$}
+]
+\addplot [fill=ocre] {binom(x,1000,0.1)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+We see that the variance of the sample mean, $\mbox{Var}[\frac{1}{n}X] = \frac{p(1-p)}{n}$, decreases as the number of samples increases. The weight of the distribution becomes centered around an increasingly narrow set of outcomes.
 \end{example}
-\yfke{the connection with the AEP is not really clear in this example}\chris{it only becomes clear from the slides! There, one can see the concentration, maybe we can actually re-use MacKay's figures here.}\chris{also, we introduced these distributions now in Chapter 1 already.}
+The above example leads us to defining the following subset of the image of a random variable:
 
 \begin{definition}[Typical set]
 The typical set $\typset$ with respect to $P_X$ is the set of strings $(x_1, ..., x_n) \in {\cal X}^n$ such that
@@ -976,8 +997,8 @@ for sufficiently large $n$.
 \begin{proof}
 Let $\delta,\epsilon < \frac{1}{2}$, and consider some $\typsetb$ such that $P[\typsetb] > 1 - \delta$. We know that by Proposition~\ref{prop:typset-properties}, $P[\typset] > 1 - \epsilon$, for large enough $n$. Thus, by the union bound,
 \begin{align}
-1 - \epsilon - \delta &< 1 - P[\overline{\typset}] - P[\overline{\typsetb}]\\
-&\leq 1-P[\overline{\typset} \cup \overline{\typsetb}]\\
+1 - \epsilon - \delta &< 1 - P[\overline{\typset}] - P[\overline{\typsetb}]\nonumber\\
+&\leq 1-P[\overline{\typset} \cup \overline{\typsetb}]\nonumber\\
 &= P[\typset \cap \typsetb]\nonumber\\
 &= \sum_{\vec{x} \in \typset \cap \typsetb} P_{X^n}(\vec{x})\nonumber\\
 &\leq \sum_{\vec{x} \in \typset \cap \typsetb} 2^{-n(H(X) - \epsilon)}\nonumber\\
@@ -993,7 +1014,6 @@ If we now set $\delta' := \epsilon - \frac{1}{n} \log (1 - \epsilon - \delta)$, 
 H(X) - \delta' < \frac{1}{n} \log |\typsetb|,
 \end{align}
 as desired. Observe that we can make the expression for $\delta'$ as small as desired by choosing a large enough $n$, even if $\delta$ is rather large.
-\yfke{I'm not sure what happens to $\delta'$ here: the proof should work for any $\delta' > 0$, aren't we restricting the freedom here? Or can we always find an epsilon to accommodate for the values of $\delta$ and $\delta'$ that are given?} \chris{we have to choose $n$ large enough in order to make $\delta'$ as small as we want.}
 \end{proof}
 
 
