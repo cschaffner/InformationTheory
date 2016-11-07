@@ -19,67 +19,50 @@
 
 {\sffamily\noindent
 %This week's exercises deal with sets, counting and uniform probabilities.
-This week's exercises deal with ...
-
-You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the discussion forum on Moodle, and try to help each other. We will also keep an eye on the forum.
-%Your homework must be handed in \textbf{electronically via Moodle before \deadline}. This deadline is strict and late submissions are graded with a 0. At the end of the course, the lowest of your 7 weekly homework grades will be dropped. You are strongly encouraged to work together on the exercises, including the homework. However, after this discussion phase, you have to write down and submit your own individual solution. Numbers alone are never sufficient, always motivate your answers.
+This week's exercises deal with entropy and source codes. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=1761}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
 }
 
-
-
-\begin{exercise}[Maximal conditional entropy implies independence]
-(remove)
-	\begin{subex}
-	Prove that if $H(X|Y) = \log(|\mathcal{X}|)$ then $X$ and $Y$ are independent.
-	\end{subex}
-	
-	\begin{subex}
-	Give a joint distribution $P_{XY}$ where $H(X) = \log(|\mathcal{X}|)$, but $X$ and $Y$ are dependent.
-	\end{subex}
+\begin{exercise}[Mutual information]
+Let $X$, $Y$ and $Z$ be random variables such that $I(X;Y) = 0$ and $I(X;Z) = 0$. Does it follow that $I(Y;Z) = 0$? If so, prove it. If not, give a counterexample.
 \end{exercise}
 
-\begin{exercise}[Kraft's inequality]
-(concept) Below, six binary codes are shown for the source symbols $x_1, ..., x_4$.
-\begin{center}
-\begin{tabular}{l | l l l l l l}
-&Code A& Code B & Code C & Code D & Code E & Code F\\
-\hline
-$x_1$ & 00 & 0    & 0     &  0     & 1    & 1\\
-$x_2$ & 01 & 10  & 11   & 100  & 01  & 10\\
-$x_3$ & 10 & 11  & 100 & 110  & 001 & 100\\
-$x_4$ & 11 & 110 & 110 & 111 & 0001 & 1000\\
-\end{tabular}
-\end{center}
-	\begin{subex}[(1pt)]
-	Which codes fulfill the Kraft inequality?
-	\end{subex}
-	\begin{subex}[(1pt)]
-	Is a code that satisfies this inequality always uniquely decodable?
-	\end{subex}
-	\begin{subex}[(1pt)]
-	Which codes are prefix-free?
-	\end{subex}
-	\begin{subex}[(1pt)]
-	Which codes are uniquely decodable?
-	\end{subex}
+\begin{exercise}[Estimating entropy]
+(\href{http://www.inference.phy.cam.ac.uk/mackay/itila/book.html}{[MacKay]}, Example 2.13:) A source produces a character $x$ from alphabet $\mathcal{A} = \{\mathtt{0, 1, 2, ..., 9, a, b, c, ..., z}\}$. With probability $1/3$, $x$ is a uniformly random numeral $\mathtt{0,1,2,...,9}$, with probability $1/3$, $x$ is a random vowel $\mathtt{a,e,i,o,u}$ and with probability $1/3$, $x$ is one of the 21 consonants. Estimate the entropy of $X$.
 \end{exercise}
 
-\begin{exercise}[]
-(practice) Something with binary entropy - the Stirling approximation? (andersom met 2 tot de macht ipv ln) What does this mean for the relation between binomial coefficient and the binary entropy function
+\begin{exercise}[Geometric distribution]
+The geometric($p$) distribution of a random variable $X$ is defined as the number of times one has to flip a Bernoulli$(p)$ coin before it lands on heads:
+\[
+P_X(k) = (1-p)^{k-1}p \ \ \ \ \ \mbox{for } k = 1, 2, 3, ...
+\]
+Compute the entropy of the geometric distribution.
 \end{exercise}
 
 \begin{exercise}[An optimal code]
-(Practice)
-(MacKay 5.25) Let $X$ be a random variable. Show that if for all $x \in \mathcal{X}$, there is some $n \in \mathbb{N}$ such that $P_X(x) = \frac{1}{2^n}$, then there exists a source code whose expected length equals the entropy. 
+(\href{http://www.inference.phy.cam.ac.uk/mackay/itila/book.html}{[MacKay]}, Exercise 5.25:) Let $X$ be a random variable. Show that if for all $x \in \mathcal{X}$, there is some $n \in \mathbb{N}$ such that $P_X(x) = \frac{1}{2^n}$, then there exists a source code whose expected length equals the entropy. 
+\end{exercise}
+
+\begin{exercise}[Unique decodability]
+Construct a binary symbol code (for a finite alphabet $\mathcal{X}$ of your own choice) that is uniquely decodable, but for which there exists an \emph{infinite} binary string that can be decoded in more than one way.
+\end{exercise}
+
+\begin{exercise}[Stirling's Approximation]
+Let $n \in \mathbb{N}$ and $p \in [0,1]$ such that $np \in \mathbb{N}$. Use the approximation $\ln(n!) \approx n \ln(n)$ to prove that
+\[
+{n \choose np} \approx 2^{n \cdot h(p)},
+\]
+where $h$ is the binary entropy function.
 \end{exercise}
 
 
-\begin{exercise}[Geometric distribution]
-(practice) Compute the entropy of the geometric distribution. (do with trees)
-\end{exercise}
 
-\begin{exercise}[Mackay, example 2.13]
-(practice) see homework 1 from 2014
-\end{exercise}
+
+
+
+
+
+
+
+
 
 \end{document}
