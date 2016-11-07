@@ -39,11 +39,13 @@ Compute the entropy of the geometric distribution.
 \end{exercise}
 
 \begin{exercise}[An optimal code]
-(\href{http://www.inference.phy.cam.ac.uk/mackay/itila/book.html}{[MacKay]}, Exercise 5.25:) Let $X$ be a random variable. Show that if for all $x \in \mathcal{X}$, there is some $n \in \mathbb{N}$ such that $P_X(x) = \frac{1}{2^n}$, then there exists a source code whose expected length equals the entropy. 
-\end{exercise}
-
-\begin{exercise}[Unique decodability]
-Construct a binary symbol code (for a finite alphabet $\mathcal{X}$ of your own choice) that is uniquely decodable, but for which there exists an \emph{infinite} binary string that can be decoded in more than one way.
+Let $X$ be a random variable.
+	\begin{subex}
+	Show that if there exists an $n \in \mathbb{N}$ such that for all $x \in \mathcal{X}$, $P_X(x) = \frac{1}{2^n}$, then there exists a source code whose expected length equals the entropy.
+	\end{subex}
+	\begin{subex}
+	(\href{http://www.inference.phy.cam.ac.uk/mackay/itila/book.html}{[MacKay]}, Exercise 5.25:) Show that if for all $x \in \mathcal{X}$, there exists an $n \in \mathbb{N}$ such that $P_X(x) = \frac{1}{2^n}$, then there exists a source code whose expected length equals the entropy.
+	\end{subex}
 \end{exercise}
 
 \begin{exercise}[Stirling's Approximation]
@@ -53,6 +55,10 @@ Let $n \in \mathbb{N}$ and $p \in [0,1]$ such that $np \in \mathbb{N}$. Use the 
 \]
 where $h$ is the binary entropy function.
 \end{exercise}
+
+\begin{bonusexercise}[Unique decodability]
+Construct a binary symbol code (for a finite alphabet $\mathcal{X}$ of your own choice) that is uniquely decodable, but for which there exists an \emph{infinite} binary string that can be decoded in more than one way.
+\end{bonusexercise}
 
 
 

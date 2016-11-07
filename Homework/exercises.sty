@@ -59,6 +59,12 @@
 	\stepcounter{exCount}%
 	\subsection*{\exerciseTxt{} \theexCount{}\ifx&#1&\else: \fi#1}%
 	\questionstyle}{\answerstyle}
+	
+\def\Bonusstar{\rlap{\protect\makebox[-1.5em][r]{\textbf{$\bigstar$}}}}
+\newenvironment{bonusexercise}[1][\theexCount]{%
+	\stepcounter{exCount}%
+	\subsection*{\Bonusstar\exerciseTxt{} \theexCount{}\ifx&#1&\else: \fi#1}%
+	\questionstyle}{\answerstyle}
 
 
 %
