@@ -79,7 +79,7 @@ Q_X(x) & 1/2&1/4&1/8&1/8\\
 Design an optimal code for $Q_X(x)$. What is its expected codeword length? What is the expected codeword length if you use this code to encode the source $P_X$?
 \end{subex}
 \begin{subex}[(4pt)]
-Prove that when using optimal code for a source $Q_X$ (with lengths $\ell(X) = \lceil -\log Q_X(X) \rceil$) to encode the source $P_X$, this incurs a penalty of $D(P_X||Q_X)$ in the average description length. More formally, prove that
+Prove that when using optimal code for a source $Q_X$ (with lengths $\ell(x) = \lceil -\log Q_X(x) \rceil$ for all $x \in \mathcal{X}$) to encode the source $P_X$, this incurs a penalty of $D(P_X||Q_X)$ in the average description length. More formally, prove that
 \[
 H(P_X) + D(P_X||Q_X) \leq \mathbb{E}_{P_X}[\ell(X)] \leq H(P_X) + D(P_X||Q_X) + 1.
 \]
