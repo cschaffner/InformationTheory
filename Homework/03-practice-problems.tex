@@ -1,0 +1,48 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{2}
+\newcommand\deadline{Friday November 18th, 20:00h}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercises}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\begin{document}
+
+\practiceproblems
+
+{\sffamily\noindent
+%This week's exercises deal with sets, counting and uniform probabilities.
+This week's exercises deal with Huffman codes, arithmetic codes and the AEP. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=1761}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
+}
+
+\begin{exercise}[Non-prefix-free arithmetic codes]
+In class, we have seen a procedure to build a prefix-free arithmetic code $AC$ for $X$ by dividing $[0,1)$ into smaller intervals $I_x$ (for $x \in \mathcal{X}$) according to the probability distribution $P_X$, and picking $AC(x)$ to be the (name of the) largest binary interval that fits into $I_x$. In this exercise, we consider a simpler procedure that creates slightly shorter codewords, but is not necessarily prefix-free.
+	\begin{subex}
+	Given $X$ with $\mathcal{X} = \{\mathtt{a,b,c,d}\}$ and $P_X(\mathsf{a}) = P_X(\mathsf{b}) = 1/3$, $P_X(\mathsf{c}) = P_X(\mathsf{d}) = 1/6$. Draw the intervals $I_x$ on $[0,1)$. Then assign codewords to each $x$ by finding a number in each interval with a binary representation that is as short as possible. Note that there are sometimes multiple possibilities!
+	\end{subex}
+	\begin{subex}
+	Also find the prefix-free arithmetic code $AC^{pf}$ for this source. How do the average codeword lengths compare?
+	\end{subex}
+	\begin{subex}
+	Recall the proof that $AC^{pf}(X)
+	\end{subex}
+\end{exercise}
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
