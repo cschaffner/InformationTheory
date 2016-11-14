@@ -63,7 +63,7 @@ In class, we have seen a procedure to build a prefix-free arithmetic code $AC$ f
 \begin{exercise}[Shannon code]
 (CT, exercise 5.25) Consider the following method for generating a code for a random variable $X$ which takes on $m$ values $\{1,2,...,m\}$. Assume that the probabilities are ordered su that $P_X(1) \geq P_X(2) \geq ... \geq P_X(m)$. Define
 \[
-F_i := \sum{k=1}^{i-1} P_X(k),
+F_i := \sum_{k=1}^{i-1} P_X(k),
 \]
 the sum of the probabilities of all symbols less than $i$. Then the Shannon code is defined by assigning the (binary representation of the) number $F_i \in [0,1]$ as the codeword for $i$, where $F_i$ is rounded off to $\lceil \log\frac{1}{P_X(i)}\rceil$ bits.
 	\begin{subex}
