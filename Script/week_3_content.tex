@@ -110,7 +110,7 @@ Write $n = \log|G|$. We need to verify that $I(M;C) = 0$. We do so using a three
 \draw[line width=1mm]\circleC;
 \node at (-\size/2,\size/8) {0};
 \node at (\size+\size/2,\size/8) {0};
-\node at (\size/2,\size/3) {};
+\node at (\size/2,\size/3) {$x$};
 \node at (\size/2,-1.4*\size) {0};
 \node at (-\size/2,\size + 0.1) {$H(M)$};
 \node at (\size*1.5,\size + 0.1) {$H(C)$};
@@ -122,24 +122,30 @@ Write $n = \log|G|$. We need to verify that $I(M;C) = 0$. We do so using a three
 \end{center}
 Note that the area of $I(M;K) = I(M;K|C) + R(M;K;C)$ (shaded orange in the picture) as a whole is 0, but that does not mean that $I(M;K|C)$ and $R(M;K;C)$ themselves are zero, because $R(M;K;C)$ can be negative. We can conclude that there must be some (non-negative) real number $a \geq 0$ such that $I(M;K|C) = a$ and $R(M;K;C) = -a$. As the entropy of $K$ has to be $H(K)=n$, we can furthermore conclude that $I(K;C|M) = n$.
 
-We now argue that $H(C) = n$. We do so by showing that $P_C(c) = \frac{1}{|G|}$ for arbitrary $c$: \yfke{or is there a nice way to see this from the diagram?}
-\begin{align}
-P_C(c) &= \sum_{m \in \mathcal{M}} P_{MC}(m,c)\nonumber\\
-&= \sum_{m \in \mathcal{M}} P_M(m) P_{C|M}(c|m)\nonumber\\
-&= \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{CK|M}(c,k|m)\right)\nonumber\\
-&= \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{K|M}(k|m) P_{C|KM}(c|k,m)\right)
-\end{align}
-Since also $K$ and $M$ are independent (the setup assumption) and hence $P_{K|M}(k|m) = P_K(k)$ for all $k \in \mathcal{K}$,
-\begin{align}
-P_C(c) = \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{K}(k) P_{C|KM}(c|k,m)\right)
-\end{align}
-Note that $P_{C|KM}(c|k,m) = 1$ if $c = k + m$, and 0 otherwise. We can thus continue the computation by
-\begin{align}
-P_C(c) &= \sum_{m \in \mathcal{M}} P_M(m) P_K(c - m)\nonumber\\
-&= \sum_{m \in \mathcal{M}} P_M(m) \frac{1}{|G|}\nonumber\\
-&= \frac{1}{|G|}
-\end{align}
-Incorporating the fact that $H(C) = n$ in our entroy diagram, we see that $I(M;C|K) = a$, and the total mutual information $I(M;C) = 0$, as desired:
+From $I(M;C) \geq 0$ follows that $x \geq a$, and because $H(C) \leq n$, it follows that $x \leq a$ and hence, $x=a$ and $I(M;C)=0$, as desired.
+
+
+% We now argue that $H(C) = n$. We do so by showing that $P_C(c) =
+% \frac{1}{|G|}$ for arbitrary $c$: \yfke{or is there a nice way to see
+%   this from the diagram?} \chris{no, I don't think that it can be seen
+%   directly from the diagram.} \chris{what you are doing is probably the cleanest proof, slightly more high-level would be to argue that $P_{C|M}(c|m) = P_{K|M}(c-m|m) = P_K(c-m)$ directly, or on a even higher level that $P_C(c)$ must be uniform because no matter how $M$ is distributed, it becomes uniform when an independent and uniform key $K$ is added. The danger of all thes arguments is that they can actually be used to show the independence of $M$ and $C$ directly. 
+% \begin{align}
+% P_C(c) &= \sum_{m \in \mathcal{M}} P_{MC}(m,c)\nonumber\\
+% &= \sum_{m \in \mathcal{M}} P_M(m) P_{C|M}(c|m)\nonumber\\
+% &= \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{CK|M}(c,k|m)\right)\nonumber\\
+% &= \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{K|M}(k|m) P_{C|KM}(c|k,m)\right)
+% \end{align}
+% Since also $K$ and $M$ are independent (the setup assumption) and hence $P_{K|M}(k|m) = P_K(k)$ for all $k \in \mathcal{K}$,
+% \begin{align}
+% P_C(c) = \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{K}(k) P_{C|KM}(c|k,m)\right)
+% \end{align}
+% Note that $P_{C|KM}(c|k,m) = 1$ if $c = k + m$, and 0 otherwise. We can thus continue the computation by
+% \begin{align}
+% P_C(c) &= \sum_{m \in \mathcal{M}} P_M(m) P_K(c - m)\nonumber\\
+% &= \sum_{m \in \mathcal{M}} P_M(m) \frac{1}{|G|}\nonumber\\
+% &= \frac{1}{|G|}
+% \end{align}}
+% Incorporating the fact that $H(C) = n$ in our entroy diagram, we see that $I(M;C|K) = a$, and the total mutual information $I(M;C) = 0$, as desired:
 \begin{center}
 \begin{tikzpicture}
 \def\size{1.5}
@@ -169,7 +175,7 @@ Incorporating the fact that $H(C) = n$ in our entroy diagram, we see that $I(M;C
 \node at (\size/2,\size/3) {$a$};
 \node at (\size/2,-1.4*\size) {0};
 \node at (-\size/2,\size + 0.1) {$H(M)$};
-\node at (\size*1.5,\size + 0.1) {$H(C) = n$};
+\node at (\size*1.5,\size + 0.1) {$H(C) \leq n$};
 \node at (-0.1*\size,-0.65*\size) {$a$};
 \node at (1.1*\size,-0.65*\size) {$n$};
 \node at (\size/2,-0.4*\size) {$-a$};
@@ -179,9 +185,9 @@ Incorporating the fact that $H(C) = n$ in our entroy diagram, we see that $I(M;C
 
 
 \end{proof}
-We have thus seen that the one-time pad provides perfect information-theoretic security. There is one enormous practical drawback to this encryption scheme though: the key needs to be as large as the message! To send a message of $n$ bits, Alice needs to share $n$ bits of key with Bob. It might be tempting for Alice to reuse the key $k$ for several messages once she has shared it with Bob, but this is dangerous: Eve could, from two intercepted encryptions $(m_1 + k)$ and $(m_2 + k)$, recover the difference of the two plaintext messages $m_1 + k - (m_2 - k) = m_1 - m_2$. Already the difference between two plaintext messages can reveal a lot of information about the individual messages, as illustrated in \href{https://cryptosmith.com/2008/05/31/stream-reuse/}{this Cryptosmith blog post}.
+We have thus seen that the one-time pad provides perfect information-theoretic security. There is one enormous drawback to this encryption scheme though: the key needs to be as large as the message! To send a message of $n$ bits, Alice needs to share $n$ bits of key with Bob. It might be tempting for Alice to reuse the key $k$ for several messages once she has shared it with Bob, but this is dangerous: Eve could, from two intercepted encryptions $(m_1 + k)$ and $(m_2 + k)$, recover the difference of the two plaintext messages $m_1 + k - (m_2 + k) = m_1 - m_2$. Already the difference between two plaintext messages can reveal a lot of information about the individual messages, as illustrated in \href{https://cryptosmith.com/2008/05/31/stream-reuse/}{this Cryptosmith blog post}.
 
-\section{Minimum Key Length}
+\section{Lower Bound On Key Length}
 It turns out to be impossible to design an encryption scheme that provides both perfect security and short keys. So even though the one-time pad may seem inefficient, its key lengths are optimal for a perfectly secure scheme.
 \begin{theorem} [Shannon 1949~\cite{Shannon49}]
 For any perfectly secure encryption scheme, it holds that $H(K) \geq H(M)$.
