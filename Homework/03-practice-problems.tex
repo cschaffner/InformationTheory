@@ -1,7 +1,7 @@
 \documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
 
 %% Settings
-\newcommand\problemset{2}
+\newcommand\problemset{3}
 \newcommand\deadline{Friday November 18th, 20:00h}
 \newif\ifcomments
 \commentsfalse % hide comments
@@ -18,7 +18,7 @@
 \practiceproblems
 
 {\sffamily\noindent
-This week's exercises deal with Huffman codes, arithmetic codes and the AEP. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=1761}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
+This week's exercises deal with codes and the AEP. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=1761}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
 }
 
 \begin{exercise}[Prefix-free arithmetic codes]
@@ -49,80 +49,23 @@ In class, we have seen a procedure to build a prefix-free arithmetic code $AC$ f
 	\end{subex}
 \end{exercise}
 
-\begin{exercise}[Optimal codeword lengths]
-(CT, Exercise 5.22) Although the codeword lengths of an optimal variable length code are complicated functions of the source probabilities, it can be said that less probable symbols are encoded into longer codewords. Suppose that the message probabilities are given in decreasing order $p_1 > p_2 \geq \cdots \geq p_m$.
-	\begin{subex}
-	Prove that for any binary Huffman code, if the most probable message symbol has probability $p_1 > 2/5$, then that symbol must be assigned a codeword of length 1.
-	\end{subex}
-	\begin{subex}
-	Prove that for any binary Huffman code, if the most probable message symbol has probability $p_1 < 1/3$, then that symbol must be assigned a codeword of length $\geq 2$.
-	\end{subex}
-\end{exercise}
-
-
-\begin{exercise}[Shannon code]
-(CT, exercise 5.25) Consider the following method for generating a code for a random variable $X$ which takes on $m$ values $\{1,2,...,m\}$. Assume that the probabilities are ordered su that $P_X(1) \geq P_X(2) \geq ... \geq P_X(m)$. Define
-\[
-F_i := \sum_{k=1}^{i-1} P_X(k),
-\]
-the sum of the probabilities of all symbols less than $i$. Then the Shannon code is defined by assigning the (binary representation of the) number $F_i \in [0,1]$ as the codeword for $i$, where $F_i$ is rounded off to $\lceil \log\frac{1}{P_X(i)}\rceil$ bits.
-	\begin{subex}
-	Construct the code for the probability distribution $P_X(1) = \frac{1}{2}$, $P_X(2) = \frac{1}{4}$, $P_X(3) = P_X(4) = \frac{1}{8}$
-	\end{subex}
-	\begin{subex}
-	Construct the code for the probability distribution $P_Y(1) = P_Y(2) = P_Y(3) = \frac{1}{3}$.
-	\end{subex}
-	\begin{subex}
-	Show that the Shannon code is prefix-free.
-	\end{subex}
-	\begin{subex}
-	Show that the average length $\ell_S$ of the Shannon code satisfies
-	\[
-	H(X) \leq \ell_S(P_X) < H(X) + 1.
-	\]
-	\end{subex}
-
-define shannon code, construct the code for some example distribution, and then show that the length is optimal. (and prefix-free)
-\end{exercise}
-
 \begin{exercise}[AEP and source coding]
 A discrete memoryless source emits a sequence of of statistically independent binary digits with probabilities $P_X(1) = 0.005$ and $P_X(0) = 0.995$. The digits are taken 100 at a time and a binary codeword is provided for every sequence of 100 digits containing three or fewer 1's.
-	\begin{subex}[(2pt)]
+	\begin{subex}
 	Assuming that all codewords are the same length, find the minimum length required to
 provide codewords for all sequences with three or fewer 1's.
 	\end{subex}
-	\begin{subex}[(2pt)]
+	\begin{subex}
 	Calculate the probability of observing a source sequence for which no codeword has
 been assigned.
 	\end{subex}
-	\begin{subex}[(3pt)]
+	\begin{subex}
 	In the second homework problem set, you were asked to prove Chebyshev's inequality.
 	Use it to bound the probability of observing a source sequence for
 which no codeword has been assigned. Compare this bound with the actual probability computed
 in part (b).
 	\end{subex}
 \end{exercise}
-
-\newcommand{\typsetA}{A^{(n)}_{\varepsilon}}
-\newcommand{\typsetB}{B^{(n)}_{\delta}}
-
-\begin{exercise}[Calculation of the typical set]
-To clarify the notion of a typical set $\typsetA$ and the smallest set of high probability $\typsetB$, we will calculate these sets for a simple example. Consider a sequence of i.i.d. binary random variables $X_1, X_2, . . . X_n$, where the probability that $P_X(1) = 0.6$ and $P_X(0) = 0.4$.
-	\begin{subex}[(1pt)]
-	Calculate $H(X)$.
-	\end{subex}
-	\begin{subex}[(3pt)]
-	With $n = 25$ and $\varepsilon = 0.1$, which sequences fall in the typical set $\typsetA$? What is the probability of the typical set? How many elements are there in the typical set? (This involves computation of a table of probabilities for sequences with $k$ 1's, $0 \leq k \leq 25$, and finding those sequences that are in the typical set.)
-\\\textbf{Hint:} Here is the table: \url{http://goo.gl/sQCPM0}
-	\end{subex}
-	\begin{subex}[(2pt)]
-	How many elements are there in the smallest set that has probability 0.9? In other words, what is $|\typsetB|$ for $n = 25$ and $\delta = 0.1$?
-	\end{subex}
-	\begin{subex}[(2pt)]
-	How many elements are there in the intersection $|\typsetA \cap \typsetB|$ of the sets computed in parts (b) and (c)? What is the probability of this intersection?
-	\end{subex}
-\end{exercise}
-
 
 \begin{exercise}[Sampling from any distribution using random bits]
 In this exercise, we come up with a strategy to sample from an arbitrary distribution $P_X$ using fair random bits (for example, the outcome of a sequence of fair coin tosses).
@@ -152,6 +95,19 @@ Let $ET(X)$ denote the expected number of coin tosses when sampling from $X$ usi
 	Use the result from $\bigstar$ to prove that $ET(X) < H(X) + 2$.
 	\end{subex}
 \end{exercise}
+
+\begin{exercise}[Optimal codeword lengths]
+(CT, Exercise 5.22) Although the codeword lengths of an optimal variable length code are complicated functions of the source probabilities, it can be said that less probable symbols are encoded into longer codewords. Suppose that the message probabilities are given in decreasing order $p_1 > p_2 \geq \cdots \geq p_m$.
+	\begin{subex}
+	Prove that for any binary Huffman code, if the most probable message symbol has probability $p_1 > 2/5$, then that symbol must be assigned a codeword of length 1.
+	\end{subex}
+	\begin{subex}
+	Prove that for any binary Huffman code, if the most probable message symbol has probability $p_1 < 1/3$, then that symbol must be assigned a codeword of length $\geq 2$.
+	\end{subex}
+\end{exercise}
+
+
+
 
 
 
