@@ -1,4 +1,4 @@
-Information theory is very useful when analyzing the security of encryption schemes. Consider a scenario where one party, Alice wants to send a message $m$ (sampled from some random variable $M$) to another party, Bob, over some public channel, for example the internet. Alice and Bob share a key $k$ (sampled from another random variable $K$), which is a piece of information that is known only to them. Alice can use the key to encrypt her message (the \term{plaintext}), and Bob can use the same key to decrypt the \term{ciphertext} that Alice created, and read the message. The goal is to do this in such a way that if an eavesdropper (who usually goes by the name `Eve') listens in on the channel and intercepts the encrypted message, she cannot derive any information about the message as long as she does not know the key $k$.
+Information theory is very useful when analyzing the security of perfectly secure encryption schemes. Consider a scenario where one party, Alice, wants to send a message $m$ (sampled from some distribution $P_M$) to another party, Bob, over some public channel, for example the internet. Alice and Bob share a key $k$ (sampled from another distribution $P_K$), which is a piece of information that is known only to them. Alice can use the key to encrypt her message (the \term{plaintext}), and Bob can use the same key to decrypt the \term{ciphertext} that Alice created, and read the message. The goal is to do this in such a way that if an eavesdropper (who usually goes by the name `Eve') listens in on the channel and intercepts the encrypted message, she cannot derive any information about the message as long as she does not know the key $k$.
 
 \begin{center}
 \begin{tikzpicture}
@@ -14,9 +14,9 @@ Information theory is very useful when analyzing the security of encryption sche
 \draw[-latex] (1,3.5) -- (1,2.25);
 \filldraw[fill=white,draw=none] (0.8,2.75) rectangle (1.2,3);
 \node at (1,2.875) {$m$};
-\node[anchor=south] at (1,3.5) {$M$};
+\node[anchor=south] at (1,3.5) {$P_M$};
 
-\node[anchor=south] at (3.5,3.5) {$K$};
+\node[anchor=south] at (3.5,3.5) {$P_K$};
 \draw[-latex] (3.5,3.5) -- (1.25,2.25);
 \draw[-latex] (3.5,3.5) -- (5.75,2.25);
 \filldraw[fill=white,draw=none] (2.25,2.75) rectangle (2.5,3);
@@ -48,41 +48,41 @@ Note that in order to satisfy the second requirement, the encryption function $E
 \section{Security}
 Definition~\ref{def:encryption} does not put any constraints on the amount of information that Eve can get from the ciphertext: we still need to explicitly require the scheme to be secure.
 
-\begin{definition}[Perfect security]
+\begin{definition}[Perfect security] \label{def:perfectsecurity}
 An encryption scheme is perfectly secure if
 \[
 I(M;C) = 0.
 \]
 This is equivalent to saying $H(M|C) = H(M)$, or to saying that $M$ and $C$ are independent.
 \end{definition}
-This type of security is also sometimes called perfect \term{information-theoric security}, in order to stress that the ciphertext really does not contain \emph{any} information about the plaintext message. Many commonly used encryption schemes do not provide this type of security. In \term{computationally secure} schemes, a lot of information about the message may be contained in the ciphertext, but it would take a ridiculous amount of resources (such as computation time or memory) to get the information out and derive the message.
+This type of security is also sometimes called perfect \term{information-theoric security}, in order to stress that the ciphertext really does not contain \emph{any} information about the plaintext message. Many commonly used encryption schemes do not provide this type of security. In \term{computationally secure} schemes, a lot of information about the message may be contained in the ciphertext, but it would take a ridiculous amount of resources (such as computation time or memory) to compute the information about the message from the ciphertext.
 
 
 \section{One-Time Pad}
 A classic example of a perfectly secure encryption scheme is the one-time pad.
 
-\begin{definition}[One-time pad]
+\begin{definition}[One-time pad (OTP)]
 Let the message space $\mathcal{M}$ be some additive group $(G,+)$. Define the random variable $K$ to be uniformly distributed over the key space $\mathcal{K} = \mathcal{M}$, and define the ciphertext space to be $\mathcal{C} = \mathcal{M}$ as well. Define the encryption and decryption function as follows:
 \begin{align*}
 Enc(m,k) &= m + k = c,\\
-Dec(c,k) &= c + (-k) = m.
+Dec(c,k) &= c -k = m.
 \end{align*}
-Here, $c-k$ stands for $c + (-k)$, where $-k$ is the additive inverse of $k$.
+Here, $c-k$ stands for $c + (-k)$, where $-k$ is the additive inverse of $k$ in the group $(G,+)$.
 \end{definition}
 \begin{example}[One-time pad for binary strings]
-The most common use of the one-time pad is for the group of binary strings under addition modulo 2, i.e.\ $(\{0,1\}^n, \oplus)$. In this group, every element is its own additive inverse, resulting in the encryption and decryption functions
+The most common use of the one-time pad is for the group of binary strings under (bit-wise) addition modulo 2, i.e.\ $(\{0,1\}^n, \oplus)$. In this group, every element is its own additive inverse, resulting in the encryption and decryption functions
 \begin{align*}
 Enc(m,k) &= m \oplus k = c,\\
 Dec(c,k) &= c \oplus k = m.
 \end{align*}
 For example, if $n=4$, a possible message $m$ is 0101, and a possible key $k$ is 0110. The ciphertext $c$ is $0101 \oplus 0110 = 0011$, and the decryption of $c$ is again $0011 \oplus 0110 = 0101$, the original message $m$.
 \end{example}
-We can show that the one-time pad indeed satisfies the security definition of the previous section.
+We can show that the one-time pad indeed satisfies the security definition~\ref{def:perfectsecurity} of the previous section.
 \begin{theorem}
 The one-time pad is perfectly secure.
 \end{theorem}
 \begin{proof}
-Write $n = \log|G|$. We need to verify that $I(M;C) = 0$. We do so using a three-variable entropy diagram (see Section~\ref{sec:Venn}). We can already fill in the values $H(K) = n$ (because $K$ is uniformly distributed), $H(M|CK) = H(C|MK) = H(K|MC) = 0$ (because each random variable is a function of the other two), and $I(M;K) = 0$ (this is our setup assumption). Write $n = \log|G|$ in the diagram:
+Write $n = \log|G|$. We need to verify that $I(M;C) = 0$. We do so using a three-variable entropy diagram (see Section~\ref{sec:Venn}). We can already fill in the values $H(K) = n = \log|G|$ (because $K$ is uniformly distributed), $H(M|CK) = H(C|MK) = H(K|MC) = 0$ (because each random variable is a function of the other two), and $I(M;K) = 0$ (this is our setup assumption).
 
 \begin{center}
 \begin{tikzpicture}
@@ -110,7 +110,7 @@ Write $n = \log|G|$. We need to verify that $I(M;C) = 0$. We do so using a three
 \draw[line width=1mm]\circleC;
 \node at (-\size/2,\size/8) {0};
 \node at (\size+\size/2,\size/8) {0};
-\node at (\size/2,\size/3) {};
+\node at (\size/2,\size/3) {$x$};
 \node at (\size/2,-1.4*\size) {0};
 \node at (-\size/2,\size + 0.1) {$H(M)$};
 \node at (\size*1.5,\size + 0.1) {$H(C)$};
@@ -120,26 +120,32 @@ Write $n = \log|G|$. We need to verify that $I(M;C) = 0$. We do so using a three
 \node at (\size/2,-2.3*\size) {$H(K) = n$};
 \end{tikzpicture}
 \end{center}
-Note that the area of $I(M;K) = I(M;K|C) + R(M;K;C)$ (shaded orange in the picture) as a whole is 0, but that does not mean that $I(M;K|C)$ and $R(M;K;C)$ themselves are zero, because $R(M;K;C)$ can be negative. We can conclude that there must be some (non-negative) real number $a$ such that $I(M;K|C) = a$ and $R(M;K;C) = -a$. From the diagram, we can furthermore conclude that $I(K;C|M) = n$.
+Note that the area of $I(M;K) = I(M;K|C) + R(M;K;C)$ (shaded orange in the picture) as a whole is 0, but that does not mean that $I(M;K|C)$ and $R(M;K;C)$ themselves are zero, because $R(M;K;C)$ can be negative. We can conclude that there must be some (non-negative) real number $a \geq 0$ such that $I(M;K|C) = a$ and $R(M;K;C) = -a$. As the entropy of $K$ has to be $H(K)=n$, we can furthermore conclude that $I(K;C|M) = n$.
 
-We now argue that $H(C) = n$. We do so by showing that $P_C(c) = \frac{1}{|G|}$ for arbitrary $c$: \yfke{or is there a nice way to see this from the diagram?}
-\begin{align}
-P_C(c) &= \sum_{m \in \mathcal{M}} P_{MC}(m,c)\nonumber\\
-&= \sum_{m \in \mathcal{M}} P_M(m) P_{C|M}(c|m)\nonumber\\
-&= \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{CK|M}(c,k|m)\right)\nonumber\\
-&= \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{K|M}(k|m) P_{C|KM}(c|k,m)\right)
-\end{align}
-Since also $K$ and $M$ are independent (the setup assumption) and hence $P_{K|M}(k|m) = P_K(k)$ for all $k \in \mathcal{K}$,
-\begin{align}
-P_C(c) = \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{K}(k) P_{C|KM}(c|k,m)\right)
-\end{align}
-Note that $P_{C|KM}(c|k,m) = 1$ if $c = k + m$, and 0 otherwise. We can thus continue the computation by
-\begin{align}
-P_C(c) &= \sum_{m \in \mathcal{M}} P_M(m) P_K(c - m)\nonumber\\
-&= \sum_{m \in \mathcal{M}} P_M(m) \frac{1}{|G|}\nonumber\\
-&= \frac{1}{|G|}
-\end{align}
-Incorporating the fact that $H(C) = n$ in our entroy diagram, we see that $(M;C|K) = a$, and the total mutual information $I(M;C) = 0$, as desired:
+From $I(M;C) \geq 0$ follows that $x \geq a$, and because $H(C) \leq n$, it follows that $x \leq a$ and hence, $x=a$ and $I(M;C)=0$, as desired.
+
+
+% We now argue that $H(C) = n$. We do so by showing that $P_C(c) =
+% \frac{1}{|G|}$ for arbitrary $c$: \yfke{or is there a nice way to see
+%   this from the diagram?} \chris{no, I don't think that it can be seen
+%   directly from the diagram.} \chris{what you are doing is probably the cleanest proof, slightly more high-level would be to argue that $P_{C|M}(c|m) = P_{K|M}(c-m|m) = P_K(c-m)$ directly, or on a even higher level that $P_C(c)$ must be uniform because no matter how $M$ is distributed, it becomes uniform when an independent and uniform key $K$ is added. The danger of all thes arguments is that they can actually be used to show the independence of $M$ and $C$ directly. 
+% \begin{align}
+% P_C(c) &= \sum_{m \in \mathcal{M}} P_{MC}(m,c)\nonumber\\
+% &= \sum_{m \in \mathcal{M}} P_M(m) P_{C|M}(c|m)\nonumber\\
+% &= \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{CK|M}(c,k|m)\right)\nonumber\\
+% &= \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{K|M}(k|m) P_{C|KM}(c|k,m)\right)
+% \end{align}
+% Since also $K$ and $M$ are independent (the setup assumption) and hence $P_{K|M}(k|m) = P_K(k)$ for all $k \in \mathcal{K}$,
+% \begin{align}
+% P_C(c) = \sum_{m \in \mathcal{M}} P_M(m) \left(\sum_{k \in \mathcal{K}} P_{K}(k) P_{C|KM}(c|k,m)\right)
+% \end{align}
+% Note that $P_{C|KM}(c|k,m) = 1$ if $c = k + m$, and 0 otherwise. We can thus continue the computation by
+% \begin{align}
+% P_C(c) &= \sum_{m \in \mathcal{M}} P_M(m) P_K(c - m)\nonumber\\
+% &= \sum_{m \in \mathcal{M}} P_M(m) \frac{1}{|G|}\nonumber\\
+% &= \frac{1}{|G|}
+% \end{align}}
+% Incorporating the fact that $H(C) = n$ in our entroy diagram, we see that $I(M;C|K) = a$, and the total mutual information $I(M;C) = 0$, as desired:
 \begin{center}
 \begin{tikzpicture}
 \def\size{1.5}
@@ -169,7 +175,7 @@ Incorporating the fact that $H(C) = n$ in our entroy diagram, we see that $(M;C|
 \node at (\size/2,\size/3) {$a$};
 \node at (\size/2,-1.4*\size) {0};
 \node at (-\size/2,\size + 0.1) {$H(M)$};
-\node at (\size*1.5,\size + 0.1) {$H(C) = n$};
+\node at (\size*1.5,\size + 0.1) {$H(C) \leq n$};
 \node at (-0.1*\size,-0.65*\size) {$a$};
 \node at (1.1*\size,-0.65*\size) {$n$};
 \node at (\size/2,-0.4*\size) {$-a$};
@@ -179,11 +185,11 @@ Incorporating the fact that $H(C) = n$ in our entroy diagram, we see that $(M;C|
 
 
 \end{proof}
-We have thus seen that the one-time pad provides perfect information-theoretic security. There is one practical drawback to this encryption scheme though: the key needs to be as large as the message! To send a message of $n$ bits, Alice needs to share $n$ bits of key with Bob. It might be tempting for Alice to reuse the key $k$ for several messages once she has shared it with Bob, but this is dangerous: Eve could, from two intercepted encryptions $(m_1 + k)$ and $(m_2 + k)$, recover the encryption $m_1 + k - m_2 - k = m_1 - m_2$. Even the difference between two plaintext messages can already reveal a lot of information about the individual messages, as illustrated in \href{https://cryptosmith.com/2008/05/31/stream-reuse/}{this Cryptosmith blog post}.
+We have thus seen that the one-time pad provides perfect information-theoretic security. There is one enormous drawback to this encryption scheme though: the key needs to be as large as the message! To send a message of $n$ bits, Alice needs to share $n$ bits of key with Bob. It might be tempting for Alice to reuse the key $k$ for several messages once she has shared it with Bob, but this is dangerous: Eve could, from two intercepted encryptions $(m_1 + k)$ and $(m_2 + k)$, recover the difference of the two plaintext messages $m_1 + k - (m_2 + k) = m_1 - m_2$. Already the difference between two plaintext messages can reveal a lot of information about the individual messages, as illustrated in \href{https://cryptosmith.com/2008/05/31/stream-reuse/}{this Cryptosmith blog post}.
 
-\section{Minimum Key Length}
+\section{Lower Bound On Key Length}
 It turns out to be impossible to design an encryption scheme that provides both perfect security and short keys. So even though the one-time pad may seem inefficient, its key lengths are optimal for a perfectly secure scheme.
-\begin{theorem}
+\begin{theorem} [Shannon 1949~\cite{Shannon49}]
 For any perfectly secure encryption scheme, it holds that $H(K) \geq H(M)$.
 \end{theorem}
 \begin{proof}
@@ -223,3 +229,8 @@ Note that $I(K;C|M) \geq a$ follows from the fact that $I(C;K) \geq 0$ and $R(C;
 
 From the diagram, we observe that $H(M) = a$, and that $H(K) \geq a$. Hence, $H(K) \geq H(M)$.
 \end{proof}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "InfTheory3.tex"
+%%% End:
