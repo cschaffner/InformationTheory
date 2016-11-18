@@ -858,9 +858,9 @@ In general, the following implications hold (although their converses do not):
 X_n \convtoMS X \ \ \ &\Rightarrow\ \ \  X_n \convtoP X\\
 X_n \convtoAS X \ \ \ &\Rightarrow\ \ \  X_n \convtoP X
 \end{align}
-The following law that if we sample several times from the same distribution, the average converges (in probability) to the expected value of the distribution.
+The following law states that if we sample several times from the same distribution, the average converges (in probability) to the expected value of the distribution.
 \begin{theorem}[Weak Law of Large Numbers]
-Let $X_1, X_2, ...$ be real i.i.d. random variables with mean $\mu = \mathbb{E}[X_i]$ and variance $\sigma^2 = \mathbb{E}[(X_i - \mu)^2] < \infty$. Define the random variables
+Let $X_1, X_2, ...$ be real i.i.d.\ random variables with mean $\mu = \mathbb{E}[X_i]$ and variance $\sigma^2 = \mathbb{E}[(X_i - \mu)^2] < \infty$. Define the random variables
 \[
 S_n := \frac{1}{n} \sum_{i=1}^n X_i.
 \]
@@ -868,7 +868,7 @@ Then $S_n \convtoP \mu$.
 \end{theorem}
 This important law has an entropy variant, which follows almost directly:
 \begin{theorem}[Asymptotic Equipartition Property (AEP)]
-Let $X_1, X_2, X_3, ...$ be real i.i.d. random variables with distribution $P_X$. Then
+Let $X_1, X_2, X_3, ...$ be i.i.d.\ random variables with distribution $P_X$. Then
 \[
 -\frac{1}{n} \log P_{X_1 \cdots X_n}(X_1, ..., X_n) \convtoP H(X).
 \]
@@ -965,7 +965,7 @@ Typical sets and their properties allow us to code a source $P_X$, in blocks of 
 
 The above scheme can be extended to a lossless version by assigning longer labels to the elements outside of $\typset$, for example binary labels of length $\lceil \log |\mathcal{X}|^n\rceil = \lceil n \log |\mathcal{X}|\rceil$. An extra `flag' bit is needed to indicate whether the element is inside or outside the typical set. For large enough $n$, this code is quite efficient:
 \begin{theorem}
-Let $X_1, ..., X_n$ be i.i.d. real random variables with respect to the set $\mathcal{X}$, and distributed according to $P_X$. Let $\epsilon > 0$. Then there exists a lossless code $\mathcal{X}^n \to \{0,1\}^*$ such that, for sufficiently large $n$, $\mathbb{E}[\frac{1}{n} \len(X^n)] \leq H(X) + \epsilon$.
+Let $X_1, ..., X_n$ be i.i.d.\ real random variables with respect to the set $\mathcal{X}$, and distributed according to $P_X$. Let $\epsilon > 0$. Then there exists a lossless code $\mathcal{X}^n \to \{0,1\}^*$ such that, for sufficiently large $n$, $\mathbb{E}[\frac{1}{n} \len(X^n)] \leq H(X) + \epsilon$.
 \end{theorem}
 \begin{proof}
 Consider the code described above: the code consist of a flag bit (indicating whether or not the element is inside the typical set), followed by either a short label (for elements in the typical set) or a longer one (for elements outside of it).
