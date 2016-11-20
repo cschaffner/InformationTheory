@@ -18,10 +18,10 @@
 \practiceproblems
 
 {\sffamily\noindent
-This week's exercises deal with entropy diagrams, perfectly secure encryption, and Markov chains. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=1761}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
+This week's exercises deal with entropy diagrams and stochastic processes. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=1761}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
 }
 
-\begin{exercise}[]
+\begin{exercise}[Entropy diagram]
 Show that the value
 \[
 R(X;Y;Z) = I(X;Y) - I(X;Y|Z)
@@ -51,8 +51,8 @@ of 1's has probability 0. Find the mutual informations
 I(X_1;X_2), I(X_2;X_3|X_1), ..., I(X_{n-1};X_n|X_1, ..., X_{n-2}).
 \]
 \end{exercise}
-
-\begin{exercise}[]
+\vspace{-0.5cm}
+\begin{exercise}[Bernoulli process]
 Let $X_1, X_2, ...$ be distributed according to the Bernoulli$(p)$ distribution. Consider the associated Markov chain $\{Y_i\}_{i=1}^n$, where $Y_i$ is the number of 1's in the current run of 1's. For example, if $X^n = 101110...$, then $Y^n = 101230....$.
 \begin{subex}
 Find the entropy rate of $X^n$.
@@ -84,7 +84,16 @@ A random process repeatedly flips a fair coin to choose between the two words \t
 \[
 \mathtt{a b c a b c a b a b a b c a b c a b c a b c a b c a b a b a b c a b a b a b c a b c ...}
 \]
-Let $X_i$ denote the letter at the $i$th position. Compute the entropy rate of this process $X_1, X_2, X_3, ...$.
+Let $X_i$ denote the letter at the $i$th position.
+\begin{subex}
+Draw the transition diagram for the process $X_1, X_2, X_3, ...$.
+\end{subex}
+\begin{subex}
+Is this process stationary?
+\end{subex}
+\begin{subex}
+Compute the entropy rate of this process.
+\end{subex}
 \end{exercise}
 
 
