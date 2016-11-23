@@ -1,7 +1,7 @@
 \documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
 
 %% Settings
-\newcommand\problemset{3}
+\newcommand\problemset{4}
 \newcommand\deadline{Friday December 2nd, 20:00h}
 \newif\ifcomments
 \commentsfalse % hide comments
@@ -34,7 +34,28 @@ Evaluate $I(X_1;X_3)$ for $k = 1$, and conclude that no dependence can survive s
 \end{subex}
 \end{exercise}
 
-\begin{exercise}[Run-length coding (6pt)]
+
+
+
+
+
+\begin{exercise}[A dog looking for a bone (6pt)]
+A dog walks on the integers, possibly reversing direction at each step with probability $p = 0.1$. Let $X_0 = 0$. The first step is equally likely to be positive or negative. A typical walk might look like this:
+\[
+(X_0, X_1, ...) = (0, -1, -2, -3, -4, -3, -2, -1, 0, 1, ...).
+\]
+	\begin{subex}[(2pt)]
+	What is the expected number of steps the dog takes in one direction, before reversing?
+	\end{subex}
+	\begin{subex}[(1pt)]
+	Is this a Markov process? If so, is it time-invariant?
+	\end{subex}
+	\begin{subex}[(3pt)]
+	Find the entropy rate of this browsing dog.
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Run-length coding (3pt)]
 Let $X_1, X_2, ..., X_n$ be (possibly dependent) binary random variables.
 Suppose one calculates the run lengths $R = (R_1, R_2, ...)$ of this sequence (in order as they occur).
 For example, the sequence $X = 0001100100$ yields run lengths $R = (3, 2, 2, 1, 2)$. Compare
@@ -42,15 +63,43 @@ $H(X_1, X_2, . . . , X_n)$, $H(R)$ and $H(X_n, R)$. Show all equalities and ineq
 differences.
 \end{exercise}
 
-
-
-
-\begin{exercise}
-Stochastic processes / exam 2015
-\end{exercise}
-
-\begin{exercise}
-Something with ECC
+\begin{exercise}[Entropy rates of Markov chains (10pt)]
+	\begin{subex}[(2pt)]
+	Find the entropy rate of the two-state Markov chain with transition matrix
+	\[
+	P = \left[
+	\begin{array}{c c}
+	1-p_{ab} & p_{ab}\\
+	p_{ba} & 1 - p_{ba}
+	\end{array}
+	\right].
+	\]
+	\end{subex}
+	\begin{subex}[(1pt)]
+	Find values of $p_{ab}$ and $p_{ba}$ that maximize the entropy rate of part (a).
+	\end{subex}
+	\begin{subex}[(1pt)]
+	Find the entropy rate of the two-state Markov chain with transition matrix
+	\[
+	P = \left[
+	\begin{array}{c c}
+	1-p & p\\
+	1 & 0
+	\end{array}
+	\right].
+	\]
+	\end{subex}
+	\begin{subex}[(2pt)]
+	Find the maximum value of the entropy rate of for part (c). \\\textbf{Hint:} we expect that the maximizing value of $p$ should be less than 1/2, since the 0 state permits more information to be generated than the 1 state. This allows you to discard one possible solution.
+	\end{subex}
+	\begin{subex}[(4pt)]
+	Let $N(t)$ be the number of allowable state sequences of length $t$ for the Markov chain of part (c). Find $N(t)$ and calculate
+	\[
+	H_0 := \lim_{t \to \infty} \frac{1}{t} \log N(t).
+	\]
+	Why is $H_0$ an upper bound on the entropy rate of the Markov chain? Compare $H_0$ with the maximum entropy found in (d).
+	\\\textbf{Hint:} Find $N(0)$ and $N(1)$, and find a linear recurrence that expresses $N(t)$ in terms of $N(t-1)$ and $N(t-2)$. What well-known sequence does this remind you of?
+	\end{subex}
 \end{exercise}
 
 
