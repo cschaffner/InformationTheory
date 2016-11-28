@@ -1,0 +1,86 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{5}
+\newcommand\deadline{Friday November 18th, 20:00h}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercises}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\begin{document}
+
+\practiceproblems
+
+{\sffamily\noindent
+This week's exercises deal with random walks, noisy channels and error-correcting codes. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=1761}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
+}
+
+\begin{exercise}[Random walk on a chessboard]
+Consider a 4x4 chessboard. We let a knight (who can move 2 spaces horizontally and 1 vertically or 1 space horizontally and 2 vertically) perform a random walk on this chessboard, choosing his move uniformly random every time. What is the entropy rate of this process?
+\end{exercise}
+
+\begin{exercise}[Repetition code]
+Consider the repetition code $R_9$. One way of viewing this code is as a \emph{concatenation} of $R_3$ with itself. We first encode the source stream with $R_3$, then encode the resulting output with $R_3$ again. We could call this code $R_3^2$. This idea motivates an alternative decoding algorithm, in which we decode the bits three at a time using the decoder for $R_3$, and then decode the decoded bits from that first decoder using the decoder for $R_3$.
+
+Evaluate the probability of error for this decoder and compare it with the probability of error for the optimal decoder for $R_9$.
+
+Can you think of reasons to use $R_3^2$ (instead of $R_9$) in practice?
+\end{exercise}
+
+\begin{exercise}[Another linear code]
+Consider the following linear code $C$ given by the generator matrix
+\[
+G^T = \left(
+\begin{array}{c c c}
+1&0&0\\
+0&1&0\\
+0&0&1\\
+1&1&0\\
+1&0&1\\
+0&1&1\\
+1&1&1
+\end{array}
+\right)
+\]
+
+\begin{subex}
+Find the parity check matrix $H$.
+\end{subex}
+
+\begin{subex}
+How many bits can $C$ encode? How long are its codewords? How many different codewords are there?
+\end{subex}
+
+\begin{subex}
+What is the minimal distance?
+\end{subex}
+
+\begin{subex}
+Encode the strings 101, 111 according to $C$.
+\end{subex}
+
+\begin{subex}
+Decode 1011010, 1110110, 1111110, and 1111111.
+\end{subex}
+\end{exercise}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

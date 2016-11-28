@@ -128,14 +128,61 @@ Consider the following channels. The connecting lines represent non-zero probabi
 \draw (0.2,1) -- (1.8,1);
 
 \fill[ocre] (4,1) circle (1mm);
-\fill[ocre] (4,3) circle (1mm);
+\fill[ocre] (4,2) circle (1mm);
 \fill[ocre] (6,0) circle (1mm);
 \fill[ocre] (6,1) circle (1mm);
 \fill[ocre] (6,2) circle (1mm);
-\fill[ocre] (6,3) circle (1mm);
 \draw (4.2,1) -- (5.8,0);
 \draw (4.2,1) -- (5.8,1);
-\draw (4.2,3) -- (5.8,2);
-\draw (4.2,3) -- (5.8,3);
+\draw (4.2,2) -- (5.8,2);
+
+\fill[ocre] (8,1) circle (1mm);
+\fill[ocre] (8,2) circle (1mm);
+\fill[ocre] (8,0) circle (1mm);
+\fill[ocre] (10,1) circle (1mm);
+\draw (8.2,0) -- (9.8,1);
+\draw (8.2,1) -- (9.8,1);
+\draw (8.2,2) -- (9.8,1);
+
+\fill[ocre] (12,0) circle (1mm);
+\fill[ocre] (12,1) circle (1mm);
+\fill[ocre] (14,0) circle (1mm);
+\fill[ocre] (14,1) circle (1mm);
+\draw (12.2,0) -- (13.8,0);
+\draw (12.2,1) -- (13.8,0);
+\draw (12.2,0) -- (13.8,1);
+\draw (12.2,1) -- (13.8,1);
+
+\node at (1,-1) {(a)};
+\node at (5,-1) {(b)};
+\node at (9,-1) {(c)};
+\node at (13,-1) {(d)};
 \end{tikzpicture}
+\\Channel (a) is both deterministic and lossless (and is therefore called a noiseless channel). Channel (b) is lossless but not deterministic, channel (c) is deterministic but not lossless, and channel (d) (the noisy binary channel) is neither.
 \end{example}
+
+For a given channel, we can ask ourselves: how much information could, in theory, be transmitted through a channel? In other words, what is its capacity?
+
+\begin{definition}[Channel capacity]
+Let $(\mathcal{X}, P_{Y|X}, \mathcal{Y})$ be a channel. Its capacity $C$ is defined as
+\[
+C := \max_{P_X} I(X;Y).
+\]
+\end{definition}
+
+\begin{exercise}
+Verify that an ideal channel with $|\mathcal{X}| = |\mathcal{Y}| = n$ has capacity $n$. What is the maximizing distribution $P_X$?
+\end{exercise}
+
+
+\section{Codes}
+In order to get as much information through a channel as possible, we can try to find an optimal encoding of the message.
+
+\begin{definition}[Code]
+Let $M, n \in \mathbb{N}$. $M$ represent the number of possible messages, and $n$ the number of channel uses. An $(M,n)$ code for the channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ consists of
+\begin{itemize}
+\item An encoding function $\mathtt{enc} : \{1, ..., M\} \to \mathcal{X}^n$. This encoding function should be injective.
+\item A decoding function $\mathtt{dec} : \mathcal{Y}^n \to \{1, ..., M\}$.
+The set of all codewords, $\{\mathtt{enc}(1), ..., \mathtt{enc}(M)\}$ is called the \term{codebook}.
+\end{itemize}
+\end{definition}
