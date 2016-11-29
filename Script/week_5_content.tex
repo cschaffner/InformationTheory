@@ -179,10 +179,55 @@ Verify that an ideal channel with $|\mathcal{X}| = |\mathcal{Y}| = n$ has capaci
 In order to get as much information through a channel as possible, we can try to find an optimal encoding of the message.
 
 \begin{definition}[Code]
-Let $M, n \in \mathbb{N}$. $M$ represent the number of possible messages, and $n$ the number of channel uses. An $(M,n)$ code for the channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ consists of
+Let $M, n \in \mathbb{N}$. An $(M,n)$-code for the channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ consists of
 \begin{itemize}
-\item An encoding function $\mathtt{enc} : \{1, ..., M\} \to \mathcal{X}^n$. This encoding function should be injective.
-\item A decoding function $\mathtt{dec} : \mathcal{Y}^n \to \{1, ..., M\}$.
+\item An index set $[M] = \{1, ..., M\}$ representing the set of possible messages.
+\item A (possibly probabilistic) encoding function $\mathtt{enc} :[M] \to \mathcal{X}^n$. This encoding function should be injective. $n$ represents the number of channel uses we need to send a single message.
+\item A deterministic decoding function $\mathtt{dec} : \mathcal{Y}^n \to [M]$.
 The set of all codewords, $\{\mathtt{enc}(1), ..., \mathtt{enc}(M)\}$ is called the \term{codebook}.
 \end{itemize}
 \end{definition}
+
+\noindent The number of bits of information that are transmitted per channel use is captured by the following notion:
+
+\begin{definition}[Rate]
+The rate of an $(M,n)$-code is defined as
+\[
+R := \frac{\log M}{n}.
+\]
+\end{definition}
+
+Given a code for a specific channel, we can wonder what the probability is that an error occurs while transmitting a message. For a fixed message $m$, this probability is represented by the following quantity.
+
+\begin{definition}[Probability of error]
+Given an $(M,n)$-code for a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$, the probability of error $\lambda_m$ is the probability that the decoded output is not equal to the input message $m$. More formally,
+\[
+\lambda_m := P[\mathtt{dec}(Y^n) \neq m \mid X^n = \mathtt{enc}(m)].
+\]
+Given this quantity, the \term{maximal probability of error} is defined as 
+\[\lambda^{(n)} := \max_{m \in [M} \lambda_m.\]
+Similarly, the \term{average probability of error} is defined as
+\[
+\frac{1}{M} \sum_{m=1}^M \lambda_m.
+\]
+\end{definition}
+
+
+\begin{example}[3-bit repetition code]
+Define the 3-bit repetition code $R_3$ to encode a 1-bit message into three bits by repeating the bit three times.
+\end{example}
+
+
+
+\section{Linear codes}
+Generator matrix, parity check matrix, syndromes Hamming codes,
+
+
+\begin{definition}[Hamming distance]
+The Hamming distance between two $n$-bit strings $x$ and $y$ is defined as
+\[
+d(x,y) = \sum_{i=1}^n |x_i - y_i|.
+\]
+\begin{definition}
+
+minimal distance
