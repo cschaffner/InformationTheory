@@ -53,13 +53,13 @@ Note that if we give a distribution $P_X$ for the set $\mathcal{X}$, this immedi
 
 The above is a definition for \term{memoryless} channels, because the probability distribution of the output depends only on the (last) input. If the channel is used repeatedly, the distribution does not change dependent on previous inputs and outputs.
 
-\begin{example}[Noisy binary channel]\label{example:noisy-binary-channel}
-Define the noisy binary channel with parameter $p$ by $\mathcal{X} = \mathcal{Y} = \set{0,1}$ and
+\begin{example}[Binary symmetric channel (BSC)]\label{example:binary-symmetric-channel}
+Define the binary symmetric channel with parameter $f \in [0,1/2]$ by $\mathcal{X} = \mathcal{Y} = \set{0,1}$ and
 \begin{align*}
-P_{Y|X}(0|0) &= P_{Y|X}(1|1) = 1-p,\\
-P_{Y|X}(0|1) &= P_{Y|X}(1|0) = p.\\
+P_{Y|X}(0|0) &= P_{Y|X}(1|1) = 1-f,\\
+P_{Y|X}(0|1) &= P_{Y|X}(1|0) = f.\\
 \end{align*}
-With probability $p$, the input is flipped, and with probability $1-p$, it remains unaffected. This channel can be represented visually as
+With probability $f$, the input is flipped, and with probability $1-f$, it remains unaffected. This channel can be represented visually as
 \begin{center}
 \begin{tikzpicture}
 \fill[ocre] (0,0) circle (1mm);
@@ -80,27 +80,40 @@ With probability $p$, the input is flipped, and with probability $1-p$, it remai
 
 \fill[black!5] (2,0.25) rectangle (3,-0.25);
 \fill[black!5] (2,2.25) rectangle (3,1.75);
-\node at (2.5,-0.1) {$1-p$};
-\node at (2.5,2.1) {$1-p$};
+\node at (2.5,-0.1) {$1-f$};
+\node at (2.5,2.1) {$1-f$};
 
 \fill[black!5] (1.25,0.25) rectangle (1.75,0.75);
 \fill[black!5] (1.25,1.75) rectangle (1.75,1.25);
-\node at (1.5,0.5) {$p$};
-\node at (1.5,1.5) {$p$};
+\node at (1.5,0.5) {$f$};
+\node at (1.5,1.5) {$f$};
 \end{tikzpicture}
 \end{center} 
 \end{example}
+\begin{exercise}
+Verify that, up to relabeling of the outputs in $\mathcal{Y}$, a BSC with parameter $f \in [1/2,1]$ is equivalent to a BSC with parameter $1-f$.
+\end{exercise}
 If we use the same channel $n$ times, without allowing the receiver to give feedback to the sender in between uses, this can be regarded as the channel $(\mathcal{X}^n, P_{Y^n|X^n}, \mathcal{Y}^n)$ where
 \begin{align}
 P_{Y^n|X^n}(\vec{y}|\vec{x}) = \prod_{i=1}^n P_{Y|X}(y_i|x_i),
 \end{align}
 because the channel is memoryless.
+
 \begin{example}
-If we send 00110 over the noisy binary channel from Example~\ref{example:noisy-binary-channel}, we receive the output 01111 with probability
+If we send 00110 over the binary symmetric channel from Example~\ref{example:binary-symmetric-channel}, we receive the output 01111 with probability
 \[
-(1-p) \cdot p \cdot (1-p) \cdot (1-p) \cdot p = (1-p)^3p^2.
+(1-f) \cdot f \cdot (1-f) \cdot (1-f) \cdot f = (1-f)^3f^2.
+\]
+In general, if a binary symmetric channel with noise parameter $f$ is used $n$ times, the probability of observing $k$ bit flips is
+\[
+{n \choose k} f^{k} (1-f)^{n-k}.
 \]
 \end{example}
+
+\begin{example}
+A binary symmetric channel (see Example~\ref{example:binary-symmetric-channel}) with parameter 0.1 is used to send $10^4$ bits. The bit flips that result from the channel use are distributed according to the binomial($10^4,0.1$) distribution: on expectation, $10^4 \cdot 0.1 = 1000$ bits are flipped, and the variance is $10^4 \cdot 0.1 \cdot 0.9 = 900$. Hence the \href{https://en.wikipedia.org/wiki/Standard_deviation}{standard deviation} is $\sqrt{900} = 30$. With probability 99.7$\%$, the number of bits that are flipped stays within three standard deviations of the mean, i.e. between 910 and 1090 bits are flipped with very high probability.
+\end{example}
+
 \begin{definition}[Deterministic channel]
 A channel is deterministic if $H(Y|X) = 0$. In other words,
 \[
@@ -171,7 +184,7 @@ C := \max_{P_X} I(X;Y).
 \end{definition}
 
 \begin{exercise}
-Verify that an ideal channel with $|\mathcal{X}| = |\mathcal{Y}| = n$ has capacity $n$. What is the maximizing distribution $P_X$?
+What is the capacity of an ideal channel? What is the maximizing distribution $P_X$?
 \end{exercise}
 
 
@@ -200,34 +213,172 @@ R := \frac{\log M}{n}.
 Given a code for a specific channel, we can wonder what the probability is that an error occurs while transmitting a message. For a fixed message $m$, this probability is represented by the following quantity.
 
 \begin{definition}[Probability of error]
-Given an $(M,n)$-code for a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$, the probability of error $\lambda_m$ is the probability that the decoded output is not equal to the input message $m$. More formally,
+Given an $(M,n)$ code for a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$, the probability of error $\lambda_m$ is the probability that the decoded output is not equal to the input message $m$. More formally,
 \[
 \lambda_m := P[\mathtt{dec}(Y^n) \neq m \mid X^n = \mathtt{enc}(m)].
 \]
 Given this quantity, the \term{maximal probability of error} is defined as 
-\[\lambda^{(n)} := \max_{m \in [M} \lambda_m.\]
+\[\lambda^{(n)} := \max_{m \in [M]} \lambda_m.\]
 Similarly, the \term{average probability of error} is defined as
 \[
-\frac{1}{M} \sum_{m=1}^M \lambda_m.
+p_e^{(n)} := \frac{1}{M} \sum_{m=1}^M \lambda_m.
 \]
 \end{definition}
 
+\subsection{Repetition codes}
+A simple and intuitive code is the $n$-bit \term{repetition code} $R_n$: a single message bit is encoded by simply repeating the bit $n$ times. Decoding is done by `majority vote', that is, $\mathtt{dec}(y) = MAJ(y_1, ..., y_n)$, which is 1 if and only if more than half of the bits in $y$ are 1s.
 
 \begin{example}[3-bit repetition code]
-Define the 3-bit repetition code $R_3$ to encode a 1-bit message into three bits by repeating the bit three times.
+Consider the 3-bit repetition code $R_3$. It is a (2,3) code with codebook $\{000,111\}$. The rate of $R_3$ is $1/3$. The probability of error for the message $m = 0$, sent over a BSC with bit flip propability $f$, is
+\begin{align*}
+\lambda_0 &= P[\mathtt{dec}(Y^n) \neq 0 \mid X^n = 000]\\
+&= P[Y^n = 011 \ \cup \ Y^n = 101 \ \cup \ Y^n = 110 \ \cup \ Y^n = 111 \mid X^n = 000]\\
+&= 3f^2(1-f) + f^3.
+\end{align*}
+A similar calculation shows that $\lambda_1 = \lambda_0$. Hence, the maximal and average probability of error are equal to $\lambda_0$ as well.
+
+As a concrete example, if $f = 0.1$, the 3-bit repetition code has an error probability of approximately 0.03. Hence, the 3-bit repetition code provides an error probability that is about three times lower ($3\%$ instead of $10\%$), at the expense of a rate that is a factor 3 worse than simply sending the messages through the channel without encoding.
+\end{example}
+In general, the $n$-bit repetition code is a $(2,n)$ code with the relatively low rate of $1/n$ and an average/maximal probability of error of
+\[
+\sum_{k=(n+1)/2}^n {n \choose k} f^k (1-f)^{n-k}
+\]
+when used on a binary symmetric channel with bit flip probability $f$.
+
+\begin{example}[Application of the repetition code]
+A company producing hard drives wants to make sure that the probability that a customer experiences a storage failure is at most $0.1\%$. The company has 1000 customers, who each want to store 10 GB of data for 10 years without experiencing a failure. That means that the probability of a single stored bit being stored incorrectly has to be at most
+\[
+\frac{1}{10 \cdot 8 \cdot 10^9} \cdot \frac{1}{10 \cdot 365} \cdot \frac{1}{1000} \cdot 0.001 \geq 10^{-20}
+\]
+in order to store 10 GB a day for 10 years on 1000 drives with total failure probability 0.1$\%$. The company tries to achieve that error probability using a repetition code $R_n$ and some imperfect drives with bit flip probability $f = 0.1$. How big should $n$ be to achieve $p_e^{(n)} \leq 10^{-20}$?
+\begin{align*}
+p_e^{(n)} = \lambda_0 &= P[MAJ(Y^n) \neq 0 \mid X^n = 0^n]\\
+&= \sum_{k = (n+1)/2}^n {n \choose k} 0.1^k 0.9^k\\
+&\approx {n \choose n/2} \left(0.1\cdot 0.9\right)^{n/2}\\
+&\approx 2^{n\cdot h(1/2)} \cdot 0.09^{n/2}\\
+&= 2^n \cdot \left(\sqrt{0.09}\right)^n\\
+&= 0.6^n.
+\end{align*}
+In order for $0.6^n \leq 10^{-20}$ to be true, it has to be that $n \approx 90$.
 \end{example}
 
 
+\subsection{The $[7,4]$ Hamming code}
+A more sophisticated error-correcting code is the \term{$[7,4]$ Hamming code}. It is a $(2^4,7)$ code, meaning that it encodes a 4-bit message (there are $2^4$ such messages) into 7 bits. The encoding function is defined as
+\[
+\mathtt{enc}(m_1m_2m_3m_4) = m_1m_2m_3m_4t_5t_6t_7,
+\]
+where the \term{parity bits}
+\begin{align*}
+t_5 &= m_1 \oplus m_2 \oplus m_3,\\
+t_6 &= m_2 \oplus m_3 \oplus m_4,\\
+t_7 &= m_1 \oplus m_3 \oplus m_4
+\end{align*}
+are appended at the right. Note that the choice of these parity bits is arbitrary and differs throughout the literature.
 
-\section{Linear codes}
-Generator matrix, parity check matrix, syndromes Hamming codes,
+Decoding is done by making sure that all parity bits check out, and if not, making the smallest possible number of bit flips such that they do. It is important to note that the parity bits themselves may have been flipped during the transmission through the channel. A visual way to perform this parity check is by using the following diagram:
 
+
+\begin{center}
+\begin{tikzpicture}
+\def\size{1.5}
+\def\circleA{(0,0) circle (\size cm)} %top left
+\def\circleB{(\size,0) circle (\size cm)} %top right
+\def\circleC{(\size/2,-\size) circle (\size cm)} %bottom
+\draw\circleA;
+\draw\circleB;
+\draw\circleC;
+\node at (-\size/2,\size/8) {$t_5$};
+\node at (\size+\size/2,\size/8) {$t_6$};
+\node at (\size/2,\size/3) {$m_2$};
+\node at (\size/2,-1.4*\size) {$t_7$};
+\node at (-0.1*\size,-0.65*\size) {$m_1$};
+\node at (1.1*\size,-0.65*\size) {$m_4$};
+\node at (\size/2,-0.4*\size) {$m_3$};
+\end{tikzpicture}
+\end{center}
+
+For all of the three circles, the parity bit should equal the parity of the three message bits in that circle.
+
+\begin{example}
+The decoding of the string 1010100 is performed as follows. First, we fill in the bits into the diagram:
+\begin{center}
+\begin{tikzpicture}
+\def\size{1.5}
+\def\circleA{(0,0) circle (\size cm)} %top left
+\def\circleB{(\size,0) circle (\size cm)} %top right
+\def\circleC{(\size/2,-\size) circle (\size cm)} %bottom
+\draw\circleC;
+\draw[line width=0.7mm,color=ocre]\circleA;
+\draw[line width=0.7mm,color=ocre]\circleB;
+
+\node at (-\size/2,\size/8) {$1$};
+\node at (\size+\size/2,\size/8) {$0$};
+\node at (\size/2,\size/3) {$0$};
+\node at (\size/2,-1.4*\size) {$0$};
+\node at (-0.1*\size,-0.65*\size) {$1$};
+\node at (1.1*\size,-0.65*\size) {$0$};
+\node at (\size/2,-0.4*\size) {$1$};
+\end{tikzpicture}
+\end{center}
+We see that in two of the circles, the parity bit is incorrect. This is called the \term{error syndrome} (for a more formal definition of the error syndrome, see Section~\ref{sec:linear-codes}). By flipping only the bit $m_2$ (which is in the intersection of the top two circles, but not the bottom one), we can fix all the parity bits:
+\begin{center}
+\begin{tikzpicture}
+\def\size{1.5}
+\def\circleA{(0,0) circle (\size cm)} %top left
+\def\circleB{(\size,0) circle (\size cm)} %top right
+\def\circleC{(\size/2,-\size) circle (\size cm)} %bottom
+\draw\circleC;
+\draw\circleA;
+\draw\circleB;
+
+\node at (-\size/2,\size/8) {$1$};
+\node at (\size+\size/2,\size/8) {$0$};
+\node at (\size/2,\size/3) {$1$};
+\node at (\size/2,-1.4*\size) {$0$};
+\node at (-0.1*\size,-0.65*\size) {$1$};
+\node at (1.1*\size,-0.65*\size) {$0$};
+\node at (\size/2,-0.4*\size) {$1$};
+\end{tikzpicture}
+\end{center}
+Hence, $\mathtt{dec}(1010100) = 1110$.
+\end{example}
+The $[7,4]$ Hamming code can correctly decode if the codeword is corrupted in (at most) one place. However, if the codeword is corrupted in two or more places, the Hamming code will not decode correctly. For example, if $\mathtt{enc}(0001) = 0001011$ is corrupted in two places to become 0011010, it will decode to $\mathtt{dec}(0011010) = 0111$. The number of bit flips a code can correct for depends on the minimal distance between the words in the codebook:
 
 \begin{definition}[Hamming distance]
 The Hamming distance between two $n$-bit strings $x$ and $y$ is defined as
 \[
-d(x,y) = \sum_{i=1}^n |x_i - y_i|.
+d(x,y) := \sum_{i=1}^n |x_i - y_i|.
 \]
-\begin{definition}
+Here, $|z|$ denotes the \term{Hamming weight} of a binary string: the number of ones in that string.
+\end{definition}
 
-minimal distance
+\begin{definition}[Minimal distance]
+Given a code with codebook $C$, the minimal distance of that code is defined as
+\[
+d_{\min} := \min_{\stackrel{x,y \in C}{x \neq y}} d(x,y).
+\]
+\end{definition}
+We can check that the minimal distance of the $[7,4]$ Hamming code is 3 by going through the whole codebook, and by using the following lemma.
+
+\begin{proposition}
+For a code $C$, the minimal distance is equal to the minimal weight of the nonzero codewords.
+\end{proposition}
+\begin{proof}
+The following derivation proves the claim:
+\begin{align}
+d_{\min} &= \min_{\stackrel{x,y \in C}{x \neq y}} d(x,y) 
+= \min_{\stackrel{x,y \in C}{x \neq y}} \sum_{i=1}^n |x_i - y_i| 
+= \min_{\stackrel{x,y \in C}{x \neq y}} d(x-y,0)
+= \min_{\stackrel{z \in C}{z \neq 0}} d(z,0)
+= \min_{\stackrel{z \in C}{z \neq 0}} |z|
+\end{align}
+\end{proof}
+
+
+
+
+\subsection{Generalization: linear codes}~\label{sec:linear-codes}
+The repetition code and the Hamming code 
+
+Generator matrix, parity check matrix, syndromes
