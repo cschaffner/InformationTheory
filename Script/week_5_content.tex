@@ -191,7 +191,7 @@ What is the capacity of an ideal channel? What is the maximizing distribution $P
 \section{Codes}
 In order to get as much information through a channel as possible, we can try to find an optimal encoding of the message.
 
-\begin{definition}[Code]
+\begin{definition}[Code]\label{def:code}
 Let $M, n \in \mathbb{N}$. An $(M,n)$-code for the channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ consists of
 \begin{itemize}
 \item An index set $[M] = \{1, ..., M\}$ representing the set of possible messages.
@@ -359,7 +359,174 @@ Given a code with codebook $C$, the minimal distance of that code is defined as
 d_{\min} := \min_{\stackrel{x,y \in C}{x \neq y}} d(x,y).
 \]
 \end{definition}
-We can check that the minimal distance of the $[7,4]$ Hamming code is 3 by going through the whole codebook, and by using the following lemma.
+By checking all pairs of codewords of the $[7,4]$ Hamming code, one can verify that its minimal distance is 3 (for this reason, it is often called a $[7,4,3]$ code). Hence, if two bits in a codeword are flipped, it might be closer to some other codeword in terms of number of bit flips. By flipping a single bit, the channel output is (incorrectly) decoded into the message that corresponds to that other codeword.
+
+\begin{exercise}
+Compute the rate of the $[7,4]$ Hamming code.
+\end{exercise}
+
+
+
+
+\subsection{Generalization: linear codes}~\label{sec:linear-codes}
+The repetition code and the $[7,4]$ Hamming code both belong to the more general class of linear codes, which we study in this section.
+
+\begin{definition}[Linear code]
+A code $C$ is linear if for all $x, y \in C$, also $x + y \in C$.
+\end{definition}
+In other words, $C$ is linear if it is a subspace of $\mathcal{X}^n$. For the definition of linearity to make sense, addition needs to be defined on $\mathcal{X}^n$. \yfke{or does it even need to be a field?} In the following, we will assume that $\mathcal{X} = \set{0,1}$: in that case addition is simply bitwise addition modulo 2.
+\begin{exercise}
+Check that the repetition code $R_n$ and the $[7,4]$ Hamming code are indeed linear.
+\end{exercise}
+
+For linear codes, the notation ``$[n,k,d]$ (linear) code'' is often used to denote the fact that $n$ bits are used to encode $k$ message bits, with a minimal distance $d$. Be aware that in the notation of Definition~\ref{def:code}, this would be a $(2^k, m)$ code. We use different types of brackets to differentiate between the two notations.
+
+\begin{definition}[Generator matrix]
+Given a $[n,k,d]$ linear code, the generator matrix $G^T$ is an $n \times k$ matrix such that the columns $c_1, ..., c_k$ form a basis for $C$. The generator matrix can always be written in \term{systematic form}:
+\[
+G^T = 
+\left(
+\begin{array}{c}
+\mathbb{I}_k\\
+\hline
+P
+\end{array}
+\right),
+\]
+where $P$ is some $(n-k) \times k$ matrix representing the parity bits of the code.
+\end{definition}
+The generator matrix is used in the encoding function as follows:
+\[
+\mathtt{enc}(m) = G^T \cdot m.
+\]
+The codebook $C$ is the set $\Set{G^T \cdot m}{m \in \mathcal{X}^n}$.
+
+\begin{example}[{Generator matrix of the $[7,4]$ Hamming code}]
+The following $7 \times 4$ matrix generates the $[7,4]$ Hamming code:
+\[
+G^T = 
+\left(
+\begin{array}{c c c c}
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & 1\\
+\hline
+1 & 1 & 1 & 0\\
+0 & 1 & 1 & 1\\
+1 & 0 & 1 & 1
+\end{array}
+\right).
+\]
+The generator matrix is given in systematic form. To encode the message 1010, we compute
+\[
+G^T \left(\begin{array}{c}
+1\\0\\1\\0
+\end{array}\right) = \left(\begin{array}{c}
+1\\0\\1\\0\\0\\1\\0
+\end{array}\right).
+\]
+\end{example}
+The decoding operation is specified by the parity-check matrix:
+
+\begin{definition}[Parity-check matrix]
+Let $C$ be a code with generator matrix \[G^T = \left(\begin{array}{c}
+\mathbb{I}_k\\\hline P
+\end{array}\right)\]. Then the parity check matrix for $C$ is given by
+\[
+H := \left( - P \mid \mathbb{I}_{n-k}\right).
+\]
+Note that if $\mathcal{X}^n = \{0,1\}^n$, then $P$ is a matrix with binary entries, and hence $-P = P$.
+\end{definition}
+
+\begin{definition}[Syndrome]
+Let $C$ be a code with parity-check matrix $H$. The syndrome of a received codeword $c \in \mathcal{Y}^n$ is $Hc$.
+\end{definition}
+For all $c \in C$, the syndrome is the all-zero vector, since $c = G^Tm$ for some $m$, and 
+\begin{align}
+HG^Tm = \left(-P\mid \mathbb{I}_{n-k}\right)\left(\begin{array}{c} \mathbb{I}_{k} \\\hline P \end{array}\right) m = 0^{n-k}.
+\end{align}
+
+The syndrome gives a lot of valuable information about where an error occurred. Suppose a codeword $c$ is sent over a channel, and a single bit of $c$ if flipped, at the $i$th position. The output of the channel is thus $c' = c + e_i$ (where $e_i$ is the $i$th unit vector, which is 1 at position $i$ and 0 elsewhere). The syndrome for this received output is
+\begin{align}
+Hc' = H(c + e_i) = Hc + He_i = He_i,
+\end{align}
+which is the $i$th column of $H$. So by comparing the syndrome to the parity-check matrix $H$, we can find out which bit was most likely flipped.
+
+\begin{example}[{Parity-check matrix of the $[7,4]$ Hamming code}]
+The following $3 \times 7$ matrix is the parity-check matrix for the $[7,4]$ Hamming code:
+\[
+H = \left(\begin{array}{c c c c c c c}
+1 & 1 & 1 & 0 & 1 & 0 & 0\\
+0 & 1 & 1 & 1 & 0 & 1 & 0\\
+1 & 0 & 1 & 1 & 0 & 0 & 1\\
+\end{array}
+\right).
+\]
+When checking, for example, the codeword 1010100, a syndrome of 110 is observed, which means that the second bit ($m_2$) should be flipped to correct it: the decoding is 1110.
+Notice that all columns of $H$ are different, and that there are $2^3 = 8$ possible syndromes we might observe. This aligns well with the fact that there are three parity bits that can all either be correct or incorrect.
+\end{example}
+
+\begin{example}[The 5-bit repetition code]
+The generating matrix of $R_5$, the 5-bit repetition code, is
+\[G^T = \left(\begin{array}{c}
+1\\1\\1\\1
+\end{array}\right).\]
+The parity check matrix is
+\[
+H = \left(\begin{array}{ccccc}
+1&1&0&0&0\\
+1&0&1&0&0\\
+1&0&0&1&0\\
+1&0&0&0&1
+\end{array}\right).\]
+If the codeword 10100 is received, the syndrome is 1011. This is exactly the vector $e_1 + e_3$, the sum of the first and third column. Hence, we should flip the first and third bit to correct the error. Note that 1011 is also equal to $e_2 + e_4 + e_5$, so another option to arrive at a correct codeword is to flip the second, fourth and fifth bit. It is less likely, however, that three bit flips occurred instead of two.
+\end{example}
+In general, a code with minimal distance $d$ can \emph{detect} up to $d-1$ bit flip errors, because in $d-1$ bit flip `steps', one can never arrive at another valid codeword. The code can accurately \emph{correct} up to $\frac{d-1}{2}$ bit flip errors. This is because if all codewords are guaranteed to be at least $d$ bit flips apart, the set of strings that result from $\frac{d-1}{2}$ bit flips on a codeword $c_1$ never overlaps with the set of strings that result from that number of bit flips on another codeword $c_2$.
+
+\begin{center}
+\def\scale{0.75}
+\begin{tikzpicture}
+
+\draw[fill=ocre!50] (0,0) circle (2*\scale);
+\draw[fill=black] (0,0) circle (0.5mm);
+\node[anchor=north] at (0,0) {$c_1$};
+
+\draw[fill=ocre!50] (5*\scale,1*\scale) circle (2*\scale);
+\draw[fill=black] (5*\scale,1*\scale) circle (0.5mm);
+\node[anchor=north] at (5*\scale,1*\scale) {$c_2$};
+
+\draw[<->, >=latex] (0,0) -- (5*\scale,1*\scale);
+\node at (2.5*\scale,0.7*\scale) {$d$};
+\draw[<->, >=latex] (0,0) -- (-1*\scale,1.732*\scale);
+\node at (-1*\scale,1*\scale) {$\frac{d-1}{2}$};
+\draw[<->, >=latex] (0,0) -- (1*\scale,3.872*\scale);
+\node at (1.5*\scale,3*\scale) {${d-1}$};
+
+\draw ({4*cos(215)*\scale},{4*sin(215)*\scale}) arc (215:-35:{4*\scale});
+
+%\begin{scope}
+%\clip{(0,0) circle (4*\scale)};
+%\draw[fill=black](5*\scale,1*\scale) circle (2*\scale);
+%\end{scope}
+
+\end{tikzpicture}
+\end{center}
+If every codeword needs an area around it that it does not share with any other codeword, this has consequences for the total number of codewords.
+\begin{proposition}[Hamming bound]
+If $C$ is a \emph{binary} code of block length $n$ and minimum distance 3, then $|C| \leq \frac{2^n}{n+1}$.
+\end{proposition}
+\begin{proof}
+For each $c \in C$, define the neighborhood of $c$ to be $N(c) := \{y \in \{0,1\}^n \mid d(x,y) \leq 1\}$. Every such neighborhood contains exactly $n+1$ elements. Since $d = 3$, $N(c) \cap N(c') = \emptyset$ whenever $c \neq c'$. Hence,
+\begin{align}
+2^n \geq |\bigcup_{c \in C} N(c)| = \sum_{c \in C} |N(c)| = |C| \cdot (n+1),
+\end{align}
+and the result follows.
+\end{proof}
+The $[7,4]$ Hamming code is optimal in the sense that it achieves this Hamming bound: it is a code with block length 7 and minimal distance 3, so an upper bound to the codebook size is $\frac{2^7}{7+1} = 2^4$. The Hamming code achieve exactly this codebook size. There is an entire family of Hamming codes that are optimal in this sense. They form $[2^r-1,2^r-1-r,3]$ codes for $r \in \mathbb{N}$.
+
+We conclude this section with two ways to determine the minimal distance of a code. Apart from the trivial way (determining the entire codebook and comparing all the codeword pairs), it turns out that it is already enough to consider just the Hamming weights of the (nonzero) codewords:
+
 
 \begin{proposition}
 For a code $C$, the minimal distance is equal to the minimal weight of the nonzero codewords.
@@ -375,10 +542,11 @@ d_{\min} &= \min_{\stackrel{x,y \in C}{x \neq y}} d(x,y)
 \end{align}
 \end{proof}
 
+An even faster way to determine the minimal distance of a code is possible if the parity check matrix is known.
 
-
-
-\subsection{Generalization: linear codes}~\label{sec:linear-codes}
-The repetition code and the Hamming code 
-
-Generator matrix, parity check matrix, syndromes
+\begin{proposition}
+For a linear code $C$ with parity check matrix $H$, the minimal distance $d_{\min}$ equals the minimum number of columns of $H$ that are linearly dependent.
+\end{proposition}
+\begin{proof}
+Left as an exercise.
+\end{proof}
