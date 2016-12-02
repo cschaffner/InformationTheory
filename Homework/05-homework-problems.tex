@@ -53,15 +53,15 @@ There is some unnecessary redundancy in the Hadamard code. For example, the firs
 \]
 	\begin{subex}[(3pt)]
 	Find the minimal distance of the punctured $k$-bit Hadamard code using a similar approach as in (c) and (d).
-	\\\textbf{Hint:} consider $y_1 = 0$ vs. $y_1 = 1$ separately, and within those cases separate your analysis into the case where the rest of the string is all-zero vs. where it is not.
+	\\\textbf{Hint:} there are four cases to consider, depending on the value of the first bit $x_1$ and of the ``tail" $x_2\cdots x_k$.
 	\end{subex}
 	\begin{subex}[(2pt)]
 	Compute the rates of the $k$-bit Hadamard code and the punctured $k$-bit Hadamard code as a function of $k$. Which is better?
 	\end{subex}
 	\begin{subex}[(1pt)]
-	What goes wrong if we try to puncture this code again? The doubly punctured $k$-bit Hadamard code is defined by
+	What goes wrong if we try to puncture this code again? I.e. what breaks if we define the encoding function for a $k$-bit string as
 	\[
-	\mathtt{enc}''(x) := \left(\ip{x}{y}\right)_{y \in \{1\} \times \{1\} \times \{0,1\}^{k-2}}
+	\mathtt{enc}''(x) := \left(\ip{x}{y}\right)_{y \in \{1\} \times \{1\} \times \{0,1\}^{k-2}}?
 	\]
 	\end{subex}
 \end{exercise}
