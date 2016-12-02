@@ -1,0 +1,189 @@
+In this chapter, we consider the problem of using a noisy channel to get a message across with maximal error probability zero. For some channels, for example the binary symmetric channel, it is not possible to send multiple different messages over the channel in this way. For other channels, an interesting question to ask is: how many messages (or how much information) can be sent over this channel in an error-free way?
+
+\begin{example}
+Look again at channel (b) from Example~\ref{example:channel}, now with some specific input/output sets and probabilities:
+\begin{center}
+\begin{tikzpicture}
+\fill[ocre] (4,1) circle (1mm);
+\fill[ocre] (4,2) circle (1mm);
+\fill[ocre] (6,0) circle (1mm);
+\fill[ocre] (6,1) circle (1mm);
+\fill[ocre] (6,2) circle (1mm);
+\draw (4.2,1) -- (5.8,0);
+\draw (4.2,1) -- (5.8,1);
+\draw (4.2,2) -- (5.8,2);
+\node[anchor=south] at (5,2) {1};
+\node[anchor=south] at (5,1) {0.7};
+\node at (5,0) {0.3};
+\node[anchor=east] at (4,1) {b};
+\node[anchor=east] at (4,2) {a};
+\node[anchor=west] at (6,0) {3};
+\node[anchor=west] at (6,1) {2};
+\node[anchor=west] at (6,2) {1};
+\end{tikzpicture}
+\end{center}
+We can send two messages, $m_1$ and $m_2$, over the channel by defining $\mathtt{enc}(m_1) = a$ and $\mathtt{enc}(m_2) = b$. The decoding is defined as $\mathtt{dec}(0) = m_1$, and $\mathtt{dec}(1) = \mathtt{dec}(2) = m_2$.
+\end{example}
+
+
+\begin{example}[Noisy typewriter]
+The noisy typewriter channel is defined as follows:
+\begin{center}
+\begin{tikzpicture}
+\fill[ocre] (0,0) circle (1mm);
+\fill[ocre] (0,1) circle (1mm);
+\fill[ocre] (0,2) circle (1mm);
+\fill[ocre] (0,3) circle (1mm);
+\fill[ocre] (0,4) circle (1mm);
+
+\node[anchor=east] at (0,0) {e};
+\node[anchor=east] at (0,1) {d};
+\node[anchor=east] at (0,2) {c};
+\node[anchor=east] at (0,3) {b};
+\node[anchor=east] at (0,4) {a};
+
+\fill[ocre] (3,0) circle (1mm);
+\fill[ocre] (3,1) circle (1mm);
+\fill[ocre] (3,2) circle (1mm);
+\fill[ocre] (3,3) circle (1mm);
+\fill[ocre] (3,4) circle (1mm);
+
+\node[anchor=west] at (3,0) {e};
+\node[anchor=west] at (3,1) {d};
+\node[anchor=west] at (3,2) {c};
+\node[anchor=west] at (3,3) {b};
+\node[anchor=west] at (3,4) {a};
+
+\end{tikzpicture}
+\end{center}
+with five input symbols (a to 1, b to 2, etc)
+We can send two messages (decoding of 5 is irrelevant if we use only a and c)
+Is there a scheme for three messages? Upon inspection, we see that if we try to do this, we will always have one output such that there are two inputs that go to that output. That means that for this code, these two inputs are \term{confusable}.
+\end{example}
+
+In general, it might not be easy to tell from the channel how many messages can be sent over it with zero error. We invoke some graph theory to help us in the analysis.
+
+\section{Confusability graphs}
+
+\begin{definition}[Graph]
+G, V(G), E(G)
+\end{definition}
+
+\begin{definition}[Independence number]
+The independence number of a graph $G$ is the size of the largest \term{independent set} of $G$, where an independent set of $G$ is a set $S \subseteq V(G)$ such that
+\[
+\forall x, x' \in S: (x,x') \not\in E(G).
+\]
+That is, an independent set $S$ in $G$ is a set of vertices such that there is no edge between any of the vertices.
+\end{definition}
+
+\begin{definition}[Confusability graph]
+$V(G) = \mathcal{X}$, the set of input symbols of the channel
+$E(G) = \{(x,x') \in \mathcal{X}^2 \mid \exists y \in \mathcal{Y} \mbox{ s.t. } P_{Y|X}(y|x) \cdot P_{Y_X}(y|x') > 0\}$
+\end{definition}
+
+\begin{example}[Confusability graph of the noisy typewriter]
+Circle of size 5, also known as the graph $C_5$.
+\end{example}
+
+
+
+
+\begin{proposition}
+Given a channel with confusability graph $G$, the maximal message set $[M]$ that can be communicated perfectly in a single channel use is of size $\alpha(G)$.
+\end{proposition}
+
+\begin{proof}
+If $x$ and $x'$ are confusable, they cannot both be used to send different messages:
+$\mathtt{enc}(m) = x$ and $\mathtt{enc}(m') = x'$, then there is a $y \in \mathcal{Y}$ such that x and x' are both mapped to y with nonzero probability (from definition), hence $d(y)$ must be $m$ and $m'$ at the same time.
+(Make this proof more formal?)
+\end{proof}
+
+
+\section{Multiple channel uses}
+It turns out that if we are allowed to use the same channel multiple times, we are sometimes able achieve a higher rate!
+
+\begin{example}[Two uses of the noisy typewriter]
+2 uses, codebook aa, ac, ca, cc will work. BUT there is a better way! {aa, bc, ce, db, ed} for five messages. (Note that the channel is memoryless)
+Analyze by observing that
+\begin{align*}
+\mathtt{aa} &\mapsto \{11, 22, 12, 21\}\\ 
+\mathtt{bc} &\mapsto \{23, 24, 33, 34\}\\
+\mathtt{ce} &\mapsto \{35, 45, 41, 31\}\\
+\mathtt{db} &\mapsto \{42, 52, 43, 53\}\\
+\mathtt{ed} &\mapsto \{54, 55, 14, 15\} 
+\end{align*}
+So these are non-overlapping outputs, so none of the inputs are confusable!
+Rate is now 2.5 instead of 2.
+\end{example}
+
+Is there a structural way to find these more optimal combinations that make better use of the channel?
+
+\begin{definition}[Strong graph product]
+Let $G, H$ be two graphs. We define the strong graph product $G \boxtimes H$ as follows. The set of vertices is
+\[
+V(G \boxtimes H) := V(G) \times V(H)
+\]
+The set of edges is
+\[
+E(G \boxtimes H) := \{((x,v),(x',v')) \mid (x = x' \vee (x,x') \in E(G)) \wedge (v=v' \vee (v,v') \in E(H)\}
+\]
+\end{definition}
+
+More specifically, we can consider $G^{\boxtimes n}$ with
+\[
+V(G^{\boxtimes n}) = V(G) \times \cdots \times V(G)
+\]
+and
+\[
+E(G^{\boxtimes n}) = \{((x_1, ..., x_n),(v_1, ..., v_n))  \mid \forall i : x_i = v_i \vee (x_i,v_i) \in E(G)\}
+\]
+
+
+
+\begin{example}[Binary symmetric channel]
+Confusability graph of BSC is $C_2 = K_2$, the complete graph of size 2.
+$G \boxtimes G$ (isomorphic to) $K_4$.
+Rate is still zero.
+\end{example}
+
+\begin{example}
+Consider $H$ a line with a b c and (a,b) and (b,c). Consider $G \boxtimes H$ with $G$ the confusability graph for the BSC (previous example). It's two boxes with x's in there.
+
+Also consider $H^{\boxtimes 2}$. Big 2x2 square with crosses.
+Independence number is 4. (in general, this is hard to decide)
+\end{example}
+
+
+\section{Shannon capacity}
+\begin{definition}[Shannon capacity]
+The Shannon capacity of a graph is \[c(G) := \sup_{n \in \mathds{N}} \frac{\log \alpha(G^{\boxtimes n})}{n}.\]
+This represents the maximum average* number of bits that can be perfectly communicated over a channel with confusability graph $G$.
+(*clarify?)
+\end{definition}
+
+\begin{proposition}
+\[
+c(G) = \lim_{n \to \infty} \frac{\log \alpha(G^{\boxtimes n})}{n}.
+\]
+\end{proposition}
+\begin{proof}
+Apparently this proof has to be in here.
+\end{proof}
+
+\begin{example}
+What is $c(H)$ of the previous example?
+\begin{align*}
+c(H) &=  \lim_{n \to \infty} \frac{\log \alpha(G^{\boxtimes n})}{n}\\
+&= \lim_{n \to \infty} \frac{\log 2^n}{n} = 1.
+\end{align*}
+So even if consider multiple channel uses, we can still only send one bit of information (on average) over the channel on average.
+\end{example}
+
+Computational complexity of $c(G)$ is unknown. It is known that it is hard (there are some lower bound), but it is not known to be decidable.
+
+Shannon showed in 1956 that the Shannon capacity of $C_5$ is $\geq \frac{\log 5}{2}$ (and we have seen that above as well. But is it equal, or bigger? In 1979 (Lovasz) it was shown that it is exactly that. So more than 2 channel uses will not help for the noisy typewriter.
+
+$c(C_7)$ is unknown. We can find lower and upper bounds, but there is no definite number.
+
+All graphs for which the Shannon capacity is known, it is attained with one ($C_2$), two ($C_5$) or infinte (?) number of channel uses.
