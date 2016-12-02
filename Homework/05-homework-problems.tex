@@ -25,7 +25,7 @@ Your homework must be handed in \textbf{electronically via Moodle before \deadli
 }
 
 \newcommand{\ip}[2]{\langle #1, #2\rangle}
-\begin{exercise}[Hadamard code (12pt)]
+\begin{exercise}[Hadamard code (11pt)]
 For two $k$-bit strings $x$ and $y$, the inner product is defined as
 \[
 \ip{x}{y} := \sum_{i=1}^k x_i\cdot y_i \ \ \ \ \ \ \ \ \mod 2.
@@ -38,21 +38,22 @@ Here, the $y$ are ordered \href{https://en.wikipedia.org/wiki/Lexicographical_or
 	\begin{subex}[(1pt)]
 	Find the codewords for 010 and 1101 using the 3-bit and 4-bit Hadamard codes respectively.
 	\end{subex}
-	\begin{subex}[(2pt)]
-	Give the explicit generator matrix $G^T$ for $k = 3$. Describe how to construct the generator matrix for arbitrary $k$.
+	\begin{subex}[(1pt)]
+	Give the explicit generator matrix $G^T$ for $k = 3$.
 	\end{subex}
 	\begin{subex}[(2pt)]
-	For a fixed non-zero $x \in \{0,1\}^k$, what is the probability that a uniformly random $y \in \{0,1\}^k$ is such that $\ip{x}{y} = 1$?
+	For a fixed non-zero $x \in \{0,1\}^k$, how many $y \in \{0,1\}^k$ are there such that $\ip{x}{y} = 1$?
 	\end{subex}
 	\begin{subex}[(1pt)]
 	Use (c) to find the minimal distance of the $k$-bit Hadamard code.
 	\end{subex}
-There is some unnecessary redundancy in the Hadamard code. For example, the first bit of $\mathtt{enc}(x)$ is always 0, regardless of what $x$ is. The \emph{punctured} $k$-bit Hadamard code attempts to solve this. It considers only the inner products with strings $y$ such that $y_1 = 1$:
+There is some unnecessary redundancy in the Hadamard code. For example, the first bit of $\mathtt{enc}(x)$ is always 0, regardless of what $x$ is, because the inner product with the all-zero string is always 0. The \emph{punctured} $k$-bit Hadamard code attempts to resolve this. It considers only the inner products with strings $y$ such that $y_1 = 1$:
 \[
 \mathtt{enc}'(x) := \left(\ip{x}{y}\right)_{y \in \{1\} \times \{0,1\}^{k-1}}
 \]
 	\begin{subex}[(3pt)]
 	Find the minimal distance of the punctured $k$-bit Hadamard code using a similar approach as in (c) and (d).
+	\\\textbf{Hint:} consider $y_1 = 0$ vs. $y_1 = 1$ separately, and within those cases separate your analysis into the case where the rest of the string is all-zero vs. where it is not.
 	\end{subex}
 	\begin{subex}[(2pt)]
 	Compute the rates of the $k$-bit Hadamard code and the punctured $k$-bit Hadamard code as a function of $k$. Which is better?
