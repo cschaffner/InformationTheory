@@ -67,6 +67,7 @@ Your homework must be handed in \textbf{electronically via Moodle before \deadli
 
 
 \begin{exercise}[Inefficiency when using the wrong code (6pt)]
+\begin{subex}[(2pt)]
 Given are two distributions $P_X$ and $Q_X$ for the same set $\mathcal{X} = \{\mathtt{a,b,c,d}\}$:
 \[
 \begin{array}{c | c c c c}
@@ -75,11 +76,14 @@ P_X(x) & 1/4&1/4&1/4&1/4\\
 Q_X(x) & 1/2&1/4&1/8&1/8\\
 \end{array}
 \]
-\begin{subex}[(2pt)]
 Design an optimal code for $Q_X(x)$. What is its expected codeword length? What is the expected codeword length if you use this code to encode the source $P_X$?
 \end{subex}
 \begin{subex}[(4pt)]
-Give an upper \emph{and} lower bound for the expected codeword length $\mathbb{E}_{P_X}(\ell(X))$ if you encode the source $P_X$ using a code with codeword lengths $\ell(X)$ that are optimal for the source $Q_X$, i.e. $\ell(X) = \lceil -\log Q_X(X)\rceil$. Write the bounds in terms of $D(P_X||Q_X)$, the relative entropy between $P_X$ and $Q_X$.
+Prove that in general, when using optimal code for any source source $Q_X$ (with lengths $\ell(x) = \lceil -\log Q_X(x) \rceil$ for all $x \in \mathcal{X}$) to encode another source $P_X$, this incurs a penalty of $D(P_X||Q_X)$ in the average description length. More formally, prove that
+\[
+H(P_X) + D(P_X||Q_X) \leq \mathbb{E}_{P_X}[\ell(X)] \leq H(P_X) + D(P_X||Q_X) + 1
+\]
+for all $P_X$ and $Q_X$.
 \end{subex}
 \end{exercise}
 

@@ -1,0 +1,401 @@
+\newcommand{\enc}[1]{\mathtt{enc}(#1)}
+\newcommand{\dec}[1]{\mathtt{dec}(#1)}
+
+In this chapter, we consider the problem of using a noisy channel to get a message across with maximal error probability zero. For some channels, for example the binary symmetric channel, it is not possible to send multiple different messages over the channel in this way. For other channels, an interesting question to ask is: how many messages (or how much information) can be sent over this channel in an error-free way?
+
+\begin{example}
+Look again at channel (b) from Example~\ref{example:channel}, now with some specific input/output sets and probabilities:
+\begin{center}
+\begin{tikzpicture}
+\draw (4,1) -- (5.8,0);
+\draw (4,1) -- (5.8,1);
+\draw (4,2) -- (5.8,2);
+
+\fill[ocre] (4,1) circle (1mm);
+\fill[ocre] (4,2) circle (1mm);
+\fill[ocre] (6,0) circle (1mm);
+\fill[ocre] (6,1) circle (1mm);
+\fill[ocre] (6,2) circle (1mm);
+\node[anchor=south] at (5,2) {1};
+\node[anchor=south] at (5,1) {0.7};
+\node at (5,0) {0.3};
+\node[anchor=east] at (4,1) {b};
+\node[anchor=east] at (4,2) {a};
+\node[anchor=west] at (6,0) {3};
+\node[anchor=west] at (6,1) {2};
+\node[anchor=west] at (6,2) {1};
+\end{tikzpicture}
+\end{center}
+We can send two messages, $m_1$ and $m_2$, over the channel by defining $\enc{m_1} = a$ and $\enc{m_2} = b$. The decoding is defined as $\dec{0} = m_1$, and $\dec{1} = \dec{2} = m_2$.
+\end{example}
+
+
+\begin{example}[Noisy typewriter]\label{example:noisy-typewriter}
+The noisy typewriter channel is defined as follows:
+\begin{center}
+\def\height{0.7}
+\begin{tikzpicture}
+
+
+\node[anchor=east] at (0,0*\height) {e};
+\node[anchor=east] at (0,1*\height) {d};
+\node[anchor=east] at (0,2*\height) {c};
+\node[anchor=east] at (0,3*\height) {b};
+\node[anchor=east] at (0,4*\height) {a};
+
+
+
+\node[anchor=west] at (3,0*\height) {e};
+\node[anchor=west] at (3,1*\height) {d};
+\node[anchor=west] at (3,2*\height) {c};
+\node[anchor=west] at (3,3*\height) {b};
+\node[anchor=west] at (3,4*\height) {a};
+
+\draw (0,4*\height) -- (3,4*\height);
+\draw (0,4*\height) -- (3,3*\height);
+
+\draw (0,3*\height) -- (3,3*\height);
+\draw (0,3*\height) -- (3,2*\height);
+
+\draw (0,2*\height) -- (3,2*\height);
+\draw (0,2*\height) -- (3,1*\height);
+
+\draw (0,1*\height) -- (3,1*\height);
+\draw (0,1*\height) -- (3,0*\height);
+
+\draw (0,0*\height) -- (3,0*\height);
+\draw (0,0*\height) -- (3,4*\height);
+
+\fill[ocre] (0,0*\height) circle (1mm);
+\fill[ocre] (0,1*\height) circle (1mm);
+\fill[ocre] (0,2*\height) circle (1mm);
+\fill[ocre] (0,3*\height) circle (1mm);
+\fill[ocre] (0,4*\height) circle (1mm);
+
+\fill[ocre] (3,0*\height) circle (1mm);
+\fill[ocre] (3,1*\height) circle (1mm);
+\fill[ocre] (3,2*\height) circle (1mm);
+\fill[ocre] (3,3*\height) circle (1mm);
+\fill[ocre] (3,4*\height) circle (1mm);
+
+\end{tikzpicture}
+\end{center}
+There is a way to send two messages $m_1$ and $m_2$ error-free over this channel by defining $\enc{m_1} = a$ and $\enc{m_2} = b$. The decoding function is defined as $\dec{a} = \dec{b} = a$, and $\dec{c} = \dec{d} = c$ (note that the definition of $\dec{e}$ is irrelevant, as this output symbol will never be observed).
+
+Is there a way to encode three different messages in an error-free way? Upon inspection, we see that any encoding function $\enc{\cdot}$ on three messages will map at least two messages to channel inputs that are \term{confusable} (i.e. are possibly mapped to the same channel output).
+\end{example}
+
+In general, it might not be easy to tell directly from the channel how many messages can be sent over it with zero error. We invoke some graph theory to help us with the analysis.
+
+\section{Confusability graphs}
+
+\begin{definition}[Graph]
+A graph $G$ consists of a set $V(G)$ of \term{vertices} and a set $V(E)$ of \term{edges}. The edges are pairs of vertices (each edge connects two vertices of the graph), hence $V(E) \subseteq V(G) \times V(G)$.
+\end{definition}
+
+\begin{definition}[Independence number]
+The independence number $\alpha(G)$ of a graph $G$ is the size of the largest \term{independent set} of $G$, where an independent set of $G$ is a set $S \subseteq V(G)$ such that
+\[
+\forall x, x' \in S: (x,x') \not\in E(G).
+\]
+That is, an independent set $S$ in $G$ is a set of vertices such that there is no edge between any of the vertices.
+\end{definition}
+Finding the independence number of a graph is an NP-hard problem, meaning there is no known efficient method for finding the independence number of an arbitrary graph.
+
+\begin{example}
+Consider the following graph with $V(G) = \{1,2,3,4,5,6\}$ and $E(G) = \{(1,2), (2,3), (2,4), (3,4), (4,5), (4,6), (5,6)\}$:
+\begin{center}
+\begin{tikzpicture}
+
+\draw (0,2) -- (1,1);
+\draw (1,1) -- (1,3);
+\draw (1,1) -- (2,2);
+\draw (1,3) -- (2,2);
+\draw (2,2) -- (3,3);
+\draw (2,2) -- (3,1);
+\draw (3,1) -- (3,3);
+
+\fill[ocre] (0,2) circle (1mm);
+\node[anchor=east] at (0,2) {1};
+\fill[ocre] (1,1) circle (1mm);
+\node[anchor=north] at (1,1) {2};
+\fill[ocre] (1,3) circle (1mm);
+\node[anchor=south] at (1,3) {3};
+\fill[ocre] (2,2) circle (1mm);
+\node[anchor=south] at (2,2) {4};
+\fill[ocre] (3,3) circle (1mm);
+\node[anchor=south] at (3,3) {6};
+\fill[ocre] (3,1) circle (1mm);
+\node[anchor=north] at (3,1) {5};
+
+\draw (0,2) circle (2mm);
+\draw (1,3) circle (2mm);
+\draw (3,3) circle (2mm);
+\end{tikzpicture}
+\end{center}
+A maximal independent set $\{1,3,6\}$ is marked in the graph. Note that this set is not unique: $\{1,3,5\}$ is also an independent set of size 3. There is no independent set of size 4, however, so the independence number of this graph is 3.
+\end{example}
+The graph-theoretic notions just introduced can be used to analyze the number of channel inputs that can safely be used simultaneously in an error-free code.
+\begin{definition}[Confusability graph]
+Let $(\mathcal{X},P_{Y|X},\mathcal{Y})$ be a channel. The confusability graph $G$ for the channel consists of
+\[V(G) := \mathcal{X},\]
+the set of input symbols of the channel, and
+\[
+E(G) := \{(x,x') \in \mathcal{X}^2 \mid \exists y \in \mathcal{Y} \mbox{ s.t. } P_{Y|X}(y|x) \cdot P_{Y_X}(y|x') > 0\}
+\]
+The set of input pairs that are confusable (they reach a shared output symbol $y \in \mathcal{Y}$).
+\end{definition}
+
+\begin{example}[Confusability graph of the noisy typewriter]\label{example:noisy-typewriter-confusable}
+Consider again the noisy typewriter from Example~\ref{example:noisy-typewriter}. The confusability graph for that channel is
+\begin{center}
+\def\size{2}
+\begin{tikzpicture}
+\draw ({cos(0)*\size},{sin(0)*\size}) -- ({cos(72)*\size},{sin(72)*\size});
+\draw ({cos(144)*\size},{sin(144)*\size}) -- ({cos(72)*\size},{sin(72)*\size});
+\draw ({cos(144)*\size},{sin(144)*\size}) -- ({cos(216)*\size},{sin(216)*\size});
+\draw ({cos(288)*\size},{sin(288)*\size}) -- ({cos(216)*\size},{sin(216)*\size});
+\draw ({cos(288)*\size},{sin(288)*\size}) -- ({cos(0)*\size},{sin(0)*\size});
+\fill[ocre] ({cos(0)*\size},{sin(0)*\size}) circle (1mm);
+\fill[ocre] ({cos(72)*\size},{sin(72)*\size}) circle (1mm);
+\fill[ocre] ({cos(144)*\size},{sin(144)*\size}) circle (1mm);
+\fill[ocre] ({cos(216)*\size},{sin(216)*\size}) circle (1mm);
+\fill[ocre] ({cos(288)*\size},{sin(288)*\size}) circle (1mm);
+
+\node[anchor=south east] at ({cos(144)*\size},{sin(144)*\size}) {a};
+\node[anchor=south] at ({cos(72)*\size},{sin(72)*\size}) {b};
+\node[anchor=west] at ({cos(0)*\size},{sin(0)*\size}) {c};
+\node[anchor=north west] at ({cos(288)*\size},{sin(288)*\size}) {d};
+\node[anchor=north east] at ({cos(216)*\size},{sin(216)*\size}) {e};
+\end{tikzpicture}
+\end{center}
+This graph is also known as $C_5$, the circle of size 5. Its independence number is $\alpha(C_5) = 2$.
+\end{example}
+In the above example, the independence number of the confusability graph is exactly the number of messages that can be sent over the channel error-free. This is no coincidence:
+
+\begin{proposition}
+Given a channel with confusability graph $G$, the maximal message set $[M]$ that can be communicated perfectly in a single channel use is of size $\alpha(G)$.
+\end{proposition}
+
+\begin{proof}
+Let $(x,x') \in E(G)$, i.e. $x$ and $x'$ are confusable. They cannot both be used to send different messages, for suppose there are messages $m \neq m'$ such that $\enc{m} = x$ and $\enc{m'} = x'$, then by definition of the confusability graph, there is a $y \in \mathcal{Y}$ such that $x$ and $x'$ are both mapped to $y$ with nonzero probability. In order to correctly decode in all cases, it must therefore be that $\dec{y} = m$ and $\dec{y} = m'$, contradicting the assumption that $m \neq m'$. Therefore, the number of messages that can be sent over the channel cannot exceed the independence number $\alpha(G)$.
+
+For the other direction, it is easy to find an encoding and decoding function for $\alpha(G)$ different messages. Let $\{x_1, x_2, ..., x_{\alpha(G)}\}$ be a largest independent set of $G$. Define $\enc{m_i} = x_i$ for all $i \in [\alpha(G)]$. Then for all $y \in \mathcal{Y}$, by definition of the confusability graph and the independent set, there is exactly one $i$ such that $P_{Y|X}(y|x_i) > 0$. Define $\dec{y} = m_i$. This code can send $\alpha(G)$ different messages over the channel without error.
+\end{proof}
+
+
+\section{Multiple channel uses}
+In the previous section we have found that the independence number of the confusability graph is a conclusive upper bound for the number of messages that can be sent over a channel \emph{in a single use}. But it turns out that if the same channel is allowed to be used more than once, it is sometimes possible to achieve a higher rate, still error-free!
+
+\begin{example}[Two uses of the noisy typewriter]\label{example:typewriter-multiple-uses}
+Let's reconsider the noisy typewriter from Examples~\ref{example:noisy-typewriter} and~\ref{example:noisy-typewriter-confusable}, but this time we are allowed to use the channel two times. We can of course use the following encoding function to encode $2 \times 2 = 4$ different messages:
+\begin{align*}
+\enc{m_1} &= \mathtt{aa}\\
+\enc{m_2} &= \mathtt{ac}\\
+\enc{m_3} &= \mathtt{ca}\\
+\enc{m_4} &= \mathtt{cc}\\
+\end{align*}
+This encoding function is defined by simply concatenating the encoding function of Example~\ref{example:noisy-typewriter}. It has a rate of $\log(4) / 2 = 1$, just like the single-use noisy typewriter channel code. There is, however, an code that is able to encode and correctly decode \emph{five} different messages! It uses codewords $\mathtt{aa}, \mathtt{bc}, \mathtt{ce}, \mathtt{db}, \mathtt{ed}$ as codewords for messages $m_1$ through $m_5$. To see that the decoding is error-free, observe that the channel maps the codewords to the following sets of possible outputs:
+\begin{align*}
+\mathtt{aa} &\mapsto \{11, 22, 12, 21\}\\ 
+\mathtt{bc} &\mapsto \{23, 24, 33, 34\}\\
+\mathtt{ce} &\mapsto \{35, 45, 41, 31\}\\
+\mathtt{db} &\mapsto \{42, 52, 43, 53\}\\
+\mathtt{ed} &\mapsto \{54, 55, 14, 15\} 
+\end{align*}
+All of these sets are non-overlapping, so none of the inputs are confusable. The rate of this code is $\log(5) / 2 \approx 1.161$, which is strictly better than the single-use channel!
+\end{example}
+
+The above example shows that there are optimal codes that make better use of the channel if the channel is used more than once. Is there a structural way to find these codes? Let us expand our graph theoretic tools.
+
+\begin{definition}[Strong graph product]\label{def:strong-graph-product}
+Let $G, H$ be two graphs. We define the strong graph product $G \boxtimes H$ as follows. The set of vertices is
+\[
+V(G \boxtimes H) := V(G) \times V(H).
+\]
+The set of edges is
+\[
+E(G \boxtimes H) := \{((x,x'),(v,v')) \mid (x = v \mbox{ or } (x,v) \in E(G)) \mbox{ and } (x'=v' \mbox{ or } (x',v') \in E(H)\},
+\]
+i.e. there is an edge between $(x,x')$ and $(v,v')$ if and only if the vertices of $G$ are confusable (or equal) \emph{and} the vertices of $H$ are confusable (or equal).
+\end{definition}
+For our application, we are often interested in the strong graph product of a graph $G$ with itself, possibly many times. Therefore it is useful to work out the definition of $G^{\boxtimes n}$, based on Definition~\ref{def:strong-graph-product}:
+\begin{align}
+V(G^{\boxtimes n}) &= V(G) \times \cdots \times V(G)\\
+E(G^{\boxtimes n}) &= \{((x_1, ..., x_n),(v_1, ..., v_n))  \mid \forall i : x_i = v_i \vee (x_i,v_i) \in E(G)\}
+\end{align}
+
+
+
+\begin{example}[Binary symmetric channel]\label{example:bsc-graph}
+The confusability graph of the binary symmetric channel (BSC) from Example~\ref{example:binary-symmetric-channel} is $C_2$:
+\begin{center}
+\begin{tikzpicture}
+\draw (0,0) -- (2,0);
+\fill[ocre] (0,0) circle (1mm);
+\fill[ocre] (2,0) circle (1mm);
+\node[anchor=south] at (0,0) {1};
+\node[anchor=south] at (2,0) {2};
+\end{tikzpicture}
+\end{center}
+This graph is also known as $K_2$, the \term{complete graph} of size 2. $G \boxtimes G$ is the following graph $K_4$ (the complete graph of size 4):
+\begin{center}
+\begin{tikzpicture}
+\draw (0,0) -- (2,0);
+\draw (0,0) -- (0,2);
+\draw (2,2) -- (2,0);
+\draw (2,2) -- (0,2);
+\draw (0,0) -- (2,2);
+\draw (0,2) -- (2,0);
+\fill[ocre] (0,0) circle (1mm);
+\fill[ocre] (2,0) circle (1mm);
+\fill[ocre] (0,2) circle (1mm);
+\fill[ocre] (2,2) circle (1mm);
+\node[anchor=south] at (0,2) {(1,1)};
+\node[anchor=south] at (2,2) {(1,2)};
+\node[anchor=north] at (0,0) {(2,1)};
+\node[anchor=north] at (2,0) {(2,2)};
+\end{tikzpicture}
+\end{center}
+In this case, using the channel twice does not help: the independence number of both graphs is 1, and the rate of any error-free code is therefore zero.
+\end{example}
+
+\begin{exercise}\label{exercise:strong-product}
+Show that for all $n,m \in \mathbb{N}$, $\alpha(G \boxtimes H) \geq \alpha(G)\alpha(H)$.
+\end{exercise}
+
+\begin{example}\label{example:conf-graph-product}
+Consider the following graph $H$:
+\begin{center}
+\begin{tikzpicture}
+\draw (0,0) -- (2,0);
+\draw (2,0) -- (4,0);
+\fill[ocre] (0,0) circle (1mm);
+\fill[ocre] (2,0) circle (1mm);
+\fill[ocre] (4,0) circle (1mm);
+\node[anchor=south] at (0,0) {a};
+\node[anchor=south] at (2,0) {b};
+\node[anchor=south] at (4,0) {c};
+\end{tikzpicture}
+\end{center}
+The strong graph product of $H$ with the graph $G$ from Example~\ref{example:bsc-graph} is
+\begin{center}
+\begin{tikzpicture}
+\draw (0,0) -- (2,0);
+\draw (2,0) -- (4,0);
+\draw (0,2) -- (2,2);
+\draw (2,2) -- (4,2);
+\draw (0,0) -- (0,2);
+\draw (2,0) -- (2,2);
+\draw (4,0) -- (4,2);
+\draw (0,0) -- (2,2);
+\draw (0,2) -- (2,0);
+\draw (2,0) -- (4,2);
+\draw (2,2) -- (4,0);
+\fill[ocre] (0,0) circle (1mm);
+\fill[ocre] (2,0) circle (1mm);
+\fill[ocre] (4,0) circle (1mm);
+\fill[ocre] (0,2) circle (1mm);
+\fill[ocre] (2,2) circle (1mm);
+\fill[ocre] (4,2) circle (1mm);
+\node[anchor=south] at (0,2) {(a,1)};
+\node[anchor=south] at (2,2) {(b,1)};
+\node[anchor=south] at (4,2) {(c,1)};
+\node[anchor=north] at (0,0) {(a,2)};
+\node[anchor=north] at (2,0) {(b,2)};
+\node[anchor=north] at (4,0) {(c,2)};
+\end{tikzpicture}
+\end{center}
+The independence number of this graph is 2. The strong product of $H$ with itself is
+\begin{center}
+\begin{tikzpicture}
+\draw (0,0) -- (2,0);
+\draw (2,0) -- (4,0);
+\draw (0,2) -- (2,2);
+\draw (2,2) -- (4,2);
+\draw (0,0) -- (0,2);
+\draw (2,0) -- (2,2);
+\draw (4,0) -- (4,2);
+\draw (0,0) -- (2,2);
+\draw (0,2) -- (2,0);
+\draw (2,0) -- (4,2);
+\draw (2,2) -- (4,0);
+
+\draw (0,2) -- (2,2);
+\draw (2,2) -- (4,2);
+\draw (0,4) -- (2,4);
+\draw (2,4) -- (4,4);
+\draw (0,2) -- (0,4);
+\draw (2,2) -- (2,4);
+\draw (4,2) -- (4,4);
+\draw (0,2) -- (2,4);
+\draw (0,4) -- (2,2);
+\draw (2,2) -- (4,4);
+\draw (2,4) -- (4,2);
+
+\fill[ocre] (0,0) circle (1mm);
+\fill[ocre] (2,0) circle (1mm);
+\fill[ocre] (4,0) circle (1mm);
+\fill[ocre] (0,2) circle (1mm);
+\fill[ocre] (2,2) circle (1mm);
+\fill[ocre] (4,2) circle (1mm);
+\fill[ocre] (0,4) circle (1mm);
+\fill[ocre] (2,4) circle (1mm);
+\fill[ocre] (4,4) circle (1mm);
+\node[anchor=south] at (0,4) {(a,a)};
+\node[anchor=south] at (2,4) {(b,a)};
+\node[anchor=south] at (4,4) {(c,a)};
+\node[anchor=east] at (0,2) {(a,b)};
+\node[anchor=south east] at (2,2) {(b,b)};
+\node[anchor=west] at (4,2) {(c,b)};
+\node[anchor=north] at (0,0) {(a,c)};
+\node[anchor=north] at (2,0) {(b,c)};
+\node[anchor=north] at (4,0) {(c,c)};
+\end{tikzpicture}
+\end{center}
+The independence number of this graph is 4. As the graphs get bigger, the independence number is increasingly hard to compute.
+\end{example}
+
+\begin{exercise}
+Design a channel that has confusability graph $H$ from Example~\ref{example:conf-graph-product}.
+\end{exercise}
+
+
+\section{Shannon capacity}
+In the previous section it became apparent that for some channels, two or more channel uses can provide a better rate than a single use of those channels. The maximum rate that can be achieved in this way is captured by the notion of Shannon capacity of the confusability graph of the channel.
+\begin{definition}[Shannon capacity]
+The Shannon capacity of a graph is \[c(G) := \sup_{n \in \mathbb{N}} \frac{\log \alpha(G^{\boxtimes n})}{n}.\]
+\end{definition}
+The Shannon capacity represents the maximum number of bits that can be perfectly communicated, on \emph{average}, over a channel with confusability graph $G$. Intuitively, allowing more channel uses can only increase the rate. This is captured by the following lemma.
+
+\begin{proposition}
+\[
+c(G) = \lim_{n \to \infty} \frac{\log \alpha(G^{\boxtimes n})}{n}.
+\]
+\end{proposition}
+\begin{proof}
+First, note that $\alpha(G^{\boxtimes (k+\ell)}) \geq \alpha(G^{\boxtimes k})\alpha(G^{\boxtimes \ell})$ by Exercise~\ref{exercise:strong-product}. It then follows that
+\[
+\log \alpha(G^{\boxtimes(k+\ell)}) \geq \log \alpha(G^{\boxtimes k}) + \log \alpha(G^{\boxtimes \ell}),
+\]
+and so the sequence $(\log \alpha(G^{\boxtimes n}))_{n \in \mathbb{N}}$ is superadditive. Then by \href{https://en.wikipedia.org/wiki/Superadditivity}{Fekete's lemma},
+\[
+\lim_{n \to \infty} \frac{\log \alpha(G^{\boxtimes n})}{n}
+\]
+exists and is equal to the supremum.
+\end{proof}
+
+\begin{example}
+We calculate the Shannon capacity of the graph $H$ from Example~\ref{example:conf-graph-product}.
+\begin{align*}
+c(H) &=  \lim_{n \to \infty} \frac{\log \alpha(H^{\boxtimes n})}{n}\\
+&= \lim_{n \to \infty} \frac{\log 2^n}{n} = 1.
+\end{align*}
+The second equality holds because the graph $H^{\boxtimes n}$ has a maximal independent set consisting of the `outermost' corners of the graph (convince yourself of this for $n = 1, 2, 3$. There are $2^n$ such corners.
+
+A channel with confusability graph $H$ does not benefit from multiple channel uses: we can still only send a single bit of information over the channel on average.
+\end{example}
+
+The computational complexity of $c(G)$ is unknown. It is not even known to be a decidable problem. From Example~\ref{example:typewriter-multiple-uses}, we know that $c(C_5)$ is at least $\frac{\log 5}{2}$, a fact that has been known since Shannon showed it in 1956, but how can we tell whether it is bigger than that number? This question remained open until Lovasz showed in 1979 that $c(C_5) = \frac{\log 5}{2}$. For the relatively small circle of size 7, $C_7$, the exact Shannon capacity remains unknown.
+
+From the fact that $c(C_5) = \frac{\log 5}{2}$, we know that the 5-letter noisy typewriter does not benefit from more than two channel uses. In fact, all graphs for which the Shannon capacity is known attain that capacity with one, two or an infinite number of channel uses. It is not known if there is a deeper reason for this observed pattern.
