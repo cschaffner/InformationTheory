@@ -9,9 +9,12 @@
 
 % Packages
 \usepackage[english]{exercises}
+%\usepackage{amsthm}
 \usepackage{wasysym}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\newtheorem{lemma}{Lemma}
 
 \begin{document}
 
@@ -32,7 +35,7 @@ For each of the channels below, give the corresponding confusability graph.
 \end{exercise}
 
 \begin{exercise}[]
-(CT, Exercise 2.32)
+%(CT, Exercise 2.32)
 We are given the following joint distribution of $X \in \{1,2,3\}$ and $Y \in \{a,b,c\}$:
 \begin{align*}
 P_{XY}(1,a) &= P_{XY}(2,b) = P_{XY}(3,c) = 1/6\\
@@ -81,9 +84,13 @@ is weakly symmetric but not symmetric.
 \end{exercise}
 
 \begin{exercise}[Multiple Channel Uses]
-Let $Y^n$ be the result of passing $X^n$ through a discrete memoryless channel of capacity $C$. Prove that for all $P_{X^n}$, it holds that $I(X^n,Y^n) \leq nC$. For inspiration, look again at the proof of the converse of Shannon's noisy-channel coding theorem.
+Prove the lemma below stating that the capacity per transmission is not increased if we use a discrete memoryless channel many times. For inspiration, look again at the proof of the converse of Shannon's noisy-channel coding theorem.
 
-The above states that the capacity per transmission is not increased if we use a discrete memoryless channel many times. Does your proof also work in case the channel is not memoryless, but allows for feedback (i.e. $X_{i+1}$ is allowed to depend on $X^i$ and $Y^i$)? If not, point out the steps in your proof where you use that there is no feedback.
+\medskip
+\noindent {\bf Lemma 7.9.2 in [CT]}\  Let $Y^n$ be the result of passing $X^n$ through a discrete memoryless channel of capacity $C$. Prove that for all $P_{X^n}$, it holds that $I(X^n; Y^n) \leq nC$.
+\medskip
+
+Does your proof also work in case of coding with feedback (i.e.\ $X_{i+1}$ is allowed to depend on $X^i$ and $Y^i$)? If not, point out the steps in your proof where you use that there is no feedback.
 \end{exercise}
 
 
