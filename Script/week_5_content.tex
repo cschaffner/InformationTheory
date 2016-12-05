@@ -174,22 +174,22 @@ Consider the following channels. The connecting lines represent non-zero probabi
 \\Channel (a) is both deterministic and lossless (and is therefore called a noiseless channel). Channel (b) is lossless but not deterministic, channel (c) is deterministic but not lossless, and channel (d) (the noisy binary channel) is neither.
 \end{example}
 
-For a given channel, we can ask ourselves: how much information could, in theory, be transmitted through a channel? In other words, what is its capacity?
-
-\begin{definition}[Channel capacity]
-Let $(\mathcal{X}, P_{Y|X}, \mathcal{Y})$ be a channel. Its capacity $C$ is defined as
-\[
-C := \max_{P_X} I(X;Y).
-\]
-\end{definition}
-
-\begin{exercise}
-What is the capacity of an ideal channel? What is the maximizing distribution $P_X$?
-\end{exercise}
+%For a given channel, we can ask ourselves: how much information could, in theory, be transmitted through a channel? In other words, what is its capacity?
+%
+%\begin{definition}[Channel capacity]
+%Let $(\mathcal{X}, P_{Y|X}, \mathcal{Y})$ be a channel. Its capacity $C$ is defined as
+%\[
+%C := \max_{P_X} I(X;Y).
+%\]
+%\end{definition}
+%
+%\begin{exercise}
+%What is the capacity of an ideal channel? What is the maximizing distribution $P_X$?
+%\end{exercise}
 
 
 \section{Codes}
-In order to get as much information through a channel as possible, we can try to find an optimal encoding of the message.
+In order to get as much information through a channel as possible, we can encode messages before sending them through the channel.
 
 \begin{definition}[Code]\label{def:code}
 Let $M, n \in \mathbb{N}$. An $(M,n)$-code for the channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ consists of
@@ -261,6 +261,8 @@ p_e^{(n)} = \lambda_0 &= P[MAJ(Y^n) \neq 0 \mid X^n = 0^n]\\
 \end{align*}
 In order for $0.6^n \leq 10^{-20}$ to be true, it has to be that $n \approx 90$.
 \end{example}
+
+
 
 
 \subsection{The $[7,4]$ Hamming code}
@@ -374,7 +376,8 @@ The repetition code and the $[7,4]$ Hamming code both belong to the more general
 \begin{definition}[Linear code]
 A code $C$ is linear if for all $x, y \in C$, also $x + y \in C$.
 \end{definition}
-In other words, $C$ is linear if it is a subspace of $\mathcal{X}^n$. For the definition of linearity to make sense, addition needs to be defined on $\mathcal{X}^n$. \yfke{or does it even need to be a field?} In the following, we will assume that $\mathcal{X} = \set{0,1}$: in that case addition is simply bitwise addition modulo 2.
+In other words, $C$ is linear if it is a subspace of $\mathcal{X}^n$. For the definition of linearity to make sense, addition needs to be defined on $\mathcal{X}^n$. %\yfke{or does it even need to be a field?}
+In the following, we will assume that $\mathcal{X} = \set{0,1}$: in that case addition is simply bitwise addition modulo 2.
 \begin{exercise}
 Check that the repetition code $R_n$ and the $[7,4]$ Hamming code are indeed linear.
 \end{exercise}
