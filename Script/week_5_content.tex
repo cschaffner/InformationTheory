@@ -1,4 +1,4 @@
-In Chapter~\ref{ch:source-coding}, we saw how to encode a source such that it can be stored or sent over some channel, and decoded at a later point in time. We assumed that the channel used to send the encoded information was perfect, meaning that no information got altered or lost while being sent over the channel. In this chapter, we consider a different setting, where the channel possibly contains some \term{noise}, that may convert the channel input $x$ to some potentually different value $y$:
+In Chapter~\ref{ch:source-coding}, we saw how to encode information from a source such that it can be stored or sent over some channel, and decoded at a later point in time. We assumed that the channel used to send the encoded information was perfect, meaning that no information got altered or lost while being sent over the channel. In this chapter, we consider a different setting, where the channel possibly contains some \term{noise}, that may convert the channel input $x$ to some potentially different value $y$:
 
 \begin{figure}[h]
 \begin{center}
@@ -14,7 +14,7 @@ In Chapter~\ref{ch:source-coding}, we saw how to encode a source such that it ca
 %\node at (3.5,1) {probability};
 %\node at (3.5,0.5) {$P_X(x)$};
 \node at (0,1.25) {message};
-\node at (0,0.75) {$m$};
+\node at (0,0.75) {$w$};
 \draw[-latex] (0.5,1) -- (1,1);
 
 \draw[fill=black!5] (1,0) rectangle (3,2);
@@ -37,21 +37,19 @@ In Chapter~\ref{ch:source-coding}, we saw how to encode a source such that it ca
 \node at (11,0.75) {function};
 
 \draw[-latex] (12,1) -- (13,1);
-\node at (13.5,1) {$\tilde{m}$};
+\node at (13.5,1) {$\tilde{W}$};
 \end{tikzpicture}
 \end{center}
 \end{figure}
-The goal is to design encoding and decoding functions that can resist this noise, so that the recovered message $\tilde{m}$ is as close as possible to the original message $m$. The question is how short (efficient) such codes can be while still providing resistance to noise.
+The goal is to design encoding and decoding functions that can resist this noise, so that the recovered message $\tilde{W}$ is as close as possible to the original message $w$. The question is how short (efficient) such codes can be while still providing resistance to noise.
 
 \section{Channels}
 In this section, the notion of `channel' will me made more precise, and different types of channels are considered.
 
 \begin{definition}[Discrete channel]
-A (discrete) channel is a tuple $(\mathcal{X}, P_{Y|X}, \mathcal{Y})$ such that $\mathcal{X}$ and $\mathcal{Y}$ are finite, and $P_{Y|X} : \mathcal{Y} \to [0,1]$ is a probability distribution. $\mathcal{X}$ represents the set of possible inputs, $\mathcal{Y}$ the set of possible outputs, and $P_{Y|X}(y|x)$ is the probability of receiving output $y$ given an input $x$.
+A (discrete) channel is a tuple $(\mathcal{X}, P_{Y|X}, \mathcal{Y})$ such that $\mathcal{X}$ and $\mathcal{Y}$ are finite sets, and $P_{Y|X} : \mathcal{Y} \to [0,1]$ is a probability distribution. $\mathcal{X}$ represents the set of possible inputs, $\mathcal{Y}$ the set of possible outputs, and $P_{Y|X}(y|x)$ is the probability of receiving output $y$ given input $x$.
 \end{definition}
 Note that if we give a distribution $P_X$ for the set $\mathcal{X}$, this immediately determines a distribution $P_Y$ for $\mathcal{Y}$ by marginalization.
-
-The above is a definition for \term{memoryless} channels, because the probability distribution of the output depends only on the (last) input. If the channel is used repeatedly, the distribution does not change dependent on previous inputs and outputs.
 
 \begin{example}[Binary symmetric channel (BSC)]\label{example:binary-symmetric-channel}
 Define the binary symmetric channel with parameter $f \in [0,1/2]$ by $\mathcal{X} = \mathcal{Y} = \set{0,1}$ and
@@ -93,25 +91,29 @@ With probability $f$, the input is flipped, and with probability $1-f$, it remai
 \begin{exercise}
 Verify that, up to relabeling of the outputs in $\mathcal{Y}$, a BSC with parameter $f \in [1/2,1]$ is equivalent to a BSC with parameter $1-f$.
 \end{exercise}
-If we use the same channel $n$ times, without allowing the receiver to give feedback to the sender in between uses, this can be regarded as the channel $(\mathcal{X}^n, P_{Y^n|X^n}, \mathcal{Y}^n)$ where
+
+We are interested in \term{memoryless} channels where the probability distribution of the output depends only on the current input. If the channel is used repeatedly, the channel distribution does not change depending on previous inputs and outputs.
+If we use ad discrete memoryless channel $n$ times, this can be regarded as the channel $(\mathcal{X}^n, P_{Y^n|X^n}, \mathcal{Y}^n)$ where
 \begin{align}
-P_{Y^n|X^n}(\vec{y}|\vec{x}) = \prod_{i=1}^n P_{Y|X}(y_i|x_i),
+P_{Y^n|X^n}(\vec{y}|\vec{x}) = \prod_{i=1}^n P_{Y|X}(y_i|x_i) \, ,
 \end{align}
-because the channel is memoryless.
+
 
 \begin{example}
 If we send 00110 over the binary symmetric channel from Example~\ref{example:binary-symmetric-channel}, we receive the output 01111 with probability
 \[
 (1-f) \cdot f \cdot (1-f) \cdot (1-f) \cdot f = (1-f)^3f^2.
 \]
-In general, if a binary symmetric channel with noise parameter $f$ is used $n$ times, the probability of observing $k$ bit flips is
+In general, if a (memoryless) binary symmetric channel with noise parameter $f$ is used $n$ times, the probability of observing $k$ bit flips is
 \[
 {n \choose k} f^{k} (1-f)^{n-k}.
 \]
 \end{example}
 
 \begin{example}
-A binary symmetric channel (see Example~\ref{example:binary-symmetric-channel}) with parameter 0.1 is used to send $10^4$ bits. The bit flips that result from the channel use are distributed according to the binomial($10^4,0.1$) distribution: on expectation, $10^4 \cdot 0.1 = 1000$ bits are flipped, and the variance is $10^4 \cdot 0.1 \cdot 0.9 = 900$. Hence the \href{https://en.wikipedia.org/wiki/Standard_deviation}{standard deviation} is $\sqrt{900} = 30$. With probability 99.7$\%$, the number of bits that are flipped stays within three standard deviations of the mean, i.e. between 910 and 1090 bits are flipped with very high probability.
+A binary symmetric channel (see
+Example~\ref{example:binary-symmetric-channel}) with parameter 0.1 is
+used to send $10^4$ bits. The number of bit flips that result from the channel use are distributed according to the binomial($10^4,0.1$) distribution: on expectation, $10^4 \cdot 0.1 = 1000$ bits are flipped, and the variance is $10^4 \cdot 0.1 \cdot 0.9 = 900$. Hence the \href{https://en.wikipedia.org/wiki/Standard_deviation}{standard deviation} is $\sqrt{900} = 30$. With probability 99.7$\%$, the number of bits that are flipped stays within three standard deviations of the mean, i.e.\ between 910 and 1090 bits are flipped with very high probability.
 \end{example}
 
 \begin{definition}[Deterministic channel]
@@ -210,26 +212,26 @@ R := \frac{\log M}{n}.
 \]
 \end{definition}
 
-Given a code for a specific channel, we can wonder what the probability is that an error occurs while transmitting a message. For a fixed message $m$, this probability is represented by the following quantity.
+Given a code for a specific channel, we can study the probability that an error occurs while transmitting a message. For a fixed message $m$, this probability is represented by the following quantity.
 
 \begin{definition}[Probability of error]
 Given an $(M,n)$ code for a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$, the probability of error $\lambda_m$ is the probability that the decoded output is not equal to the input message $m$. More formally,
 \[
-\lambda_m := P[\mathtt{dec}(Y^n) \neq m \mid X^n = \mathtt{enc}(m)].
+\lambda_w := P[\mathtt{dec}(Y^n) \neq m \mid X^n = \mathtt{enc}(w)].
 \]
 Given this quantity, the \term{maximal probability of error} is defined as 
-\[\lambda^{(n)} := \max_{m \in [M]} \lambda_m.\]
+\[\lambda^{(n)} := \max_{w \in [M]} \lambda_w.\]
 Similarly, the \term{average probability of error} is defined as
 \[
-p_e^{(n)} := \frac{1}{M} \sum_{m=1}^M \lambda_m.
+p_e^{(n)} := \frac{1}{M} \sum_{w=1}^M \lambda_w.
 \]
 \end{definition}
 
 \subsection{Repetition codes}
-A simple and intuitive code is the $n$-bit \term{repetition code} $R_n$: a single message bit is encoded by simply repeating the bit $n$ times. Decoding is done by `majority vote', that is, $\mathtt{dec}(y) = MAJ(y_1, ..., y_n)$, which is 1 if and only if more than half of the bits in $y$ are 1s.
+A simple and intuitive code is the $n$-bit \term{repetition code} $R_n$: a single message bit is encoded by simply repeating the bit $n$ times. Decoding is done by `majority vote', that is, $\mathtt{dec}(y) = MAJ(y_1, ..., y_n)$, which is 1 if and only if (strictly) more than half of the bits in $y$ are 1s. In order to avoid ``ties'' in the decoding, repetition codes usually require that $n$ is odd.
 
 \begin{example}[3-bit repetition code]
-Consider the 3-bit repetition code $R_3$. It is a (2,3) code with codebook $\{000,111\}$. The rate of $R_3$ is $1/3$. The probability of error for the message $m = 0$, sent over a BSC with bit flip propability $f$, is
+Consider the 3-bit repetition code $R_3$. It is a (2,3) code with codebook $\{000,111\}$. The rate of $R_3$ is $1/3$. The probability of error for the message $w = 0$, sent over a BSC with bit flip propability $f$, is
 \begin{align*}
 \lambda_0 &= P[\mathtt{dec}(Y^n) \neq 0 \mid X^n = 000]\\
 &= P[Y^n = 011 \ \cup \ Y^n = 101 \ \cup \ Y^n = 110 \ \cup \ Y^n = 111 \mid X^n = 000]\\
@@ -246,11 +248,11 @@ In general, the $n$-bit repetition code is a $(2,n)$ code with the relatively lo
 when used on a binary symmetric channel with bit flip probability $f$.
 
 \begin{example}[Application of the repetition code]
-A company producing hard drives wants to make sure that the probability that a customer experiences a storage failure is at most $0.1\%$. The company has 1000 customers, who each want to store 10 GB of data for 10 years without experiencing a failure. That means that the probability of a single stored bit being stored incorrectly has to be at most
+A company producing hard drives wants to make sure that the probability that a customer experiences a storage failure is at most $0.1\%$. The company has 1000 customers, who each want to store 10 GB of data every day for 10 years without experiencing a failure. That means that the probability of a single stored bit being stored incorrectly has to be at most
 \[
-\frac{1}{10 \cdot 8 \cdot 10^9} \cdot \frac{1}{10 \cdot 365} \cdot \frac{1}{1000} \cdot 0.001 \geq 10^{-20}
+\frac{1}{10 \cdot 8 \cdot 10^9} \cdot \frac{1}{10 \cdot 365} \cdot \frac{1}{1000} \cdot 0.001 \geq 10^{-20} \, .
 \]
-in order to store 10 GB a day for 10 years on 1000 drives with total failure probability 0.1$\%$. The company tries to achieve that error probability using a repetition code $R_n$ and some imperfect drives with bit flip probability $f = 0.1$. How big should $n$ be to achieve $p_e^{(n)} \leq 10^{-20}$?
+The company tries to achieve that error probability using a repetition code $R_n$ and some imperfect drives with bit flip probability $f = 0.1$. How big should $n$ be to achieve $p_e^{(n)} \leq 10^{-20}$?
 \begin{align*}
 p_e^{(n)} = \lambda_0 &= P[MAJ(Y^n) \neq 0 \mid X^n = 0^n]\\
 &= \sum_{k = (n+1)/2}^n {n \choose k} 0.1^k 0.9^k\\
@@ -276,7 +278,7 @@ t_5 &= m_1 \oplus m_2 \oplus m_3,\\
 t_6 &= m_2 \oplus m_3 \oplus m_4,\\
 t_7 &= m_1 \oplus m_3 \oplus m_4
 \end{align*}
-are appended at the right. Note that the choice of these parity bits is arbitrary and differs throughout the literature.
+are appended at the right. Note that the choice of these parity bits differs throughout the literature.
 
 Decoding is done by making sure that all parity bits check out, and if not, making the smallest possible number of bit flips such that they do. It is important to note that the parity bits themselves may have been flipped during the transmission through the channel. A visual way to perform this parity check is by using the following diagram:
 
@@ -350,9 +352,9 @@ The $[7,4]$ Hamming code can correctly decode if the codeword is corrupted in (a
 \begin{definition}[Hamming distance]
 The Hamming distance between two $n$-bit strings $x$ and $y$ is defined as
 \[
-d(x,y) := \sum_{i=1}^n |x_i - y_i|.
+d(x,y) := \sum_{i=1}^n |x_i - y_i|. 
 \]
-Here, $|z|$ denotes the \term{Hamming weight} of a binary string: the number of ones in that string.
+One can equivalently define $d(x,y) = |x-y|$ where $|z|$ denotes the \term{Hamming weight} of a binary string: the number of ones in that string.
 \end{definition}
 
 \begin{definition}[Minimal distance]
@@ -370,14 +372,14 @@ Compute the rate of the $[7,4]$ Hamming code.
 
 
 
-\subsection{Generalization: linear codes}~\label{sec:linear-codes}
-The repetition code and the $[7,4]$ Hamming code both belong to the more general class of linear codes, which we study in this section.
+\subsection{Generalization: Linear Codes}~\label{sec:linear-codes}
+The repetition code and the $[7,4]$ Hamming code both belong to the more general class of linear (error-correcting) codes, which we study in this section.
 
 \begin{definition}[Linear code]
-A code $C$ is linear if for all $x, y \in C$, also $x + y \in C$.
+A code $C$ is linear if any linear combination of codewords is also a codeword.
 \end{definition}
-In other words, $C$ is linear if it is a subspace of $\mathcal{X}^n$. For the definition of linearity to make sense, addition needs to be defined on $\mathcal{X}^n$. %\yfke{or does it even need to be a field?}
-In the following, we will assume that $\mathcal{X} = \set{0,1}$: in that case addition is simply bitwise addition modulo 2.
+For the definition of linearity to make sense, addition and multiplication by constants needs to be defined on $\mathcal{X}^n$ (formally, $\mathcal{X}^n$ needs to be a \href{https://en.wikipedia.org/wiki/Vector_space}{vector space}). In this case, $C$ is linear if it is a \href{https://en.wikipedia.org/wiki/Linear_subspace}{linear subspace} of $\mathcal{X}^n$.
+In the following, we will assume that $\mathcal{X} = \set{0,1}$: in that case, we are talking about \term{binary codes} and addition is simply bitwise addition modulo 2 (which is the exclusive OR function). Note that for binary codes, addition and subtraction is the same operation, as $-1 = +1$ modulo $2$.
 \begin{exercise}
 Check that the repetition code $R_n$ and the $[7,4]$ Hamming code are indeed linear.
 \end{exercise}
@@ -385,7 +387,7 @@ Check that the repetition code $R_n$ and the $[7,4]$ Hamming code are indeed lin
 For linear codes, the notation ``$[n,k,d]$ (linear) code'' is often used to denote the fact that $n$ bits are used to encode $k$ message bits, with a minimal distance $d$. Be aware that in the notation of Definition~\ref{def:code}, this would be a $(2^k, m)$ code. We use different types of brackets to differentiate between the two notations.
 
 \begin{definition}[Generator matrix]
-Given a $[n,k,d]$ linear code, the generator matrix $G^T$ is an $n \times k$ matrix such that the columns $c_1, ..., c_k$ form a basis for $C$. The generator matrix can always be written in \term{systematic form}:
+Given a $[n,k,d]$ linear code, the generator matrix $G^T$ is an $n \times k$ matrix such that the columns $c_1, ..., c_k$ form a basis for $C$. The generator matrix can always be transformed into \term{systematic form}:
 \[
 G^T = 
 \left(
@@ -403,6 +405,7 @@ The generator matrix is used in the encoding function as follows:
 \mathtt{enc}(m) = G^T \cdot m.
 \]
 The codebook $C$ is the set $\Set{G^T \cdot m}{m \in \mathcal{X}^n}$.
+\footnote{The reason for the transposition in $G^T$ is that historically, coding theorists preferred to use row vectors and matrix multiplication from the right instead of column vectors and multiplication from the left, which is more standard in other areas. Notice that for row vectors $c = m \cdot G$, we equivalently have column vectors $c^T = (m \cdot G)^T = G^T \cdot m^T$.}
 
 \begin{example}[{Generator matrix of the $[7,4]$ Hamming code}]
 The following $7 \times 4$ matrix generates the $[7,4]$ Hamming code:
@@ -430,12 +433,14 @@ G^T \left(\begin{array}{c}
 \end{array}\right).
 \]
 \end{example}
-The decoding operation is specified by the parity-check matrix:
+The decoding operation can be described by defining the parity-check matrix:
 
 \begin{definition}[Parity-check matrix]
-Let $C$ be a code with generator matrix \[G^T = \left(\begin{array}{c}
+Let $C$ be a code with generator matrix 
+\[G^T = \left(\begin{array}{c}
 \mathbb{I}_k\\\hline P
-\end{array}\right)\]. Then the parity check matrix for $C$ is given by
+\end{array}\right) \, .\] 
+ Then the parity check matrix for $C$ is given by
 \[
 H := \left( - P \mid \mathbb{I}_{n-k}\right).
 \]
@@ -447,10 +452,11 @@ Let $C$ be a code with parity-check matrix $H$. The syndrome of a received codew
 \end{definition}
 For all $c \in C$, the syndrome is the all-zero vector, since $c = G^Tm$ for some $m$, and 
 \begin{align}
-HG^Tm = \left(-P\mid \mathbb{I}_{n-k}\right)\left(\begin{array}{c} \mathbb{I}_{k} \\\hline P \end{array}\right) m = 0^{n-k}.
+HG^Tm = \left(-P\mid \mathbb{I}_{n-k}\right)\left(\begin{array}{c} \mathbb{I}_{k} \\\hline P \end{array}\right) m = 0^{n-k} \, ,
 \end{align}
+where we make use of \href{https://en.wikipedia.org/wiki/Block_matrix}{block matrix multiplication}.
 
-The syndrome gives a lot of valuable information about where an error occurred. Suppose a codeword $c$ is sent over a channel, and a single bit of $c$ if flipped, at the $i$th position. The output of the channel is thus $c' = c + e_i$ (where $e_i$ is the $i$th unit vector, which is 1 at position $i$ and 0 elsewhere). The syndrome for this received output is
+The syndrome gives a lot of valuable information about where an error occurred. Suppose a codeword $c$ is sent over a channel, and a single bit of $c$ is flipped, at the $i$th position. The output of the channel is thus $c' = c + e_i$ (where $e_i$ is the $i$th unit vector, which is 1 at position $i$ and 0 elsewhere). The syndrome for this received output is
 \begin{align}
 Hc' = H(c + e_i) = Hc + He_i = He_i,
 \end{align}
@@ -526,7 +532,7 @@ For each $c \in C$, define the neighborhood of $c$ to be $N(c) := \{y \in \{0,1\
 \end{align}
 and the result follows.
 \end{proof}
-The $[7,4]$ Hamming code is optimal in the sense that it achieves this Hamming bound: it is a code with block length 7 and minimal distance 3, so an upper bound to the codebook size is $\frac{2^7}{7+1} = 2^4$. The Hamming code achieve exactly this codebook size. There is an entire family of Hamming codes that are optimal in this sense. They form $[2^r-1,2^r-1-r,3]$ codes for $r \in \mathbb{N}$.
+The $[7,4]$ Hamming code is optimal in the sense that it achieves this Hamming bound: it is a code with block length 7 and minimal distance 3, so an upper bound to the codebook size is $\frac{2^7}{7+1} = 2^4$. The Hamming code achieves exactly this codebook size. There is an \href{https://en.wikipedia.org/wiki/Hamming_code}{entire family of Hamming codes} that are optimal in this sense. They form $[2^r-1,2^r-1-r,3]$ codes for $r \in \mathbb{N}$. The columns of their parity-check matrix consist of all non-zero $r$-bit strings.
 
 We conclude this section with two ways to determine the minimal distance of a code. Apart from the trivial way (determining the entire codebook and comparing all the codeword pairs), it turns out that it is already enough to consider just the Hamming weights of the (nonzero) codewords:
 
@@ -545,7 +551,7 @@ d_{\min} &= \min_{\stackrel{x,y \in C}{x \neq y}} d(x,y)
 \end{align}
 \end{proof}
 
-An even faster way to determine the minimal distance of a code is possible if the parity check matrix is known.
+An equivalent way to determine the minimal distance of a code is possible if the parity check matrix is known.
 
 \begin{proposition}
 For a linear code $C$ with parity check matrix $H$, the minimal distance $d_{\min}$ equals the minimum number of columns of $H$ that are linearly dependent.
@@ -553,3 +559,9 @@ For a linear code $C$ with parity check matrix $H$, the minimal distance $d_{\mi
 \begin{proof}
 Left as an exercise.
 \end{proof}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "InfTheory3.tex"
+%%% End:
