@@ -13,6 +13,7 @@
 \usepackage{wasysym}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+\usepackage{tikz}
 
 \newtheorem{lemma}{Lemma}
 
@@ -91,6 +92,41 @@ Prove the lemma below stating that the capacity per transmission is not increase
 \medskip
 
 Does your proof also work in case of coding with feedback (i.e.\ $X_{i+1}$ is allowed to depend on $X^i$ and $Y^i$)? If not, point out the steps in your proof where you use that there is no feedback.
+\end{exercise}
+
+\begin{exercise}[Z-channel]
+The following channel is known as the \emph{Z-channel}:
+\begin{center}
+\begin{tikzpicture}
+\fill[black] (0,0) circle (1mm);
+\fill[black] (0,2) circle (1mm);
+\fill[black] (2,0) circle (1mm);
+\fill[black] (2,2) circle (1mm);
+\draw (0,2) -- (2,2);
+\node[anchor=south] at (1,2) {1};
+\draw (0,0) -- (2,0);
+\node[anchor=north] at (1,0) {$1-f$};
+\draw (0,0) -- (2,2);
+\node[anchor=east] at (1,1) {$f$};
+
+\node[anchor=east] at (0,2) {a};
+\node[anchor=east] at (0,0) {b};
+\node[anchor=west] at (2,2) {a};
+\node[anchor=west] at (2,0) {b};
+\end{tikzpicture}
+\end{center}
+Let $p \in [0,1]$ and write $P_X(a) = 1-p$, $P_X(b) = p$.
+
+\begin{subex}
+Express $I(X;Y)$ in terms of $p$ and $f$.
+\end{subex}
+
+\begin{subex}
+Find the optimal input distribution and the channel capacity for $f = 0.3$.
+\end{subex}
+\begin{subex}
+Do the same for $f = 0.15$ and $f = 0.01$. What do you observe?
+\end{subex}
 \end{exercise}
 
 
