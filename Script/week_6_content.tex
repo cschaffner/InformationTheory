@@ -67,8 +67,73 @@ P[(\tilde{X}^n\tilde{Y}^n) \in \typset] &= \sum_{(\tilde{x}^n\tilde{y}^n) \in \t
 \end{proof}
 
 \section{Shannon's Noisy Channel Coding Theorem}
-
 All rates below capacity are achievable
 \begin{theorem}[Shannon's Noisy Channel Coding Theorem]
 $\forall \epsilon > 0 \ \forall R < C \ \exists n$ such that there exists a $(\lceil 2^{nR}\rceil, n)$ code with $\lambda^{(n)} < \epsilon$.
 \end{theorem}
+
+maximum likelihood decoding: decode to the input that has the highest likelihood with respect to $P_{X|Y}$ using Bayes. Is more optimal, but jointly typical decoding is easier to analyze so we will use that instead.
+
+\begin{proof}
+Fix $P_X$, construct a $(\lceil 2^{nR},n)$-code as follows:
+\begin{enumerate}
+\item Choose a random codebook. $C(1) = (x_1(1), x_2(1), ..., x_n(1)) = x^n(1)$. Similarly for 2, 3, ..., $2^{nR}$. All elements $x_i(j)$ are chosen i.i.d. with respect to $P_X$. The chance of any particular code is
+\[
+\prod_{w=1}^2^{nR} \prod{i=1}^n P_X(x_i(w))
+\]
+\item The code is revealed to both sender and receiver (they both know $P_{Y|X}$)
+\item Message $w$ is chosen and $x^n(w)$ is sent.
+\item Bob receives $y^n$ with probability $P_{Y^n|X^n}(y^n|x^n(w)) = \prod_{i=1}^n P_{Y|X}(y_i x_i(w))$.
+\item Bob decodes, using jointly typical decoding (see MacKay book). How well does that work? Claim: very well. 
+\end{enumerate}
+Error happens when $\hat{W}(Y^n) \neq w$. Let
+\[
+\lambda_w(C) := P[\hat{W} \neq | X^n(w) was sent according to C].
+\]
+Then
+\begin{align*}
+p_e^{(n)} &= \sum_{C} P[C] \frac{1}{2^{nR}} \sum_{w = 1}^{2^{nR}} \lambda_w(C)\\
+&= \frac{1}{2^{nR}} \sum_{w=1}^{2^{nR}} \sum_C P[C] \lambda_w(C)
+\end{align*}
+this does not depend on $w$, so without loss of generality focus on $w = 1$:  is equal to $\sum_C P[C] \lambda_1(C)$.
+
+There are two sources of error (see MacKay book):
+\begin{itemize}
+\item a. $(x^n(1),y^n)$ is not jointly typical. By joint AEP (1), this goes to zero as $n$ goes to infinity. (+ some intuition about weak law of large numbers here)
+\item b. $(x^n(w'),y^n)$ is jointly typical for some $w' \neq 1$. Note that $x^n(w')$ and $y^n$ are sampled i.i.d from $P_X$ and $P_Y$, so by joint AEP (3), the probability of this happening is at most
+\[
+\sum_{w' = 2}^{2^{nR}} 2^{-n(I(X;Y)-3\epsilon)}
+\]
+\end{itemize}
+so
+\[
+p_e^{(n)} &\leq \epsilon + (2^{nR} - 1) 2^{-n(I(X;Y)-3\epsilon)\\
+&=  \epsilon + 2^{-n(I(X;Y)- R - 3\epsilon)\\
+&\leq 2\epsilon (for large enough n?)
+\]
+
+\begin{enumerate}
+\item Now, fix $P_X = \argmax_{P_X} I(X;Y)$. So $R <  C$.
+\item Get rid of the average codebook. There is at least one code with $p_e^{(n)}(C^*) \leq 2\epsilon$.
+\item In the best code $C^*$, throw away the worst half of the codewords. Since we know
+\[
+p_e^{(n)}(C^*) = \frac{1}{2^{nR}} \sum_{w=1}^{2^{nR}} \lambda_w(C^*) \leq 2\epsilon.
+\]
+then at least half of the codewords must have $\lambda_w(C^*) \leq 4\epsilon$. So there are $2^{nR -1}$ codewords with $\max_w \lambda_w(C^*) \leq 4\epsilon$. So this changes the rate $R$ to $R - \frac{1}{n}$. So we have constructed a code with rate $R' = R - \frac{1}{n}$ and $\lambda^{(n)} \leq 4\epsilon$.
+\end{enumerate}
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
