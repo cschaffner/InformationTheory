@@ -1,0 +1,125 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{6}
+\newcommand\deadline{Friday December 16th, 20:00h}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercises}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\usepackage{tikz}
+\usepackage{amssymb}
+
+\begin{document}
+
+\homeworkproblems
+
+{\sffamily\noindent
+Your homework must be handed in \textbf{electronically via Moodle before \deadline}. This deadline is strict and late submissions are graded with a 0. At the end of the course, the lowest of your 6 weekly homework grades will be dropped. You are strongly encouraged to work together on the exercises, including the homework. However, after this discussion phase, you have to write down and submit your own individual solution. Numbers alone are never sufficient, always motivate your answers.
+}
+
+\begin{exercise}[Additive noise channel (4pt)]
+Let $R$ be a random variable such that takes on either value 0 or some arbitrary but fixed value $r \in \mathbb{R}$, both with probability 1/2. Consider a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ with $\mathcal{X} = \{0,1\}$ and 
+\[Y = (X + R) \quad \mbox{mod 4}. \]
+Find the capacity of this channel for all possible values of $r$.
+\end{exercise}
+
+
+\begin{exercise}[Comparing capacities (5pt)]
+Consider a discrete memoryless channel $(\mathcal{X}, P_{Y|X}, \mathcal{Y})$. Let $G$ be its confusability graph.
+\begin{subex}[(2pt)]
+Prove that $\log(\alpha(G)) \leq \max_{P_X} I(X;Y)$.
+\end{subex}
+\begin{subex}[(2pt)]
+Prove that in general for $n \geq 1$, \[\log(\alpha(G^{\boxtimes n})) \leq \max_{P_{X^n}} I(X^n ; Y^n).\]
+\end{subex}
+\begin{subex}[(1pt)]
+Conclude that the Shannon capacity of (the confusability graph of) a channel can never exceed the channel capacity. Is this result surprising? Why or why not?
+\end{subex}
+
+\end{exercise}
+
+\begin{exercise}[A  realistic binary channel (5pt)]
+Consider a channel with two possible inputs (0 or 1). Upon transmission, not only is the input bit flipped with probability $\epsilon$, but it can also be erased, with probability $\alpha$.
+	\begin{subex}[(3pt)]
+	Draw the channel and find its channel capacity.
+	\end{subex}
+	\begin{subex}[(1pt)]
+	What is the channel if $\alpha = 0$? Calculate its capacity from (a).
+	\end{subex}
+	\begin{subex}[(1pt)]
+	What is the channel if $\epsilon = 0$? Calculate its capacity from (a).
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Toggle channel (5pt)]
+Given two channels $(\mathcal{X}_1, P_{Y_1|X_1}, \mathcal{Y}_1)$ and $(\mathcal{X}_2, P_{Y_2|X_2}, \mathcal{Y}_2)$ with $\mathcal{X}_1 \cap \mathcal{X}_2 = \mathcal{Y}_1 \cap \mathcal{Y}_2 = \emptyset$, define the ``union channel'' $(\mathcal{X}, P_{Y|X},\mathcal{Y})$ by allowing the transmitter to choose between sending a signal through either channel 1 or channel 2 (but not both) each time. Let $C$ be the capacity of the new channel, and let $C_1$ and $C_2$ be the capacities of the ``component channels''.
+\begin{subex}[(4pt)]
+Prove that $2^C = 2^{C_1} + 2^{C_2}$. Solve any maximization problems analytically (i.e. by hand).
+\\\textbf{Hint:} think of $P_X$ as a tree, where the first step decides whether to use the first or the second channel.
+\end{subex}
+
+\begin{subex}[(1pt)]
+Use (a) to find the capacity of the following channel:
+\begin{center}
+\begin{tikzpicture}
+\fill[black] (0,3) circle (1mm);
+\fill[black] (0,2) circle (1mm);
+\fill[black] (0,1) circle (1mm);
+\fill[black] (2,0) circle (1mm);
+\fill[black] (2,1) circle (1mm);
+\fill[black] (2,2) circle (1mm);
+\fill[black] (2,3) circle (1mm);
+
+\draw (0,3) -- (2,3);
+\draw (0,2) -- (2,2);
+\draw (0,3) -- (2,2);
+\draw (0,2) -- (2,3);
+\draw (0,1) -- (2,1);
+\draw (0,1) -- (2,0);
+
+\node[anchor=south] at (1,3) {0.8};
+\node[anchor=north] at (1,2) {0.8};
+\node at (0.5,2.75) {0.2};
+\node at (0.5,2.25) {0.2};
+
+\node[anchor=south] at (1,1) {0.6};
+\node at (1,0) {0.4};
+
+\end{tikzpicture}
+\end{center}
+\end{subex}
+
+\begin{subex}
+Use (a) to find the capacity of an arbitrary channel with capacity $C_1$ combined with an ideal channel with $k$ inputs.
+\end{subex}
+\end{exercise}
+
+
+\begin{exercise}[Beating the channel capacity? (4pt)]
+Suppose we pick a bit $R$ uniformly at random, and send it over a binary symmetric channel with bit flip probability $f$, resulting in an output bit $Z_1$. Assume we get to know $Z_1$ and send it again over the channel, receiving a new output bit $Z_2$. We repeat this procedure until we used the channel $n$ times in total.
+
+\begin{subex}[(3pt)]
+What is the average mutual information per channel use between all $n$ input and $n$ output bits? Can it exceed the channel capacity?
+\end{subex}
+
+\begin{subex}[(1pt)]
+Is this a good scheme to transmit a bit $R$ of our choice reliably and efficiently over the channel?
+\end{subex}
+
+\end{exercise}
+
+
+
+
+
+
+
+
+\end{document}
