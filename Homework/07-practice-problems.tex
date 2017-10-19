@@ -1,7 +1,7 @@
 \documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
 
 %% Settings
-\newcommand\problemset{6}
+\newcommand\problemset{7}
 \newcommand\deadline{Friday November 18th, 20:00h}
 \newif\ifcomments
 \commentsfalse % hide comments
@@ -12,6 +12,7 @@
 \usepackage{wasysym}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
 \usepackage{tikz}
 
 \begin{document}
@@ -19,58 +20,60 @@
 \practiceproblems
 
 {\sffamily\noindent
-This week's exercises deal with channel capacities. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=1761}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
+This week's exercises deal with noisy-channel coding. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=1761}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
 }
 
-\begin{exercise}[Channel with memory]
-[CT 7.36]
-Consider the discrete memoryless channel with input alphabet $X_i \in \{1,-1\}$ and output $Y_i = Z_iX_i$.
+\begin{exercise}[Encoder and decoder as part of the channel]
+[CT, 7.16] Consider a binary symmetric channel with crossover probability 0.1. A possible coding scheme for this channel with two codewords of length 3 is to encode message $w_1$ as 000 and $w_2$ as 111. Decoding happens by majority vote. With this coding scheme, we can consider the combination of encoder, channel, and decoder as forming a new BSC, with two inputs $w_1$ and $w_2$, and two outputs $w_1$ and $w_2$.
+
 \begin{subex}
-What is the capacity of this channel when $\{Z_i\}$ is i.i.d. with $P[Z_i = 1] = P[Z_i = -1] = \frac{1}{2}$?
+Draw the channel and calculate the crossover probability.
 \end{subex}
+
 \begin{subex}
-Now consider the channel with memory. Before transmission begins, $Z$ is randomly chosen and fixed for all time. Thus, $Y_i = ZX_i$. What is the capacity of this channel when $P[Z = 1] = P[Z = -1] = \frac{1}{2}$?
+What is the capacity of the original channel?
 \end{subex}
+
+\begin{subex}
+What is the capacity of this new channel in bits per transmission of the original channel? Compare.
+\end{subex}
+
+\begin{subex}
+Prove the general statement that for any channel, considering the encoder, channel, and decoder together as a new channel from messages to estimated messages will not increase the capacity in bits per transmission of the original channel.
+\end{subex}
+
 \end{exercise}
 
 \begin{exercise}[Source and channel]
-[CT 7.31]
-We wich to encode a Bernoulli($\alpha$) process $V_1, V_2, ... V_n$ for transmission over a binary symmetric channel with crossover probability $p$, using the channel $n$ times.
+[CT, 7.31] We wish to encode a Bernoulli($\alpha$) process $V_1, V_2, ...$ for transmission over a binary symmetric channel with crossover probability $\epsilon$.
 \begin{center}
 \begin{tikzpicture}
 \node at (0,0) {$V^n$};
-\node at (1.5,0) {$X^n(V^n)$};
-\node at (3.15,0) {BSC$(p)$};
-\node at (4.65,0) {$Y^n$};
-\node at (6,0) {$\hat{V}^n$};
-\draw[->,>=latex] (0.25,0) -- (0.75,0);
-\draw[->,>=latex] (2.2,0) -- (2.6,0);
-\draw[->,>=latex] (3.75,0) -- (4.25,0);
-\draw[->,>=latex] (5,0) -- (5.5,0);
+\node at (2,0) {$X^n(V^n)$};
+\node at (4,0) {BSC($\epsilon$)};
+\node at (6,0) {$Y^n$};
+\node at (8,0) {$\hat{V}^n$};
+\draw[->, >=latex] (0.5,0) -- (1.25,0);
+\draw[->, >=latex] (2.75,0) -- (3.5,0);
+\draw[->, >=latex] (4.75,0) -- (5.5,0);
+\draw[->, >=latex] (6.5,0) -- (7.5,0);
 \end{tikzpicture}
 \end{center}
-
-Find conditions on $\alpha$ and $p$ so that the probability of error $P(\hat{V}^n \neq V^n)$ can be made to go to zero as $n \to \infty$.
+Find conditions on $(\alpha,\epsilon)$ under which the error probability $P[\hat{V}^n \neq V^n]$ can be made to go to zero as $n \to \infty$.
 \end{exercise}
 
-\begin{exercise}[Encoder and decoder as part of the channel]
-Consider a binary symmetric channel (BSC) $(\mathcal{X},P_{Y|X},\mathcal{Y})$ with crossover probability 0.1. A possible coding scheme for this channel with two codewords of length 3 is to encode message $w_1$ as 000 and $w_2$ as 111. The decoder uses majority vote. With this coding scheme, we can consider the combination of encoder, channel, and decoder as forming a new BSC $(\mathcal{X}',Q_{Y'|X'},\mathcal{Y}')$, with two inputs $w_1$ and $w_2$ and two outputs $w_1$ and $w_2$.
+\begin{exercise}[Channel with memory]
+[CT, 7.36] Consider the discrete memoryless channel $(\mathcal{X}, P_{Y|X}, \mathcal{Y})$ with $\mathcal{X} = \{-1,1\}$, and $Y = ZX$ for a random variable $Z$ with $\mathcal{Z} = \{-1,1\}$.
 \begin{subex}
-Draw this new channel and calculate its crossover probability.
+What is the capacity of this channel when $Z$ is uniform?
 \end{subex}
 \begin{subex}
-What is the capacity of this channel in bits per transmission of the original channel $P_{Y|X}$?
-\end{subex}
-\begin{subex}
-What is the capacity of the original BSC $P_{Y|X}$ with crossover probability 0.1? Compare the two capacities.
-\end{subex}
-\begin{subex}
-Prove the following general result: for any channel, considering the encoder, channel and decoder together (as a new channel from message $W$ to estimated messages $\hat{W}$) will not increase the capacity in bits per transmission of the original channel.
+Now consider the channel with memory. Before transmission begins, $Z$ is randomly chosen and fixed for all time. What is the capacity when $Z$ is uniform?
 \end{subex}
 \end{exercise}
 
-\begin{exercise}[Practice!]
-If you are done with all of the above problems, take the rest of the exercise session to practice older exercises from previous practice and/or homework problem sets.
+\begin{exercise}[Practice]
+If you have solved all of the above problems before the exercise session is over, take the rest of the time to review previous exercise sets, homeworks or concept quizzes, or to ask any questions that you might have.
 \end{exercise}
 
 

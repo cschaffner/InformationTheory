@@ -1,0 +1,139 @@
+\section{The converse}
+...
+
+\section{Joint Typicality}
+In order to prepare for the ncc theorem.
+
+\begin{definition}[Joint typicality]
+For a joint distribution $P_{XY}$, define the jointly typical set $\typset$ as
+\begin{align*}
+\typset := \{(x^n,y^n) \in \mathcal{X}^n \times \mathcal{Y}^n &\mid | - \frac{1}{n} \log P_{X^n}(x^n) - H(X)| < \epsilon,\\
+&\mid | - \frac{1}{n} \log P_{Y^n}(y^n) - H(Y)| < \epsilon,\\
+&\mid | - \frac{1}{n} \log P_{X^nY^n}(x^n,y^n) - H(XY)| < \epsilon\}
+\end{align*}
+where $P_{X^n}$ is just $\prod_{i=1}^n P_X$.
+\end{definition}
+So also the joint surprisal should be close to the joint entropy.
+
+\begin{theorem}[Joint Asymptotic Equipartition Property]
+Let $X^nY^n \stackrel{iid}{\sim} P_{XY}$, then
+\begin{enumerate}
+\item $P_{X^nY^n}(\typset) \convto 1$.
+\item $|\typset| \leq 2^{n(H(XY) + \epsilon)}$
+\item If $\tilde{X}^n\tilde{Y}^n \stackrel{iid}{\sim} P_X \cdot P_Y$, then $P[(\tilde{X}^n\tilde{Y}^n) \in \typset] \leq 2^{-n(I(X;Y) - 3\epsilon)}$.
+\item For large enough $n$, $P[(\tilde{X}^n\tilde{Y}^n) \in \typset] \geq (1-\epsilon)2^{-n(I(X;Y) + 3 \epsilon)}$.
+\end{enumerate}
+\end{theorem}
+Extremes: if $X$ and $Y$ are independent, everything is jointly typical. Then (3) is upper bounded by 1, basically.
+If $X = Y$, then the mutual information is $H(X)$, and the jointly typical set is going to be quite small (only everything that is on the diagonal).
+
+\begin{proof}
+Using weak law of large numbers.
+\begin{enumerate}
+\item $-\frac{1}{n} \log P_{X^n}(X^n) = - \frac{1}{n} \sum_{i=1}^n \log P_X(x) \convtoP - \mathbb{E}[\log P_X(X)] = H(X)$. Same argument as in regular AEP. For $\epsilon > 0$, there exists an $n_1$ such that for all $n \geq n_1$,
+\[
+P[|-\frac{1}{n} \log P_{X^n}(X^n) - H(X) \geq \epsilon] < \epsilon/3.
+\]
+Similarly, there exists an $n_2$ such that for all $n \geq n_2$,
+\[
+P[|-\frac{1}{n} \log P_{Y^n}(Y^n) - H(Y) \geq \epsilon] < \epsilon/3.
+\]
+and there exists an $n_3$ such that for all $n \geq n_3$,
+\[
+P[|-\frac{1}{n} \log P_{X^nY^n}(X^nY^n) - H(XY) \geq \epsilon] < \epsilon/3.
+\]
+Then choose $\tilde{n} = \max\{n_1,n_2,n_3\}$, then for all $n \geq \tilde{n}$, the three conditions hold. Then by union bound,
+\[
+P[X^nY^n \not\in \typset] < \epsilon.
+\]
+\item $1 = \sum_{(x^ny^n) \in \mathcal{X}^n \times \mathcal{Y}^n} P_{X^nY^n}(x^ny^n) \geq ...$
+\item see:
+\begin{align*}
+P[(\tilde{X}^n\tilde{Y}^n) \in \typset] &= \sum_{(\tilde{x}^n\tilde{y}^n) \in \typset)} P_{X^n}(x^n) \times P_{Y^n}(y^n)\\
+&\leq |\typset| 2^{-n(H(X) - \epsilon)}2^{-n(H(Y) - \epsilon} \mbox(because both probs are upper bounded)\\
+&\leq 2^{n(H(XY) + \epsilon}2^{-n(H(X) - \epsilon)}2^{-n(H(Y) - \epsilon} \mbox{by (2)}\\
+&= 2^{-n(-H(XY) +H(X) + H(Y) - 3\epsilon}\\
+&= 2^{-n(I(X;Y) - 3\epsilon)}
+\end{align*}
+\item see:
+\begin{align*}
+P[(\tilde{X}^n\tilde{Y}^n) \in \typset] &= \sum_{(\tilde{x}^n\tilde{y}^n) \in \typset)} P_{X^n}(x^n) \times P_{Y^n}(y^n)\\
+&\geq |\typset| 2^{-n(H(X) + \epsilon)}2^{-n(H(Y) + \epsilon}\\
+&\geq (1-\epsilon)2^{n(H(XY) - \epsilon}2^{-n(H(X) + \epsilon)}2^{-n(H(Y) + \epsilon}\\
+&= (1-\epsilon)2^{-n(I(X;Y) + 3\epsilon)}
+\end{align*}
+
+\end{enumerate}
+\end{proof}
+
+\section{Shannon's Noisy Channel Coding Theorem}
+All rates below capacity are achievable
+\begin{theorem}[Shannon's Noisy Channel Coding Theorem]
+$\forall \epsilon > 0 \ \forall R < C \ \exists n$ such that there exists a $(\lceil 2^{nR}\rceil, n)$ code with $\lambda^{(n)} < \epsilon$.
+\end{theorem}
+
+maximum likelihood decoding: decode to the input that has the highest likelihood with respect to $P_{X|Y}$ using Bayes. Is more optimal, but jointly typical decoding is easier to analyze so we will use that instead.
+
+\begin{proof}
+Fix $P_X$, construct a $(\lceil 2^{nR},n)$-code as follows:
+\begin{enumerate}
+\item Choose a random codebook. $C(1) = (x_1(1), x_2(1), ..., x_n(1)) = x^n(1)$. Similarly for 2, 3, ..., $2^{nR}$. All elements $x_i(j)$ are chosen i.i.d. with respect to $P_X$. The chance of any particular code is
+\[
+\prod_{w=1}^2^{nR} \prod{i=1}^n P_X(x_i(w))
+\]
+\item The code is revealed to both sender and receiver (they both know $P_{Y|X}$)
+\item Message $w$ is chosen and $x^n(w)$ is sent.
+\item Bob receives $y^n$ with probability $P_{Y^n|X^n}(y^n|x^n(w)) = \prod_{i=1}^n P_{Y|X}(y_i x_i(w))$.
+\item Bob decodes, using jointly typical decoding (see MacKay book). How well does that work? Claim: very well. 
+\end{enumerate}
+Error happens when $\hat{W}(Y^n) \neq w$. Let
+\[
+\lambda_w(C) := P[\hat{W} \neq | X^n(w) was sent according to C].
+\]
+Then
+\begin{align*}
+p_e^{(n)} &= \sum_{C} P[C] \frac{1}{2^{nR}} \sum_{w = 1}^{2^{nR}} \lambda_w(C)\\
+&= \frac{1}{2^{nR}} \sum_{w=1}^{2^{nR}} \sum_C P[C] \lambda_w(C)
+\end{align*}
+this does not depend on $w$, so without loss of generality focus on $w = 1$:  is equal to $\sum_C P[C] \lambda_1(C)$.
+
+There are two sources of error (see MacKay book):
+\begin{itemize}
+\item a. $(x^n(1),y^n)$ is not jointly typical. By joint AEP (1), this goes to zero as $n$ goes to infinity. (+ some intuition about weak law of large numbers here)
+\item b. $(x^n(w'),y^n)$ is jointly typical for some $w' \neq 1$. Note that $x^n(w')$ and $y^n$ are sampled i.i.d from $P_X$ and $P_Y$, so by joint AEP (3), the probability of this happening is at most
+\[
+\sum_{w' = 2}^{2^{nR}} 2^{-n(I(X;Y)-3\epsilon)}
+\]
+\end{itemize}
+so
+\[
+p_e^{(n)} &\leq \epsilon + (2^{nR} - 1) 2^{-n(I(X;Y)-3\epsilon)\\
+&=  \epsilon + 2^{-n(I(X;Y)- R - 3\epsilon)\\
+&\leq 2\epsilon (for large enough n?)
+\]
+
+\begin{enumerate}
+\item Now, fix $P_X = \argmax_{P_X} I(X;Y)$. So $R <  C$.
+\item Get rid of the average codebook. There is at least one code with $p_e^{(n)}(C^*) \leq 2\epsilon$.
+\item In the best code $C^*$, throw away the worst half of the codewords. Since we know
+\[
+p_e^{(n)}(C^*) = \frac{1}{2^{nR}} \sum_{w=1}^{2^{nR}} \lambda_w(C^*) \leq 2\epsilon.
+\]
+then at least half of the codewords must have $\lambda_w(C^*) \leq 4\epsilon$. So there are $2^{nR -1}$ codewords with $\max_w \lambda_w(C^*) \leq 4\epsilon$. So this changes the rate $R$ to $R - \frac{1}{n}$. So we have constructed a code with rate $R' = R - \frac{1}{n}$ and $\lambda^{(n)} \leq 4\epsilon$.
+\end{enumerate}
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
