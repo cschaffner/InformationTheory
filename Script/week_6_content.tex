@@ -1,127 +1,445 @@
-\section{The converse}
-...
 
-\section{Joint Typicality}
-In order to prepare for the ncc theorem.
 
-\begin{definition}[Joint typicality]
-For a joint distribution $P_{XY}$, define the jointly typical set $\typset$ as
-\begin{align*}
-\typset := \{(x^n,y^n) \in \mathcal{X}^n \times \mathcal{Y}^n &\mid | - \frac{1}{n} \log P_{X^n}(x^n) - H(X)| < \epsilon,\\
-&\mid | - \frac{1}{n} \log P_{Y^n}(y^n) - H(Y)| < \epsilon,\\
-&\mid | - \frac{1}{n} \log P_{X^nY^n}(x^n,y^n) - H(XY)| < \epsilon\}
-\end{align*}
-where $P_{X^n}$ is just $\prod_{i=1}^n P_X$.
+In Chapter~\ref{ch:zero-error} we discovered that for some noisy channels, zero-error communication is very hard or even impossible. For example, if Alice and Bob have to communicate over a binary symmetric channel (BSC, see Example~\ref{example:binary-symmetric-channel}) with non-zero bit flip probability, they cannot hope to do any zero-error communication, as the Shannon capacity of the BSC's confusability graph is zero.
+
+In this chapter, Alice and Bob try to achieve a more modest goal. Consider again the setting where they try to communicate over a noisy, memoryless channel from Section~\ref{sec:noisy-channel}, but now they are content with a small probability of error. That is, Bob has to have high confidence that the message he decodes is correct, but he can be wrong with small probability. Can they do more in this setting? For example, can they communicate information reliably over a noisy BSC?
+
+\section{Channel capacity}
+Central to our study of communication over noisy channels will be the concept of channel capacity. It reflects the maximum amount of information that could \emph{in principle} be communicated with a single use of a channel.
+
+\begin{definition}[Channel capacity]
+The channel capacity $C$ of a discrete, memoryless channel $(\mathcal{X}, P_{Y|X}, \mathcal{Y})$ is given by
+\[
+C:= \max_{P_X} I(X;Y).
+\]
 \end{definition}
-So also the joint surprisal should be close to the joint entropy.
+Note that $P_Y$, the output distribution, is fully determined by $P_X$ and $P_{Y|X}$. Maximizing over $P_Y$ rather than $P_X$ would yield the same result.
 
-\begin{theorem}[Joint Asymptotic Equipartition Property]
-Let $X^nY^n \stackrel{iid}{\sim} P_{XY}$, then
+By the properties of mutual information, for all channels it holds that
+\begin{align}
+0 \leq C \leq \log|\mathcal{X}|.
+\end{align}
+This matches our intuition that the capacity should represent the amount of information that can be communicated with a single use of a channel.
+
+\begin{example}[Capacity of a BSC]
+Recall the binary symmetric channel (BSC) from Example~\ref{example:binary-symmetric-channel} with parameter $f \in [0,1/2]$. The capacity of that channel is
+\begin{align*}
+\max_{P_X} I(X;Y) &= \max_{P_X} \left( H(Y) - H(Y|X)\right)\\
+&= \max_{P_X} \left( H(Y) - \sum_{x \in \mathcal{X}} P_X(x) \cdot H(Y|X=x)\right)\\
+&= \max_{P_X} \left( H(Y) - \sum_{x \in \mathcal{X}} p_x(X) \cdot h(f)\right)\\
+&= \max_{P_X} \left( H(Y) - h(f)\right)\\
+&= 1- h(f).
+\end{align*}
+The last step follows because $H(Y)$ is maximized if $Y$ is uniform, which is achievable by choosing $X$ to be uniform.
+\end{example}
+
+\begin{example}[Capacity of a BEC]
+Consider the binary erasure channel (BEC) with $\mathcal{X} = \{0,1\}$ and $\mathcal{Y} = \{0,1,\bot\}$, where $\bot$ is the \term{erasure symbol}, and $\epsilon \in [0,1]$ is the \term{erasure probability}:
+\begin{center}
+\begin{tikzpicture}
+\fill[ocre] (0,0) circle (1mm);
+\fill[ocre] (0,3) circle (1mm);
+\fill[ocre] (5,0) circle (1mm);
+\fill[ocre] (5,1.5) circle (1mm);
+\fill[ocre] (5,3) circle (1mm);
+\node[anchor=east] at (-0.2,0) {1};
+\node[anchor=east] at (-0.2,3) {0};
+\node[anchor=west] at (5.2,0) {1};
+\node[anchor=west] at (5.2,1.5) {$\bot$};
+\node[anchor=west] at (5.2,3) {0};
+
+\draw (0.2,0) -- (4.8,0);
+\draw (0.2,3) -- (4.8,3);
+\draw (0.2,0) -- (4.8,1.5);
+\draw (0.2,3) -- (4.8,1.5);
+
+\fill[black!5] (2,0.25) rectangle (3,-0.25);
+\fill[black!5] (2,3.25) rectangle (3,2.75);
+\node at (2.5,-0.1) {$1-\epsilon$};
+\node at (2.5,3.1) {$1-\epsilon$};
+
+\fill[black!5] (2.25,0.5) rectangle (2.75,1);
+\fill[black!5] (2.25,2) rectangle (2.75,2.5);
+\node at (2.5,0.75) {$\epsilon$};
+\node at (2.5,2.25) {$\epsilon$};
+\end{tikzpicture}
+\end{center} 
+The channel capacity of the BEC is a function of $\epsilon$, and computed as follows. Write $p$ for $P_X(0)$.
+\begin{align*}
+\max_{P_X} I(X;Y) &= \max_{P_X} \left( H(X) - H(X|Y)\right)\\
+&= \max_{p} \left( h(p) - \sum_{y \in \mathcal{Y}} P_Y(y) \cdot H(X|Y=y)\right)\\
+&= \max_{p} \left( h(p) - P_Y(\bot) \cdot h(p)\right)\\
+&= \max_{p} \left( h(p) (1-\epsilon)\right)\\
+&= 1 - \epsilon.
+\end{align*}
+\end{example}
+As stated, the channel capacity reflects the maximum amount of information that \emph{could} be sent over a noisy channel. The question remains whether this capacity is \term{achievable} by some code in the following sense:
+
+\begin{definition}[Achievable rate]
+For a given channel, a rate $R$ is achievable there exists a sequence of $(2^{n \cdot R},n)$ codes (for $n = 1,2,3,...$) such that $\lambda^{(n)} \convto 0$. Here, $\lambda^{(n)}$ is the maximum error probability as defined in Definition~\ref{def:probability-of-error}.
+\end{definition}
+Note that any $(2^{n \cdot R},n)$ code has rate $R$, since $\frac{1}{n} \cdot \log {2^{n \cdot R}} = R$. Thus, a rate $R$ is achievable if there exists a sequence of rate $R$ codes such that increasing the block size reduces the maximum error asymptotically to zero.
+
+The rest of this chapter will be concerned with proving the following theorem, due to Shannon:
+
+\begin{theorem}[Shannon's noisy-channel coding theorem]\label{thm:ncc}
+On a discrete memoryless channel with capacity $C$, any rate $R < C$ is achievable. On the other hand, any rate $R > C$ is not achievable.
+\end{theorem}
+
+Very roughly, the truth of this statement follows from the asymptotic equipartition property (AEP) discussed in Chapter~\ref{sec:aep}. Increasing $n$, the size of the input sequences, results in output sequences that are more likely to be typical. But how can we be sure that no two typical input sequences result in the same typical output sequence? For this, we need stronger mathematical tools.
+
+\section{Joint Asymptotic Equipartition Property}
+In order to decode a channel output $Y^n$ correctly, it is important that there is only one input codeword that is likely to have resulted in that specific output. The following concept will help us with formalizing this idea:
+
+\begin{definition}[Joint typicality]\label{def:joint-typicality}
+For a joint distribution $P_{XY}$, the jointly typical set $\typset$ is defined as
+\begin{align*}
+\typset := \{(x^n,y^n) \in \mathcal{X}^n \times \mathcal{Y}^n \mid &\left| - \frac{1}{n} \log P_{X^n}(x^n) - H(X)\right| < \epsilon,\\
+&\left| - \frac{1}{n} \log P_{Y^n}(y^n) - H(Y)\right| < \epsilon,\\
+&\left| - \frac{1}{n} \log P_{X^nY^n}(x^n,y^n) - H(XY)\right| < \epsilon\}.
+\end{align*}
+Here, $P_{X^nY^n} := \prod_{i=1}^nP_{XY}(x_iy_i)$.
+\end{definition}
+A jointly typical set is a set where both elements of the pair are typical individually under the marginal distributions (see Definition~\ref{def:typset}), and their combination is too under the joint distribution. To get some intuition for what this means, we give two examples: one where $X$ and $Y$ are very correlated, and one where they are independent.
+
+
+
+\begin{example}\label{example:joint-typicality}
+Consider the almost fully correlated random variables $X$ and $Y$ with the following distribution:
+\begin{center}
+\begin{tabular}{c || c | c |}
+&$X=0$&$X=1$\\
+\hline
+\hline
+$Y=0$&0.45&0.05\\
+$Y=1$&0.05&0.45\\
+\end{tabular}
+\end{center}
+Note that the marginal distributions of $X$ and $Y$ are uniform, and so for all $n$ and all $x^n \in \{0,1\}$,
+\[-\frac{1}{n} \log P_{X^n}(x^n) - H(X) = \frac{1}{n} \log \frac{1}{2^n} - \log 2 = 0,\]
+and a similar statement holds for $Y$. Hence, the first and second inequalities in Definition~\ref{def:joint-typicality} are always satisfied for any $\epsilon > 0$. What about the third inequality? The table below visualizes the probabilities of every pair for $n = 3$ and $\epsilon = 0.35$: every square represents a pair of elements from $\mathcal{X}^3$ and $\mathcal{Y}^3$. Bigger squares represent higher probabilities. The typical pairs are marked in orange.
+
+\newcommand{\mysquare}[4]{%color,size,x,y
+	\def\size{#2}
+	\def\x{#3}
+	\def\y{#4}
+	\fill[#1] (\x-\size*0.5, \y-\size*0.5) rectangle (\x+\size*0.5, \y+\size*0.5);
+}
+
+
+\begin{center}
+\begin{tikzpicture}[scale=0.5]
+\def\a{0.6}
+\def\b{0.45}
+\def\c{0.3}
+\def\d{0.15}
+\def\s{1}
+\mysquare{ocre}{\a}{0*\s}{7*\s} \mysquare{black}{\b}{1*\s}{7*\s} \mysquare{black}{\b}{2*\s}{7*\s} \mysquare{black}{\b}{3*\s}{7*\s}
+\mysquare{black}{\c}{4*\s}{7*\s} \mysquare{black}{\c}{5*\s}{7*\s} \mysquare{black}{\c}{6*\s}{7*\s} \mysquare{black}{\d}{7*\s}{7*\s}
+
+\mysquare{black}{\b}{0*\s}{6*\s} \mysquare{ocre}{\a}{1*\s}{6*\s} \mysquare{black}{\c}{2*\s}{6*\s} \mysquare{black}{\c}{3*\s}{6*\s}
+\mysquare{black}{\b}{4*\s}{6*\s} \mysquare{black}{\b}{5*\s}{6*\s} \mysquare{black}{\d}{6*\s}{6*\s} \mysquare{black}{\c}{7*\s}{6*\s}
+
+\mysquare{black}{\b}{0*\s}{5*\s} \mysquare{black}{\c}{1*\s}{5*\s} \mysquare{ocre}{\a}{2*\s}{5*\s} \mysquare{black}{\c}{3*\s}{5*\s}
+\mysquare{black}{\b}{4*\s}{5*\s} \mysquare{black}{\d}{5*\s}{5*\s} \mysquare{black}{\b}{6*\s}{5*\s} \mysquare{black}{\c}{7*\s}{5*\s}
+
+\mysquare{black}{\b}{0*\s}{4*\s} \mysquare{black}{\c}{1*\s}{4*\s} \mysquare{black}{\c}{2*\s}{4*\s} \mysquare{ocre}{\a}{3*\s}{4*\s}
+\mysquare{black}{\d}{4*\s}{4*\s} \mysquare{black}{\b}{5*\s}{4*\s} \mysquare{black}{\b}{6*\s}{4*\s} \mysquare{black}{\c}{7*\s}{4*\s}
+
+\mysquare{black}{\c}{0*\s}{3*\s} \mysquare{black}{\b}{1*\s}{3*\s} \mysquare{black}{\b}{2*\s}{3*\s} \mysquare{black}{\d}{3*\s}{3*\s}
+\mysquare{ocre}{\a}{4*\s}{3*\s} \mysquare{black}{\c}{5*\s}{3*\s} \mysquare{black}{\c}{6*\s}{3*\s} \mysquare{black}{\b}{7*\s}{3*\s}
+
+\mysquare{black}{\c}{0*\s}{2*\s} \mysquare{black}{\b}{1*\s}{2*\s} \mysquare{black}{\d}{2*\s}{2*\s} \mysquare{black}{\b}{3*\s}{2*\s}
+\mysquare{black}{\c}{4*\s}{2*\s} \mysquare{ocre}{\a}{5*\s}{2*\s} \mysquare{black}{\c}{6*\s}{2*\s} \mysquare{black}{\b}{7*\s}{2*\s}
+
+\mysquare{black}{\c}{0*\s}{1*\s} \mysquare{black}{\d}{1*\s}{1*\s} \mysquare{black}{\b}{2*\s}{1*\s} \mysquare{black}{\b}{3*\s}{1*\s}
+\mysquare{black}{\c}{4*\s}{1*\s} \mysquare{black}{\c}{5*\s}{1*\s} \mysquare{ocre}{\a}{6*\s}{1*\s} \mysquare{black}{\b}{7*\s}{1*\s}
+
+\mysquare{black}{\d}{0*\s}{0*\s} \mysquare{black}{\c}{1*\s}{0*\s} \mysquare{black}{\c}{2*\s}{0*\s} \mysquare{black}{\c}{3*\s}{0*\s}
+\mysquare{black}{\b}{4*\s}{0*\s} \mysquare{black}{\b}{5*\s}{0*\s} \mysquare{black}{\b}{6*\s}{0*\s} \mysquare{ocre}{\a}{7*\s}{0*\s}
+\node[anchor=east] at (-0.25,7) {\texttt{000}};
+\node[anchor=east] at (-0.25,6) {\texttt{001}};
+\node[anchor=east] at (-0.25,5) {\texttt{010}};
+\node[anchor=east] at (-0.25,4) {\texttt{100}};
+\node[anchor=east] at (-0.25,3) {\texttt{011}};
+\node[anchor=east] at (-0.25,2) {\texttt{101}};
+\node[anchor=east] at (-0.25,1) {\texttt{110}};
+\node[anchor=east] at (-0.25,0) {\texttt{111}};
+
+\node[anchor=east,rotate=90] at (0,-0.25) {\texttt{000}};
+\node[anchor=east,rotate=90] at (1,-0.25) {\texttt{001}};
+\node[anchor=east,rotate=90] at (2,-0.25) {\texttt{010}};
+\node[anchor=east,rotate=90] at (3,-0.25) {\texttt{100}};
+\node[anchor=east,rotate=90] at (4,-0.25) {\texttt{011}};
+\node[anchor=east,rotate=90] at (5,-0.25) {\texttt{101}};
+\node[anchor=east,rotate=90] at (6,-0.25) {\texttt{110}};
+\node[anchor=east,rotate=90] at (7,-0.25) {\texttt{111}};
+
+\node at (8,-1) {$X$};
+\node at (-1,8) {$Y$};
+\end{tikzpicture}
+\end{center}
+As expected, pairs $(x^3,y^3)$ with a higher overlap in bits have a higher probability of occurring. The jointly typical set has a very clear structure: only those pairs with $x^3 = y^3$ are included.
+
+Increasing $\epsilon$ would result in a bigger typical set. For example, for $\epsilon = 0.8$, all pairs that differ at at most one position (e.g., (\texttt{000},{001})) are part of the jointly typical set. Increasing $n$ would have the same effect: for example, for $n = 10$ and $\epsilon = 0.35$, all pairs of sequences that differ at 0, 1, or 2 positions are part of the jointly typical set.
+
+For big $n$ and small $\epsilon$ we see something interesting happening: take, for example, $n = 10,000$ and $\epsilon = 0.01$. Noting that any particular pair of sequences that differ in $0 \geq m \geq 10,000$ positions has probability $0.45^{10,000 - m} \cdot 0.05^m$ of occurring under $P_{XY}$, one can compute that the inequality
+\[
+\left| -\frac{1}{10,000} \log (0.45^{10,000 - m} \cdot 0.05^m) - H(XY)\right|
+\]
+is satisfied for $969 \leq m \leq 1031$, around 10 percent of the positions. This might match your expectation, since the probability of sampling a non-matching pair of bits ((0,1) or (1,0)) from $P_{XY}$ is 10 percent. Thus, these values of $m$ result in very \emph{typical} pairs of sequences.
+
+Note in particular that pairs of sequences that differ in less than 969 positions, which have the highest probability of occurring, are not included in the typical set! However, the number of such pairs is so small compared to the number of pairs which differ in 969 to 1031 positions, that their total probability is not relevant. As we will see shortly, the elements in the typical set together constitute almost all of the total probability.
+\end{example}
+
+\begin{example}\label{example:jointly-typical-2}
+%hack to swap coordinates...
+\newcommand{\mysquare}[4]{%color,size,x,y
+	\def\size{#2}
+	\def\x{#4}
+	\def\y{#3}
+	\fill[#1] (\x-\size*0.5, 7-\y-\size*0.5) rectangle (\x+\size*0.5, 7-\y+\size*0.5);
+}
+
+
+Consider the following distribution on $X$ and $Y$:
+\begin{center}
+\begin{tabular}{c || c | c |}
+&$X=0$&$X=1$\\
+\hline
+\hline
+$Y=0$&1/8&1/8\\
+$Y=1$&3/8&3/8\\
+\end{tabular}
+\end{center}
+Note that $X$ is uniform, and that $X$ and $Y$ are independent.
+
+As in Example~\ref{example:joint-typicality}, since $X$ is uniform, the first inequality in Definition~\ref{def:joint-typicality} is always satisfied for any $\epsilon > 0$.
+
+Furthermore, since $X$ and $Y$ are independent, the third inequality in Definition~\ref{def:joint-typicality} is satisfied whenever the second inequality holds, because
+\begin{align*}
+-\frac{1}{n}\log P_{X^nY^n}(x^n,y^n) - H(XY) &= -\frac{1}{n}\log P_{X^n}(x^n) - \frac{1}{n}\log P_{Y^n}(y^n) - H(X) - H(Y)\\
+&= -\frac{1}{n}\log P_{Y^n}(y^n) - H(Y).
+\end{align*}
+Hence, for this distribution, any pair where the second element is typical for $Y$ is also jointly typical.
+
+More concretely, consider $n = 3$ and $\epsilon = 0.35$. For these values, the sequences \texttt{011}, \texttt{101}, and \texttt{110} are typical for $Y$. This results in the following jointly typical set (again, bigger squares represent bigger probabilities, and orange squares indicate elements of the typical set):
+
+\begin{center}
+\begin{tikzpicture}[scale=0.5]
+\def\a{0.6}
+\def\b{0.45}
+\def\c{0.3}
+\def\d{0.15}
+\def\s{1}
+\mysquare{black}{\d}{0*\s}{7*\s} \mysquare{black}{\c}{1*\s}{7*\s} \mysquare{black}{\c}{2*\s}{7*\s} \mysquare{black}{\c}{3*\s}{7*\s}
+\mysquare{ocre}{\b}{4*\s}{7*\s} \mysquare{ocre}{\b}{5*\s}{7*\s} \mysquare{ocre}{\b}{6*\s}{7*\s} \mysquare{black}{\a}{7*\s}{7*\s}
+
+\mysquare{black}{\d}{0*\s}{6*\s} \mysquare{black}{\c}{1*\s}{6*\s} \mysquare{black}{\c}{2*\s}{6*\s} \mysquare{black}{\c}{3*\s}{6*\s}
+\mysquare{ocre}{\b}{4*\s}{6*\s} \mysquare{ocre}{\b}{5*\s}{6*\s} \mysquare{ocre}{\b}{6*\s}{6*\s} \mysquare{black}{\a}{7*\s}{6*\s}
+
+\mysquare{black}{\d}{0*\s}{5*\s} \mysquare{black}{\c}{1*\s}{5*\s} \mysquare{black}{\c}{2*\s}{5*\s} \mysquare{black}{\c}{3*\s}{5*\s}
+\mysquare{ocre}{\b}{4*\s}{5*\s} \mysquare{ocre}{\b}{5*\s}{5*\s} \mysquare{ocre}{\b}{6*\s}{5*\s} \mysquare{black}{\a}{7*\s}{5*\s}
+
+\mysquare{black}{\d}{0*\s}{4*\s} \mysquare{black}{\c}{1*\s}{4*\s} \mysquare{black}{\c}{2*\s}{4*\s} \mysquare{black}{\c}{3*\s}{4*\s}
+\mysquare{ocre}{\b}{4*\s}{4*\s} \mysquare{ocre}{\b}{5*\s}{4*\s} \mysquare{ocre}{\b}{6*\s}{4*\s} \mysquare{black}{\a}{7*\s}{4*\s}
+
+\mysquare{black}{\d}{0*\s}{3*\s} \mysquare{black}{\c}{1*\s}{3*\s} \mysquare{black}{\c}{2*\s}{3*\s} \mysquare{black}{\c}{3*\s}{3*\s}
+\mysquare{ocre}{\b}{4*\s}{3*\s} \mysquare{ocre}{\b}{5*\s}{3*\s} \mysquare{ocre}{\b}{6*\s}{3*\s} \mysquare{black}{\a}{7*\s}{3*\s}
+
+\mysquare{black}{\d}{0*\s}{2*\s} \mysquare{black}{\c}{1*\s}{2*\s} \mysquare{black}{\c}{2*\s}{2*\s} \mysquare{black}{\c}{3*\s}{2*\s}
+\mysquare{ocre}{\b}{4*\s}{2*\s} \mysquare{ocre}{\b}{5*\s}{2*\s} \mysquare{ocre}{\b}{6*\s}{2*\s} \mysquare{black}{\a}{7*\s}{2*\s}
+
+\mysquare{black}{\d}{0*\s}{1*\s} \mysquare{black}{\c}{1*\s}{1*\s} \mysquare{black}{\c}{2*\s}{1*\s} \mysquare{black}{\c}{3*\s}{1*\s}
+\mysquare{ocre}{\b}{4*\s}{1*\s} \mysquare{ocre}{\b}{5*\s}{1*\s} \mysquare{ocre}{\b}{6*\s}{1*\s} \mysquare{black}{\a}{7*\s}{1*\s}
+
+\mysquare{black}{\d}{0*\s}{0*\s} \mysquare{black}{\c}{1*\s}{0*\s} \mysquare{black}{\c}{2*\s}{0*\s} \mysquare{black}{\c}{3*\s}{0*\s}
+\mysquare{ocre}{\b}{4*\s}{0*\s} \mysquare{ocre}{\b}{5*\s}{0*\s} \mysquare{ocre}{\b}{6*\s}{0*\s} \mysquare{black}{\a}{7*\s}{0*\s}
+
+\node[anchor=east] at (-0.25,7) {\texttt{000}};
+\node[anchor=east] at (-0.25,6) {\texttt{001}};
+\node[anchor=east] at (-0.25,5) {\texttt{010}};
+\node[anchor=east] at (-0.25,4) {\texttt{100}};
+\node[anchor=east] at (-0.25,3) {\texttt{011}};
+\node[anchor=east] at (-0.25,2) {\texttt{101}};
+\node[anchor=east] at (-0.25,1) {\texttt{110}};
+\node[anchor=east] at (-0.25,0) {\texttt{111}};
+
+\node[anchor=east,rotate=90] at (0,-0.25) {\texttt{000}};
+\node[anchor=east,rotate=90] at (1,-0.25) {\texttt{001}};
+\node[anchor=east,rotate=90] at (2,-0.25) {\texttt{010}};
+\node[anchor=east,rotate=90] at (3,-0.25) {\texttt{100}};
+\node[anchor=east,rotate=90] at (4,-0.25) {\texttt{011}};
+\node[anchor=east,rotate=90] at (5,-0.25) {\texttt{101}};
+\node[anchor=east,rotate=90] at (6,-0.25) {\texttt{110}};
+\node[anchor=east,rotate=90] at (7,-0.25) {\texttt{111}};
+
+\node at (8,-1) {$X$};
+\node at (-1,8) {$Y$};
+\end{tikzpicture}
+\end{center}
+Note that $P_Y(\texttt{111}) \approx 0.422$, which is higher than $P_Y(\texttt{011}) \approx 0.141$. However, $\texttt{111}$ is not typical for $Y$ while $\texttt{011}$ is. \texttt{111}'s probability deviates too far from the benchmark set by the value of $H(Y)$. Together, the sequences in the typical set have a probability of about 0.422 of occurring. As $n$ increases, this number will grow, and the total probability of the elements that fall outside of the typical set (such as the all-\texttt{1} string) will diminish.
+\end{example}
+
+In the above two examples, we have gathered some intuition about jointly typical sets. A (jointly) typical set is usually relatively small compared to the total sample space, but for large $n$, much of the probability lies on its elements. Comparing the above two examples, we also see the effect of mutual information between $X$ and $Y$: if $X$ and $Y$ are highly correlated, the typical set has a diagonal structure, while if they are independent, the typical set is a rectangle. In the latter case, this means that selecting a typical $X$ sample and a typical $Y$ sample will certainly yield a jointly typical element (see Example~\ref{example:jointly-typical-2}). In the first case, there is a significant probability that sampling a typical $X$ and a typical $Y$ independently yields a pair that is not jointly typical (see Example~\ref{example:joint-typicality}).
+
+These observations lead us to a joint version of Theorem~\ref{thm:aep}, describing some properties of jointly typical sets:
+
+\begin{theorem}[Joint Asymptotic Equipartition Property (Joint AEP)]\label{thm:joint-aep}
+Let $X^nY^n$ be i.i.d. with respect to $P_{XY}$. Then:
 \begin{enumerate}
 \item $P_{X^nY^n}(\typset) \convto 1$.
 \item $|\typset| \leq 2^{n(H(XY) + \epsilon)}$
-\item If $\tilde{X}^n\tilde{Y}^n \stackrel{iid}{\sim} P_X \cdot P_Y$, then $P[(\tilde{X}^n\tilde{Y}^n) \in \typset] \leq 2^{-n(I(X;Y) - 3\epsilon)}$.
-\item For large enough $n$, $P[(\tilde{X}^n\tilde{Y}^n) \in \typset] \geq (1-\epsilon)2^{-n(I(X;Y) + 3 \epsilon)}$.
+\item For random variables $\tilde{X}$ and $\tilde{Y}$, if $\tilde{X}^n\tilde{Y}^n$ is i.i.d. with respect to $P_X \cdot P_Y$, then
+\[P[(\tilde{X}^n\tilde{Y}^n) \in \typset] \leq 2^{-n(I(X;Y) - 3\epsilon)}.\]
+\item For random variables $\tilde{X}$ and $\tilde{Y}$, if $\tilde{X}^n\tilde{Y}^n$ is i.i.d. with respect to $P_X \cdot P_Y$, then for large enough $n$, \[P[(\tilde{X}^n\tilde{Y}^n) \in \typset] \geq (1-\epsilon)2^{-n(I(X;Y) + 3 \epsilon)}.\]
 \end{enumerate}
 \end{theorem}
-Extremes: if $X$ and $Y$ are independent, everything is jointly typical. Then (3) is upper bounded by 1, basically.
-If $X = Y$, then the mutual information is $H(X)$, and the jointly typical set is going to be quite small (only everything that is on the diagonal).
 
 \begin{proof}
-Using weak law of large numbers.
+We show the four statements separately, for an arbitrary $X^nY^n$ that is i.i.d. with respect to $P_{XY}$.
 \begin{enumerate}
-\item $-\frac{1}{n} \log P_{X^n}(X^n) = - \frac{1}{n} \sum_{i=1}^n \log P_X(x) \convtoP - \mathbb{E}[\log P_X(X)] = H(X)$. Same argument as in regular AEP. For $\epsilon > 0$, there exists an $n_1$ such that for all $n \geq n_1$,
-\[
-P[|-\frac{1}{n} \log P_{X^n}(X^n) - H(X) \geq \epsilon] < \epsilon/3.
-\]
-Similarly, there exists an $n_2$ such that for all $n \geq n_2$,
-\[
-P[|-\frac{1}{n} \log P_{Y^n}(Y^n) - H(Y) \geq \epsilon] < \epsilon/3.
-\]
-and there exists an $n_3$ such that for all $n \geq n_3$,
-\[
-P[|-\frac{1}{n} \log P_{X^nY^n}(X^nY^n) - H(XY) \geq \epsilon] < \epsilon/3.
-\]
-Then choose $\tilde{n} = \max\{n_1,n_2,n_3\}$, then for all $n \geq \tilde{n}$, the three conditions hold. Then by union bound,
-\[
-P[X^nY^n \not\in \typset] < \epsilon.
-\]
-\item $1 = \sum_{(x^ny^n) \in \mathcal{X}^n \times \mathcal{Y}^n} P_{X^nY^n}(x^ny^n) \geq ...$
-\item see:
-\begin{align*}
-P[(\tilde{X}^n\tilde{Y}^n) \in \typset] &= \sum_{(\tilde{x}^n\tilde{y}^n) \in \typset)} P_{X^n}(x^n) \times P_{Y^n}(y^n)\\
-&\leq |\typset| 2^{-n(H(X) - \epsilon)}2^{-n(H(Y) - \epsilon} \mbox(because both probs are upper bounded)\\
-&\leq 2^{n(H(XY) + \epsilon}2^{-n(H(X) - \epsilon)}2^{-n(H(Y) - \epsilon} \mbox{by (2)}\\
-&= 2^{-n(-H(XY) +H(X) + H(Y) - 3\epsilon}\\
-&= 2^{-n(I(X;Y) - 3\epsilon)}
-\end{align*}
-\item see:
-\begin{align*}
-P[(\tilde{X}^n\tilde{Y}^n) \in \typset] &= \sum_{(\tilde{x}^n\tilde{y}^n) \in \typset)} P_{X^n}(x^n) \times P_{Y^n}(y^n)\\
-&\geq |\typset| 2^{-n(H(X) + \epsilon)}2^{-n(H(Y) + \epsilon}\\
-&\geq (1-\epsilon)2^{n(H(XY) - \epsilon}2^{-n(H(X) + \epsilon)}2^{-n(H(Y) + \epsilon}\\
-&= (1-\epsilon)2^{-n(I(X;Y) + 3\epsilon)}
-\end{align*}
+\item The first statement follows from the weak law of large numbers. Similarly to the proof of Theorem~\ref{thm:aep}, we have that
+\begin{align}
+-\frac{1}{n} \log P_{X^n}(X^n) &= - \frac{1}{n} \sum_{i=1}^n \log P_X(X)\nonumber\\
+&\convtoP - \mathbb{E}[\log P_X(X)] = H(X).
+\end{align}
+Writing out the definition of convergence in probability, we have that for all $\epsilon > 0$, there exists an $n_1 \in \mathbb{N}$ such that for all $n > n_1$,
+\begin{align}\label{eq:joint-aep-1}
+P\left[\left|-\frac{1}{n} \log P_{X^n}(X^n) - H(X)\right| \geq \epsilon \right] &\leq P\left[\left|-\frac{1}{n} \log P_{X^n}(X^n) - H(X)\right| \geq \frac{\epsilon}{3} \right]\nonumber\\
+&< \frac{\epsilon}{3}.
+\end{align}
+In the above, we can divide $\epsilon$ by 3 because the second inequality holds for \emph{all} $\epsilon > 0$, so in particular also for $\frac{\epsilon}{3}$.
 
+We can derive statements about $Y^n$ and $X^nY^n$ that are similar to~\eqref{eq:joint-aep-1}. Doing so, we find $n_2, n_3 \in \mathbb{N}$ for $Y^n$ and $X^nY^n$, respectively. For all $\epsilon > 0$, we can now choose $n_0 := \max\{n_1,n_2,n_3\}$, and find that for all $n > n_0$,
+\begin{align}
+P\left[(X^n,Y^n) \in \typset\right] &= 1 - P\left[(X^n,Y^n) \not\in \typset\right]\nonumber\\
+&\geq 1 - \Big( P\left[\left|-\frac{1}{n} \log P_{X^n}(X^n) - H(X)\right| \geq \epsilon \right] + \nonumber\\
+&\phantom{\geq 1 - \Big(}P\left[\left|-\frac{1}{n} \log P_{Y^n}(Y^n) - H(Y)\right| \geq \epsilon \right] + \nonumber\\
+&\phantom{\geq 1 - \Big(}P\left[\left|-\frac{1}{n} \log P_{X^nY^n}(X^nY^n) - H(XY)\right| \geq \epsilon \right]\Big)\nonumber\\
+&\leq 1 - \left(\frac{\epsilon}{3} + \frac{\epsilon}{3} + \frac{\epsilon}{3}\right) = 1 - \epsilon.
+\end{align}
+The first inequality is due to the union bound, and the second follows from Equation~\eqref{eq:joint-aep-1} and its analogues. By definition of convergence, the first statement is proven.
+\item Observe that by rewriting the last line in the definition of $\typset$ in Definition~\ref{def:joint-typicality}, one can derive that for every element $(x^n,y^n) \in \typset$,
+\begin{align}
+P_{X^nY^n}(x^ny^n) > 2^{-n(H(XY) + \epsilon)}.
+\end{align}
+The second statement follows by rearranging the following inequality:
+\begin{align}
+1 = \sum_{(x^n,y^n) \in \mathcal{X}^n \times \mathcal{Y}^n} P_{X^nY^n}(x^n,y^n) \geq \sum_{(x^n,y^n) \in \typset} P_{X^nY^n}(x^n,y^n) \geq |\typset| \cdot 2^{-n(H(XY) + \epsilon)}.
+\end{align}
+\item First, we write out the probability of sampling an element in the typical set, again by rearranging the inequalities in Definition~\ref{def:joint-typicality}.
+\begin{align}
+P[(\tilde{X}^n\tilde{Y}^n) \in \typset] &= \sum_{(x^n,y^n) \in \typset} P_{\tilde{X}^n\tilde{Y}^n}(x^n,y^n)\nonumber\\
+&= \sum_{(x^n,y^n) \in \typset} P_{X^n}(x^n) \cdot P_{Y^n}(y^n)\nonumber\\
+&\leq |\typset|\cdot 2^{-n(H(X) - \epsilon)} \cdot 2^{-n(H(Y)-\epsilon)}.
+\end{align}
+Combining this with part (2) of this theorem, we get
+\begin{align}
+P[(\tilde{X}^n\tilde{Y}^n) \in \typset] &\leq 2^{n(H(XY) + \epsilon)} \cdot 2^{-n(H(X) - \epsilon)} \cdot 2^{-n(H(Y)-\epsilon)}\nonumber\\
+&= 2^{-n(-H(XY) + H(X) + H(Y) -3\epsilon)}\nonumber\\
+&= 2^{-n(I(X;Y) - 3\epsilon)}.
+\end{align}
+This completes the proof of the third part.
+\item By part (1), we have that $P[\typset] \geq 1 - \epsilon$ for large enough $n$. Thus,
+\begin{align}
+1-\epsilon &\leq P[\typset]\nonumber\\
+&= \sum_{(x^n,y^n) \in \typset} P_{X^nY^n}(x^n,y^n)\nonumber\\
+&\leq |\typset| 2^{-n(H(XY) - \epsilon)}.
+\end{align}
+Rearranging this inequality and using the same type of derivation as in the proof of (3), it follows that
+\begin{align}
+P[(\tilde{X}^n\tilde{Y}^n) \in \typset]
+&= \sum_{(x^n,y^n) \in \typset} P_{X^n}(x^n) \cdot P_{Y^n}(y^n)\nonumber\\
+&\geq (1-\epsilon) \cdot 2^{n(H(XY) - \epsilon)} \cdot 2^{-n(H(X) + \epsilon)} \cdot 2^{-n(H(Y) + \epsilon)}\nonumber\\
+&= (1 - \epsilon) \cdot 2^{-n(I(X;Y) + 3\epsilon)}.
+\end{align}
 \end{enumerate}
 \end{proof}
 
-\section{Shannon's Noisy Channel Coding Theorem}
-All rates below capacity are achievable
-\begin{theorem}[Shannon's Noisy Channel Coding Theorem]
-$\forall \epsilon > 0 \ \forall R < C \ \exists n$ such that there exists a $(\lceil 2^{nR}\rceil, n)$ code with $\lambda^{(n)} < \epsilon$.
-\end{theorem}
+\section{Shannon's Noisy-Channel Coding Theorem}
+With the tools from the previous section, we are ready to prove Theorem~\ref{thm:ncc}, which states that any rate strictly below the channel capacity is achievable, and any rate strictly above the channel capacity is not.
 
-maximum likelihood decoding: decode to the input that has the highest likelihood with respect to $P_{X|Y}$ using Bayes. Is more optimal, but jointly typical decoding is easier to analyze so we will use that instead.
-
-\begin{proof}
-Fix $P_X$, construct a $(\lceil 2^{nR},n)$-code as follows:
+\begin{proof}[Proof of Theorem~\ref{thm:ncc} (forward direction)]
+We start by proving that any rate $R$ strictly below the channel capacity $C$ is achievable. Fix an input distribution $P_X$ and an $\epsilon > 0$. For any $n$, construct a $(2^{n \cdot R},n)$-code by choosing a codebook at random. That is, sample $2^{n\cdot R}$ codewords of length $n$ using the probability distribution $P_{X^n}$. This results in the codewords $x(w) = x_1(w), x_2(w), \dots, x_n(w)$, for $w \in [0,2^{n \cdot R}]$. All elements $x_i(w)$ are sampled i.i.d. according to $P_X$. For any particular code $\mathcal{C} = \{x(1), ..., x(2^{n \cdot R})\}$, the probability of sampling exactly that code is
+\begin{align}
+\prod_{w = 1}^{2^{n \cdot R}} \prod_{i=1}^n P_X(x_i(w)).
+\end{align}
+After randomly generating the code, perform the following steps:
 \begin{enumerate}
-\item Choose a random codebook. $C(1) = (x_1(1), x_2(1), ..., x_n(1)) = x^n(1)$. Similarly for 2, 3, ..., $2^{nR}$. All elements $x_i(j)$ are chosen i.i.d. with respect to $P_X$. The chance of any particular code is
-\[
-\prod_{w=1}^2^{nR} \prod{i=1}^n P_X(x_i(w))
-\]
-\item The code is revealed to both sender and receiver (they both know $P_{Y|X}$)
-\item Message $w$ is chosen and $x^n(w)$ is sent.
-\item Bob receives $y^n$ with probability $P_{Y^n|X^n}(y^n|x^n(w)) = \prod_{i=1}^n P_{Y|X}(y_i x_i(w))$.
-\item Bob decodes, using jointly typical decoding (see MacKay book). How well does that work? Claim: very well. 
+\item Reveal the chosen codebook to both the sender and the receiver.
+\item Choose a message $W$ uniformly at random from the set of $2^{n \cdot R}$ possible messages. To send a message $W$, the sender sends $C(W)$ over the channel. This results in the output $Y^n$ with the following distribution:
+\begin{align}
+P_{Y^n|X^n}(y^n \mid x(w)) = \prod_{i=1}^n P_{Y|X} (y_i \mid x_i(w)).
+\end{align}
+\item The receiver decodes this message by using \term{jointly typical decoding}. This type of decoding is not as good as \term{maximum-likelihood decoding} (where the input message that is the most likely, with respect to $P_{X|Y}$, is chosen as the decoding), but it is easier to analyze, and sufficiently good for our purposes. Jointly typical decoding works as follows: upon receiving an output $y^n$, the receiver checks if there exists a \emph{unique} message $\hat{w}$ such that $(x(\hat{w}),y^n)$ is jointly typical, i.e., in $\typset$. If there exists no such $w$, or if it is not unique, the receiver declares a failure by decoding to 0.
 \end{enumerate}
-Error happens when $\hat{W}(Y^n) \neq w$. Let
-\[
-\lambda_w(C) := P[\hat{W} \neq | X^n(w) was sent according to C].
-\]
-Then
-\begin{align*}
-p_e^{(n)} &= \sum_{C} P[C] \frac{1}{2^{nR}} \sum_{w = 1}^{2^{nR}} \lambda_w(C)\\
-&= \frac{1}{2^{nR}} \sum_{w=1}^{2^{nR}} \sum_C P[C] \lambda_w(C)
-\end{align*}
-this does not depend on $w$, so without loss of generality focus on $w = 1$:  is equal to $\sum_C P[C] \lambda_1(C)$.
-
-There are two sources of error (see MacKay book):
-\begin{itemize}
-\item a. $(x^n(1),y^n)$ is not jointly typical. By joint AEP (1), this goes to zero as $n$ goes to infinity. (+ some intuition about weak law of large numbers here)
-\item b. $(x^n(w'),y^n)$ is jointly typical for some $w' \neq 1$. Note that $x^n(w')$ and $y^n$ are sampled i.i.d from $P_X$ and $P_Y$, so by joint AEP (3), the probability of this happening is at most
-\[
-\sum_{w' = 2}^{2^{nR}} 2^{-n(I(X;Y)-3\epsilon)}
-\]
-\end{itemize}
-so
-\[
-p_e^{(n)} &\leq \epsilon + (2^{nR} - 1) 2^{-n(I(X;Y)-3\epsilon)\\
-&=  \epsilon + 2^{-n(I(X;Y)- R - 3\epsilon)\\
-&\leq 2\epsilon (for large enough n?)
-\]
-
-\begin{enumerate}
-\item Now, fix $P_X = \argmax_{P_X} I(X;Y)$. So $R <  C$.
-\item Get rid of the average codebook. There is at least one code with $p_e^{(n)}(C^*) \leq 2\epsilon$.
-\item In the best code $C^*$, throw away the worst half of the codewords. Since we know
-\[
-p_e^{(n)}(C^*) = \frac{1}{2^{nR}} \sum_{w=1}^{2^{nR}} \lambda_w(C^*) \leq 2\epsilon.
-\]
-then at least half of the codewords must have $\lambda_w(C^*) \leq 4\epsilon$. So there are $2^{nR -1}$ codewords with $\max_w \lambda_w(C^*) \leq 4\epsilon$. So this changes the rate $R$ to $R - \frac{1}{n}$. So we have constructed a code with rate $R' = R - \frac{1}{n}$ and $\lambda^{(n)} \leq 4\epsilon$.
-\end{enumerate}
+We can now ask: what is the probability that the decoded message $\hat{w}$ is not equal to $w$? Denote, analogously to Definition~\ref{def:probability-of-error}, the error probability for code $\mathcal{C}$ to be
+\begin{align}
+\lambda_w(\mathcal{C}) := P[\hat{w} \neq w \mid x^n(w) \text{ was sent using code } \mathcal{C}].
+\end{align}
 \end{proof}
+
+
+
+%\section{The converse}
+%
+%\section{Shannon's Noisy Channel Coding Theorem}
+%All rates below capacity are achievable
+%\begin{theorem}[Shannon's Noisy Channel Coding Theorem]
+%$\forall \epsilon > 0 \ \forall R < C \ \exists n$ such that there exists a $(\lceil 2^{nR}\rceil, n)$ code with $\lambda^{(n)} < \epsilon$.
+%\end{theorem}
+%
+%maximum likelihood decoding: decode to the input that has the highest likelihood with respect to $P_{X|Y}$ using Bayes. Is more optimal, but jointly typical decoding is easier to analyze so we will use that instead.
+%
+%\begin{proof}
+%Fix $P_X$, construct a $(\lceil 2^{nR},n)$-code as follows:
+%\begin{enumerate}
+%\item Choose a random codebook. $C(1) = (x_1(1), x_2(1), ..., x_n(1)) = x^n(1)$. Similarly for 2, 3, ..., $2^{nR}$. All elements $x_i(j)$ are chosen i.i.d. with respect to $P_X$. The chance of any particular code is
+%\[
+%\prod_{w=1}^2^{nR} \prod{i=1}^n P_X(x_i(w))
+%\]
+%\item The code is revealed to both sender and receiver (they both know $P_{Y|X}$)
+%\item Message $w$ is chosen and $x^n(w)$ is sent.
+%\item Bob receives $y^n$ with probability $P_{Y^n|X^n}(y^n|x^n(w)) = \prod_{i=1}^n P_{Y|X}(y_i x_i(w))$.
+%\item Bob decodes, using jointly typical decoding (see MacKay book). How well does that work? Claim: very well. 
+%\end{enumerate}
+%Error happens when $\hat{W}(Y^n) \neq w$. Let
+%\[
+%\lambda_w(C) := P[\hat{W} \neq | X^n(w) was sent according to C].
+%\]
+%Then
+%\begin{align*}
+%p_e^{(n)} &= \sum_{C} P[C] \frac{1}{2^{nR}} \sum_{w = 1}^{2^{nR}} \lambda_w(C)\\
+%&= \frac{1}{2^{nR}} \sum_{w=1}^{2^{nR}} \sum_C P[C] \lambda_w(C)
+%\end{align*}
+%this does not depend on $w$, so without loss of generality focus on $w = 1$:  is equal to $\sum_C P[C] \lambda_1(C)$.
+%
+%There are two sources of error (see MacKay book):
+%\begin{itemize}
+%\item a. $(x^n(1),y^n)$ is not jointly typical. By joint AEP (1), this goes to zero as $n$ goes to infinity. (+ some intuition about weak law of large numbers here)
+%\item b. $(x^n(w'),y^n)$ is jointly typical for some $w' \neq 1$. Note that $x^n(w')$ and $y^n$ are sampled i.i.d from $P_X$ and $P_Y$, so by joint AEP (3), the probability of this happening is at most
+%\[
+%\sum_{w' = 2}^{2^{nR}} 2^{-n(I(X;Y)-3\epsilon)}
+%\]
+%\end{itemize}
+%so
+%\[
+%p_e^{(n)} &\leq \epsilon + (2^{nR} - 1) 2^{-n(I(X;Y)-3\epsilon)\\
+%&=  \epsilon + 2^{-n(I(X;Y)- R - 3\epsilon)\\
+%&\leq 2\epsilon (for large enough n?)
+%\]
+%
+%\begin{enumerate}
+%\item Now, fix $P_X = \argmax_{P_X} I(X;Y)$. So $R <  C$.
+%\item Get rid of the average codebook. There is at least one code with $p_e^{(n)}(C^*) \leq 2\epsilon$.
+%\item In the best code $C^*$, throw away the worst half of the codewords. Since we know
+%\[
+%p_e^{(n)}(C^*) = \frac{1}{2^{nR}} \sum_{w=1}^{2^{nR}} \lambda_w(C^*) \leq 2\epsilon.
+%\]
+%then at least half of the codewords must have $\lambda_w(C^*) \leq 4\epsilon$. So there are $2^{nR -1}$ codewords with $\max_w \lambda_w(C^*) \leq 4\epsilon$. So this changes the rate $R$ to $R - \frac{1}{n}$. So we have constructed a code with rate $R' = R - \frac{1}{n}$ and $\lambda^{(n)} \leq 4\epsilon$.
+%\end{enumerate}
+%\end{proof}
 
 
 

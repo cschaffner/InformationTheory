@@ -43,7 +43,7 @@ In Chapter~\ref{ch:source-coding}, we saw how to encode a source such that it ca
 \end{figure}
 The goal is to design encoding and decoding functions that can resist this noise, so that the recovered message $\tilde{m}$ is as close as possible to the original message $m$. The question is how short (efficient) such codes can be while still providing resistance to noise.
 
-\section{Channels}
+\section{Channels}\label{sec:noisy-channel}
 In this section, the notion of `channel' will me made more precise, and different types of channels are considered.
 
 \begin{definition}[Discrete channel]
@@ -212,7 +212,7 @@ R := \frac{\log M}{n}.
 
 Given a code for a specific channel, we can wonder what the probability is that an error occurs while transmitting a message. For a fixed message $m$, this probability is represented by the following quantity.
 
-\begin{definition}[Probability of error]
+\begin{definition}[Probability of error]\label{def:probability-of-error}
 Given an $(M,n)$ code for a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$, the probability of error $\lambda_m$ is the probability that the decoded output is not equal to the input message $m$. More formally,
 \[
 \lambda_m := P[\mathtt{dec}(Y^n) \neq m \mid X^n = \mathtt{enc}(m)].
