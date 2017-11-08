@@ -80,13 +80,9 @@ For a given channel, a rate $R$ is achievable there exists a sequence of $(2^{n 
 \end{definition}
 Note that any $(2^{n \cdot R},n)$ code has rate $R$, since $\frac{1}{n} \cdot \log {2^{n \cdot R}} = R$. Thus, a rate $R$ is achievable if there exists a sequence of rate $R$ codes such that increasing the block size reduces the maximum error asymptotically to zero.
 
-The rest of this chapter will be concerned with proving the following theorem, due to Shannon:
+The rest of this chapter will be concerned with proving a theorem, due to Shannon, which states that any rate $R$ that is strictly below the capacity $C$ is achievable (Theorem~\ref{thm:ncc-forward}), and conversely, that any rate strictly above it is not (Theorem~\ref{thm:ncc-backward}). These theorems together are known as \term{Shannon's noisy-channel coding theorem}.
 
-\begin{theorem}[Shannon's noisy-channel coding theorem]\label{thm:ncc}
-On a discrete memoryless channel with capacity $C$, any rate $R < C$ is achievable. On the other hand, any rate $R > C$ is not achievable.
-\end{theorem}
-
-Very roughly, the truth of this statement follows from the asymptotic equipartition property (AEP) discussed in Chapter~\ref{sec:aep}. Increasing $n$, the size of the input sequences, results in output sequences that are more likely to be typical. But how can we be sure that no two typical input sequences result in the same typical output sequence? For this, we need stronger mathematical tools.
+Very roughly, the theorem follows from the asymptotic equipartition property (AEP) discussed in Chapter~\ref{sec:aep}. Increasing $n$ (the size of the input blocks) results in output blocks that are more likely to be typical. But how can we be sure that no two typical input sequences result in the same typical output sequence? For this, we need stronger mathematical tools.
 
 \section{Joint Asymptotic Equipartition Property}
 In order to decode a channel output $Y^n$ correctly, it is important that there is only one input codeword that is likely to have resulted in that specific output. The following concept will help us with formalizing this idea:
@@ -358,11 +354,13 @@ P[(\tilde{X}^n\tilde{Y}^n) \in \typset]
 \end{proof}
 
 \section{Shannon's Noisy-Channel Coding Theorem}
-With the tools from the previous section, we are ready to prove Theorem~\ref{thm:ncc}, which states that any rate strictly below the channel capacity is achievable, and any rate strictly above the channel capacity is not. We start by proving the forward direction, which states that any rate $R$ strictly below the channel capacity $C$ is achievable.
+With the tools from the previous section, we are ready to prove the forward direction of Shannon's noisy-channel coding theorem, which states that any rate strictly below the channel capacity is achievable:
 
+\begin{theorem}[Shannon's noisy-channel coding theorem (forward direction)]\label{thm:ncc-forward}
+On a discrete memoryless channel with capacity $C$, any rate $R < C$ is achievable.
+\end{theorem}
 
-
-\begin{proof}[Proof of Theorem~\ref{thm:ncc} (forward direction)]
+\begin{proof}
 \newcommand{\cran}{\ensuremath{\mathcal{C}}\xspace}
 \newcommand{\xran}{\ensuremath{\mathcal{C}}\xspace}
 \newcommand{\cspec}{\ensuremath{\mathcal{C}^*}\xspace}
@@ -413,9 +411,39 @@ This analysis upper bounds the (expected) average error probability for a random
 
 Finally, in \cspec, we aim to bound the \emph{maximal} error probability, i.e., the probability of error for the worst message. We can do so by noting that at least half of the messages $w$ has error probability $\lambda_w(\cspec) \leq 4 \epsilon$: if not, then the total error probability of these messages would already exceed $2^{n \cdot R} \cdot 2\epsilon$, contradicting the upper bound of $2 \epsilon$ to the average error probability. Thus, we can construct a better code by discarding the worst half of the codewords, and using the remaining $2^{n \cdot R - 1}$ codewords to construct a new code, with rate
 \begin{align}
-\frac{\log(2^{n\cdot R - 1}}{n} = \frac{n \cdot R - 1}{n} = R - \frac{1}{n}
+\frac{\log(2^{n\cdot R - 1})}{n} = \frac{n \cdot R - 1}{n} = R - \frac{1}{n}
 \end{align}
 and maximal probability of error $\lambda^{(n)} \leq 4 \epsilon$.
+\end{proof}
+
+\section{Shannon's Noisy-Channel Coding Theorem: Converse}
+In the previous section, we showed that any rate below the channel capacity is achievable. Here, we show that one cannot do better: rates above the channel capacity are not achievable. Specifically, codes with such rates suffer from non-negligible error probabilities. 
+
+\begin{theorem}[Shannon's noisy-channel coding theorem (converse)]\label{thm:ncc-backward}
+On a discrete memoryless channel with capacity $C$, any code with rate $R > C$ has average probability of error $p_e^{(n)} \geq 1 - \frac{C}{R} - \frac{1}{nR}$.
+\end{theorem}
+
+\begin{proof}
+For a code with rate $R > C$, let $W$ be uniformly distributed over all possible messages, let $X^n$ describe the encoding of the message (and the input to the channel), let $Y^n$ describe the output of the channel, and $\hat{W}$ the decoding of that output. The average probability of error, $p_e^{(n)}$, is equal to $P[W \neq \hat{W}]$. Note that $W \to X^n \to Y^n \to \hat{W}$ forms a Markov chain.
+
+As a first step, we show that the mutual information between the message $W$ and the channel output $Y^n$ is upper bounded by $n\cdot C$, that is, there is a limit to the amount of information that can get through the channel. To see this, first observe that
+\begin{align}
+H(Y^nW) &= H(Y^nW) + H(X^n \mid Y^nW) &\text{(since }W \to X^n\text{)}\nonumber\\
+&= H(X^nY^nW) &\text{(chain rule)}\nonumber\\
+&= H(X^{n-1}Y^{n-1}W) + H(Y_n \mid X^nY^{n-1}W) + H(X_n \mid X^{n-1}Y^{n-1}W) &\text{(chain rule)}\nonumber\\
+&= H(X^{n-1}Y^{n-1}W) + H(Y_n \mid X^nY^{n-1}W)&\text{(since }W \to X^n\text{)}\nonumber\\
+&= H(X^{n-1}Y^{n-1}W) + H(Y_n \mid X_n)&\text{(memoryless)}\nonumber\\
+&= \dots &\text{(repeat)}\nonumber\\
+&= H(W) + \sum_{i=1}^n H(Y_i \mid X_i).\label{eq:channel-limit}
+\end{align}
+Therefore,
+\begin{align}
+I(W;Y^n) &= H(W) + H(Y^n) - H(Y^nW) &\text{(entropy diagram)}\nonumber\\
+&= H(Y^n) - \sum_{i=1}^n H(Y_i \mid X_i) &\text{(by \eqref{eq:channel-limit})}\nonumber\\
+&\leq \sum_{i=1}^n H(Y_i) - \sum_{i=1}^n H(Y_i \mid X_i)\nonumber\\
+&= \sum_{i=1}^n I(X_i;Y_i)\nonumber\\
+&\leq n \cdot C.
+\end{align}
 \end{proof}
 
 
