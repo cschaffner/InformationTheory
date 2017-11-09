@@ -1,8 +1,8 @@
 
 
-In Chapter~\ref{ch:zero-error} we discovered that for some noisy channels, zero-error communication is very hard or even impossible. For example, if Alice and Bob have to communicate over a binary symmetric channel (BSC, see Example~\ref{example:binary-symmetric-channel}) with non-zero bit flip probability, they cannot hope to do any zero-error communication, as the Shannon capacity of the BSC's confusability graph is zero.
+In Chapter~\ref{ch:zero-error} we discovered that for some noisy channels, zero-error communication is very hard, or even impossible. For example, if Alice and Bob have to communicate over a binary symmetric channel (BSC, see Example~\ref{example:binary-symmetric-channel}) that has non-zero bit flip probability, they cannot hope to do any zero-error communication, because the Shannon capacity of the BSC's confusability graph is zero.
 
-In this chapter, Alice and Bob try to achieve a more modest goal. Consider again the setting where they try to communicate over a noisy, memoryless channel from Section~\ref{sec:noisy-channel}, but now they are content with a small probability of error. That is, Bob has to have high confidence that the message he decodes is correct, but he can be wrong with small probability. Can they do more in this setting? For example, can they communicate information reliably over a noisy BSC?
+In this chapter, Alice and Bob try to achieve a more modest goal. Consider again the setting where they communicate over a noisy, memoryless channel (see Section~\ref{sec:noisy-channel}), but now they are content with a small probability of error. That is, Bob has to have high confidence that the message he decodes is correct, but he is allowed to be wrong with some small probability. Can Alice and Bob do more in this setting? For example, can they communicate information reliably over a noisy BSC?
 
 \section{Channel capacity}
 Central to our study of communication over noisy channels will be the concept of channel capacity. It reflects the maximum amount of information that could \emph{in principle} be communicated with a single use of a channel.
@@ -13,13 +13,13 @@ The channel capacity $C$ of a discrete, memoryless channel $(\mathcal{X}, P_{Y|X
 C:= \max_{P_X} I(X;Y).
 \]
 \end{definition}
-Note that $P_Y$, the output distribution, is fully determined by $P_X$ and $P_{Y|X}$. Maximizing over $P_Y$ rather than $P_X$ would yield the same result.
+The output distribution $P_Y$ is fully determined by the input distribution $P_X$ and the channel $P_{Y|X}$. Maximizing over $P_Y$ rather than $P_X$ would yield the same result for $C$.
 
-By the properties of mutual information, for all channels it holds that
-\begin{align}
-0 \leq C \leq \log|\mathcal{X}|.
-\end{align}
-This matches our intuition that the capacity should represent the amount of information that can be communicated with a single use of a channel.
+The following exercise asks you to check a basic property of channel capacity: the input alphabet size limits the amount of information the sender can communicate with the single use of a channel.
+
+\begin{exercise}
+Prove that $0 \leq C \leq \log |\mathcal{X}|$.
+\end{exercise}
 
 \begin{example}[Capacity of a BSC]
 Recall the binary symmetric channel (BSC) from Example~\ref{example:binary-symmetric-channel} with parameter $f \in [0,1/2]$. The capacity of that channel is
@@ -73,7 +73,7 @@ The channel capacity of the BEC is a function of $\epsilon$, and computed as fol
 &= 1 - \epsilon.
 \end{align*}
 \end{example}
-As stated, the channel capacity reflects the maximum amount of information that \emph{could} be sent over a noisy channel. The question remains whether this capacity is \term{achievable} by some code in the following sense:
+As stated, the channel capacity reflects the maximum amount of information that could theoretically be sent over a noisy channel per use of that channel. The question remains whether this capacity is \term{achievable} by an actual code in the following sense:
 
 \begin{definition}[Achievable rate]
 For a given channel, a rate $R$ is achievable there exists a sequence of $(2^{n \cdot R},n)$ codes (for $n = 1,2,3,...$) such that $\lambda^{(n)} \convto 0$. Here, $\lambda^{(n)}$ is the maximum error probability as defined in Definition~\ref{def:probability-of-error}.
@@ -82,7 +82,7 @@ Note that any $(2^{n \cdot R},n)$ code has rate $R$, since $\frac{1}{n} \cdot \l
 
 The rest of this chapter will be concerned with proving a theorem, due to Shannon, which states that any rate $R$ that is strictly below the capacity $C$ is achievable (Theorem~\ref{thm:ncc-forward}), and conversely, that any rate strictly above it is not (Theorem~\ref{thm:ncc-backward}). These theorems together are known as \term{Shannon's noisy-channel coding theorem}.
 
-Very roughly, the theorem follows from the asymptotic equipartition property (AEP) discussed in Chapter~\ref{sec:aep}. Increasing $n$ (the size of the input blocks) results in output blocks that are more likely to be typical. But how can we be sure that no two typical input sequences result in the same typical output sequence? For this, we need stronger mathematical tools.
+Very roughly, the first theorem follows from the asymptotic equipartition property (AEP) discussed in Chapter~\ref{sec:aep}. Increasing $n$ (the size of the input blocks) results in output blocks that are more likely to be typical. But can we be sure that no two typical input sequences result in the same typical output sequence? Such a collision would make it impossible to decode correctly. To show that this does not form a problem, we need stronger mathematical tools.
 
 \section{Joint Asymptotic Equipartition Property}
 In order to decode a channel output $Y^n$ correctly, it is important that there is only one input codeword that is likely to have resulted in that specific output. The following concept will help us with formalizing this idea:
@@ -96,7 +96,7 @@ For a joint distribution $P_{XY}$, the jointly typical set $\typset$ is defined 
 \end{align*}
 Here, $P_{X^nY^n} := \prod_{i=1}^nP_{XY}(x_iy_i)$.
 \end{definition}
-A jointly typical set is a set where both elements of the pair are typical individually under the marginal distributions (see Definition~\ref{def:typset}), and their combination is too under the joint distribution. To get some intuition for what this means, we give two examples: one where $X$ and $Y$ are very correlated, and one where they are independent.
+A jointly typical set is a set where both elements of the pair are typical individually under the marginal distributions (see Definition~\ref{def:typset}), and their combination is typical under the joint distribution. To get some intuition for what a typical set looks like, we give two examples: one where $X$ and $Y$ are very correlated, and one where they are independent.
 
 
 
@@ -177,15 +177,13 @@ and a similar statement holds for $Y$. Hence, the first and second inequalities 
 \end{center}
 As expected, pairs $(x^3,y^3)$ with a higher overlap in bits have a higher probability of occurring. The jointly typical set has a very clear structure: only those pairs with $x^3 = y^3$ are included.
 
-Increasing $\epsilon$ would result in a bigger typical set. For example, for $\epsilon = 0.8$, all pairs that differ at at most one position (e.g., (\texttt{000},{001})) are part of the jointly typical set. Increasing $n$ would have the same effect: for example, for $n = 10$ and $\epsilon = 0.35$, all pairs of sequences that differ at 0, 1, or 2 positions are part of the jointly typical set.
+Increasing $\epsilon$ would result in a bigger typical set. For example, for $\epsilon = 0.8$, all pairs that differ at at most one position (e.g., (\texttt{000},\texttt{001})) are part of the jointly typical set. Increasing $n$ would have the same effect: for example, for $n = 10$ and $\epsilon = 0.35$, all pairs of sequences that differ at 0, 1, or 2 positions are part of the jointly typical set.
 
-For big $n$ and small $\epsilon$ we see something interesting happening: take, for example, $n = 10,000$ and $\epsilon = 0.01$. Noting that any particular pair of sequences that differ in $0 \geq m \geq 10,000$ positions has probability $0.45^{10,000 - m} \cdot 0.05^m$ of occurring under $P_{XY}$, one can compute that the inequality
+For big $n$ and small $\epsilon$ we see an interesting pattern appear. Take, for example, $n = 10,000$ and $\epsilon = 0.01$. A pair of sequences differing in $0 \geq m \geq 10,000$ positions occurs with probability $0.45^{10,000 - m} \cdot 0.05^m$ under $P_{XY}$. The third inequality in Definition~\ref{def:joint-typicality}, 
 \[
-\left| -\frac{1}{10,000} \log (0.45^{10,000 - m} \cdot 0.05^m) - H(XY)\right|
+\left| -\frac{1}{10,000} \log (0.45^{10,000 - m} \cdot 0.05^m) - H(XY)\right|,
 \]
-is satisfied for $969 \leq m \leq 1031$, around 10 percent of the positions. This might match your expectation, since the probability of sampling a non-matching pair of bits ((0,1) or (1,0)) from $P_{XY}$ is 10 percent. Thus, these values of $m$ result in very \emph{typical} pairs of sequences.
-
-Note in particular that pairs of sequences that differ in less than 969 positions, which have the highest probability of occurring, are not included in the typical set! However, the number of such pairs is so small compared to the number of pairs which differ in 969 to 1031 positions, that their total probability is not relevant. As we will see shortly, the elements in the typical set together constitute almost all of the total probability.
+is satisfied for $969 \leq m \leq 1031$, or around 10 percent of the positions. This might match your expectation, since the probability of sampling a non-matching pair of bits ((0,1) or (1,0)) from $P_{XY}$ is 10 percent. Thus, these values of $m$ result in very \emph{typical} pairs of sequences. Note in particular that pairs of sequences that differ in less than 969 positions, which have the highest probability of occurring, are not included in the typical set! However, the number of such pairs is so small compared to the number of pairs which differ in 969 to 1031 positions, that their total probability is not relevant. As we will see shortly, the elements in the typical set together constitute almost all of the total probability.
 \end{example}
 
 \begin{example}\label{example:jointly-typical-2}
@@ -212,7 +210,7 @@ Note that $X$ is uniform, and that $X$ and $Y$ are independent.
 
 As in Example~\ref{example:joint-typicality}, since $X$ is uniform, the first inequality in Definition~\ref{def:joint-typicality} is always satisfied for any $\epsilon > 0$.
 
-Furthermore, since $X$ and $Y$ are independent, the third inequality in Definition~\ref{def:joint-typicality} is satisfied whenever the second inequality holds, because
+Furthermore, since $X$ and $Y$ are independent, the third inequality in Definition~\ref{def:joint-typicality} is satisfied whenever the second inequality is, because
 \begin{align*}
 -\frac{1}{n}\log P_{X^nY^n}(x^n,y^n) - H(XY) &= -\frac{1}{n}\log P_{X^n}(x^n) - \frac{1}{n}\log P_{Y^n}(y^n) - H(X) - H(Y)\\
 &= -\frac{1}{n}\log P_{Y^n}(y^n) - H(Y).
@@ -274,10 +272,10 @@ More concretely, consider $n = 3$ and $\epsilon = 0.35$. For these values, the s
 \node at (-1,8) {$Y$};
 \end{tikzpicture}
 \end{center}
-Note that $P_Y(\texttt{111}) \approx 0.422$, which is higher than $P_Y(\texttt{011}) \approx 0.141$. However, $\texttt{111}$ is not typical for $Y$ while $\texttt{011}$ is. \texttt{111}'s probability deviates too far from the benchmark set by the value of $H(Y)$. Together, the sequences in the typical set have a probability of about 0.422 of occurring. As $n$ increases, this number will grow, and the total probability of the elements that fall outside of the typical set (such as the all-\texttt{1} string) will diminish.
+Note that $P_Y(\texttt{111}) \approx 0.422$, which is higher than $P_Y(\texttt{011}) \approx 0.141$. However, $\texttt{111}$ is not typical for $Y$ while $\texttt{011}$ is. \texttt{111}'s probability deviates too far from the `benchmark' set by $H(Y) \approx 0.811$. Together, the sequences in the typical set have a probability of about 0.422 of occurring. As $n$ increases, this number will grow, and the total probability of the elements that fall outside of the typical set (such as the all-\texttt{1} string) will diminish.
 \end{example}
 
-In the above two examples, we have gathered some intuition about jointly typical sets. A (jointly) typical set is usually relatively small compared to the total sample space, but for large $n$, much of the probability lies on its elements. Comparing the above two examples, we also see the effect of mutual information between $X$ and $Y$: if $X$ and $Y$ are highly correlated, the typical set has a diagonal structure, while if they are independent, the typical set is a rectangle. In the latter case, this means that selecting a typical $X$ sample and a typical $Y$ sample will certainly yield a jointly typical element (see Example~\ref{example:jointly-typical-2}). In the first case, there is a significant probability that sampling a typical $X$ and a typical $Y$ independently yields a pair that is not jointly typical (see Example~\ref{example:joint-typicality}).
+In the above two examples, we have gathered some intuition about jointly typical sets. A (jointly) typical set is usually relatively small compared to the total sample space, but for large $n$, much of the probability lies on its elements. Comparing the above two examples, we also see the effect of mutual information between $X$ and $Y$: if $X$ and $Y$ are highly correlated, the typical set has a diagonal structure, while if they are independent, the typical set is a rectangle. In the latter case, this means that independently selecting a typical $X$ sample and a typical $Y$ sample will certainly yield a jointly typical element (see Example~\ref{example:jointly-typical-2}). In the first case, there is a significant probability that sampling a typical $X$ and a typical $Y$ independently yields a pair that is not jointly typical (see Example~\ref{example:joint-typicality}).
 
 These observations lead us to a joint version of Theorem~\ref{thm:aep}, describing some properties of jointly typical sets:
 
@@ -293,7 +291,7 @@ Let $X^nY^n$ be i.i.d. with respect to $P_{XY}$. Then:
 \end{theorem}
 
 \begin{proof}
-We show the four statements separately, for an arbitrary $X^nY^n$ that is i.i.d. with respect to $P_{XY}$.
+We show the statements separately, for an arbitrary $X^nY^n$ that is i.i.d. with respect to $P_{XY}$.
 \begin{enumerate}
 \item The first statement follows from the weak law of large numbers. Similarly to the proof of Theorem~\ref{thm:aep}, we have that
 \begin{align}
@@ -367,22 +365,21 @@ On a discrete memoryless channel with capacity $C$, any rate $R < C$ is achievab
 \newcommand{\error}{\texttt{error}}
 Given a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ with capacity $C = \max{P_X} I(X;Y)$, let $R < C$ and $\epsilon > 0$. We will first show that for big enough $n$, a \emph{randomly constructed} code with rate $R$ has a low error probability. We will then argue that a low average error probability implies the existence of some \emph{specific} code with low error probability.
 
-Let the input distribution $P_X$ be such that $R < I(X;Y)$ (such $P_X$ always exists by the definition of channel capacity). For any $n$, construct a $(2^{n \cdot R},n)$-code \cran by choosing a codebook at random. That is, for every $w \in [1,2^{n \cdot R}]$, sample $n$ times from the distribution $P_X$, creating a codeword $\cran(w) = (\xran_1(w), \xran_2(w), ..., \xran_n(w))$ by concatenating the $n$ independent samples $\xran_i(w)$.
+Fix an input distribution $P_X$ that maximizes $I(X;Y)$. For any $n$, construct a $(2^{n \cdot R},n)$-code \cran by choosing a codebook at random according to $P_X$. That is, for every message $w \in [1,2^{n \cdot R}]$, sample $n$ times from the distribution $P_X$, creating a codeword $\cran(w) = (\xran_1(w), \xran_2(w), ..., \xran_n(w))$ by concatenating the $n$ independent samples $\xran_i(w)$.
 
-If the code \cran is used to send a message $w$ over the channel, the output distribution $Y^n$ is given by:
+Since the channel is memoryless, if $w$ is sent over the channel using \cran, the output distribution $Y^n$ is given by:
 \begin{align}
 P_{Y^n|X^n}(y^n|\cran(w)) = \prod_{i=1}^n P_{Y|X} (y_i \mid \xran_i(w)).
 \end{align}
-What is the probability that the decoded message $\hat{w}$ is incorrect, i.e., not equal to $w$? This depends on the decoding method used by the receiver. The optimal decoding procedure is \term{maximum-likelihood decoding}, where the input message that is most likely with respect to $P_{X|Y}$ is selected as the decoding $\hat{w}$. However, it is hard to analyze the error probability for this decoding method. Instead, we will assume that the receiver applies \term{jointly typical decoding}, which has a slightly higher probability of decoding to the wrong message, but still small enough for our analysis. Jointly typical decoding works as follows: upon receiving an output $y^n$, the receiver looks for a \emph{unique} message $\hat{w}$ such that $(\cran(\hat{w}),y^n)$ is jointly typical. If there exist no such message, or if it is not unique, the receiver declares a failure by decoding to $\hat{w} = 0$.
+What is the probability that the decoded message $\hat{w}$ is incorrect, i.e., not equal to $w$? This depends on the decoding method used by the receiver. The optimal decoding procedure is \term{maximum-likelihood decoding}, where the input message that is most likely with respect to $P_{X|Y}$ is selected as the decoding $\hat{w}$. However, it is hard to analyze the error probability for this decoding method. Instead, we will assume that the receiver applies \term{jointly typical decoding}, which has a slightly higher probability of decoding to the wrong message, but still small enough for our analysis. Jointly typical decoding works as follows: upon receiving an output $y^n$, the receiver looks for a \emph{unique} message $\hat{w}$ such that the pair $(\cran(\hat{w}),y^n)$ is jointly typical. If there exist no such message, or if it is not unique, the receiver declares a failure by decoding to $\hat{w} = 0$.
 
-With this decoding procedure in mind, we will analyze the average error probability, where the average is taken over both the randomly constructed code \cran and the uniformly randomly selected message $w$:
+With this decoding procedure in mind, we will analyze the average error probability $P[\error]$, where the average is taken over both the randomly constructed code \cran and the uniformly randomly selected message $w$. Defining $\lambda_w(\cran) = P[\hat{w} \neq w \mid \cran(w) \text{ was sent over the channel}]$ to be the probability that a message $w$ (encoded using $\cran$) is decoded incorrectly, we get:
 \begin{align}
 P[\error] &= \sum_{\cran} P[\cran] \cdot \left(\sum_{w=1}^{2^{n\cdot R}} \frac{1}{2^{n \cdot R}} \cdot \lambda_w(\cran) \right)\nonumber\\
-&= \frac{1}{2^{n \cdot R}} \sum_{w = 1}^{2^{n \cdot R}} \sum_{\cran} P[\cran] \cdot \lambda_w(\cran),\label{eq:prob-error}
+&= \frac{1}{2^{n \cdot R}} \sum_{w = 1}^{2^{n \cdot R}} \sum_{\cran} P[\cran] \cdot \lambda_w(\cran).\label{eq:prob-error}
 \end{align}
-where $\lambda_w(\cran) = P[\hat{w} \neq w \mid \cran(w) \text{ was sent over the channel}]$ is the probability that a message $w$, encoded using $\cran$, is decoded incorrectly.
 
-Since we sum over all randomly constructed codes $\cran$ in equation~\ref{eq:prob-error}, the value of $\sum_{\cran} P[\cran] \cdot \lambda_w(\cran)$ does not depend on the particular message $w$. Hence, there is some fixed message $w_0$ (e.g., $w_0 = 1$), such that for all $w \in [0,2^{n \cdot R}]$,
+Since we average over all randomly constructed codes $\cran$, and the codewords for all messages are sampled independently, the value $\sum_{\cran} P[\cran] \cdot \lambda_w(\cran)$ does not depend on the particular message $w$. Hence if we set, for example, $w_0 = 1$, then for all $w \in [0,2^{n \cdot R}]$,
 \begin{align}
 \sum_{\cran} P[\cran] \lambda_w(\cran) = \sum_{\cran} P[\cran] \lambda_{w_0}(\cran).
 \end{align}
@@ -392,18 +389,18 @@ P[\error] &= \frac{1}{2^{n \cdot R}} \sum_{w = 1}^{2^{n \cdot R}} \sum_{\cran} P
 &= \sum_{\cran} P[\cran] \cdot \lambda_{w_0}(\cran).
 \end{align}
 That is, the average probability of error is the probability (over the selection of the code \cran, and over the randomness in the channel) that the message $w_0$ is decoded incorrectly. There are two possible reasons for an error in the decoding:
-\begin{itemize}
+\begin{enumerate}
 \item The output of the channel is not jointly typical with $\cran(w_0)$. By the first item of the joint AEP (Theorem~\ref{thm:joint-aep}), this probability approaches zero as $n$ goes to infinity. Hence, for big enough $n$, the probability of an error for this reason is smaller than $\epsilon$.
-\item There is some $w' \neq w_0$ such that the output of the channel is jointly typical with $\cran(w')$. Since $\cran$ is a random code (and so $\cran(w')$ is independent from the channel output $y^n$), by the third item of the joint AEP the probability that this occurs is at most
+\item There is some $w' \neq w_0$ such that the output of the channel is (also) jointly typical with $\cran(w')$. Since $\cran$ is a random code (and so $\cran(w')$ is independent from the channel output $y^n$), by the third item of the joint AEP the probability that this occurs is at most
 \begin{align}
 \sum_{w' \neq w_0} 2^{-n (I(X;Y) - 3 \epsilon)} = (2^{n \cdot R} - 1) 2^{-n (I(X;Y) - 3 \epsilon)}.
 \end{align}
-\end{itemize}
-We can thus bound the average probability of error, using the union bound and the above analysis, by
+\end{enumerate}
+We can thus bound the average probability of error, using the union bound and the bounds in the above analysis, by
 \begin{align}
 P[\error] &\leq \epsilon + (2^{n \cdot R} - 1) 2^{-n (I(X;Y) - 3 \epsilon)}\nonumber\\
-&\leq \epsilon + 2^{n \cdot R}) 2^{-n (I(X;Y) - 3 \epsilon)}\nonumber\\
-&\leq \epsilon + 2^{-n (I(X;Y) - R - 3 \epsilon)}\nonumber\\
+&\leq \epsilon + 2^{n \cdot R} 2^{-n (I(X;Y) - 3 \epsilon)}\nonumber\\
+&= \epsilon + 2^{-n (I(X;Y) - R - 3 \epsilon)}\nonumber\\
 \end{align}
 As long as $R < I(X;Y)$, one can choose $n$ large enough so that $P[\error] \leq 2 \epsilon$.
 
@@ -417,14 +414,14 @@ and maximal probability of error $\lambda^{(n)} \leq 4 \epsilon$.
 \end{proof}
 
 \section{Shannon's Noisy-Channel Coding Theorem: Converse}
-In the previous section, we showed that any rate below the channel capacity is achievable. Here, we show that one cannot do better: rates above the channel capacity are not achievable. Specifically, codes with such rates suffer from non-negligible error probabilities. 
+In the previous section, we showed that any rate strictly below the channel capacity is achievable. Here, we show that one cannot do better: rates strictly above the channel capacity are not achievable. Specifically, codes with such rates suffer from non-negligible error probabilities. 
 
 \begin{theorem}[Shannon's noisy-channel coding theorem (converse)]\label{thm:ncc-backward}
 On a discrete memoryless channel with capacity $C$, any code with rate $R > C$ has average probability of error $p_e^{(n)} \geq 1 - \frac{C}{R} - \frac{1}{nR}$.
 \end{theorem}
 
 \begin{proof}
-For a code with rate $R > C$, let $W$ be uniformly distributed over all possible messages, let $X^n$ describe the encoding of the message (and the input to the channel), let $Y^n$ describe the output of the channel, and $\hat{W}$ the decoding of that output. The average probability of error, $p_e^{(n)}$, is equal to $P[W \neq \hat{W}]$. Note that $W \to X^n \to Y^n \to \hat{W}$ forms a Markov chain.
+For a code with rate $R > C$, let $W$ be uniformly distributed over all possible messages, let $X^n$ describe the encoding of the message (and the input to the channel), let $Y^n$ describe the output of the channel, and $\hat{W}$ the decoding of that output. The average probability of error, $p_e^{(n)}$, is equal to $P[W \neq \hat{W}]$, the probability that the original message differs from the decoded message. Note that $W \to X^n \to Y^n \to \hat{W}$ forms a Markov chain.
 
 As a first step, we show that the mutual information between the message $W$ and the channel output $Y^n$ is upper bounded by $n\cdot C$, that is, there is a limit to the amount of information that can get through the channel. To see this, first observe that
 \begin{align}
@@ -444,7 +441,21 @@ I(W;Y^n) &= H(W) + H(Y^n) - H(Y^nW) &\text{(entropy diagram)}\nonumber\\
 &= \sum_{i=1}^n I(X_i;Y_i)\nonumber\\
 &\leq n \cdot C.
 \end{align}
+Now that we have established that $I(W;Y^n)$ is upper bounded by $n \cdot C$, we can show that the code with rate $R$ induces a considerable error probability:
+\begin{align}
+R &= \frac{\log |\mathcal{W}|}{n}\nonumber\\
+&= \frac{1}{n} H(W) \nonumber\\
+&= \frac{1}{n} \left( H(W \mid Y^n) + I(W;Y^n)\right) \nonumber\\
+&\leq \frac{1}{n} \left( H(W \mid Y^n) + n \cdot C\right) \nonumber\\
+&\leq \frac{1}{n} \left( 1 + P[W \neq \hat{W}] \cdot n \log |\mathcal{W}| + n \cdot C\right) \nonumber\\
+&= \frac{1}{n} + P[W \neq \hat{W}] \cdot R + C, \nonumber\\
+\end{align}
+where the second inequality is an application of Fano's inequality. Dividing both sides by $R$ and rearranging, we get the desired inequality:
+\begin{align}
+p_e^{(n)} = P[W \neq \hat{W}] \geq 1 - \frac{C}{R} - \frac{1}{nR}.
+\end{align}
 \end{proof}
+This theorem shows that if Alice and Bob try to communicate using a code with a rate $R > C$, their probability of error will be bounded away from zero by a constant factor of $1 - \frac{C}{R}$ (for big $n$, the last term in the inequality becomes insignificant). This error probability worsens for a bigger difference between $R$ and $C$.
 
 
 
