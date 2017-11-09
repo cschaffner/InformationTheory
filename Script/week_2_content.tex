@@ -821,7 +821,7 @@ This results in the codewords $\mathcal{C}(1) = 00$, $\mathcal{C}(2) = 011$, and
 \end{example}
 The arithmetic code is slightly less efficient than the Huffman code in terms of average codeword length. A big advantage is the way it is able to adapt to changing distributions, such as when we are encoding a stream of English text. Suppose we are given the (not necessarily i.i.d.) random variables $X_1, X_2, ..., X_n$, and we want to encode the source $P_{X_1X_2 \cdots X_n}$. We start by dividing the interval $[0,1)$ into subintervals according to $P_{X_1}$. If, for example, the event $X_1 = b$ happens, we zoom into the interval corresponding to $b$, and subdivide \emph{that} interval according to $P_{X_2|X_1}$, so that the sizes of these intervals add up to $P_{X_1}(b)$. The concept of arithmetic coding is exploited as an accessibility tool in the keyboard alternative \href{http://wol.ra.phy.cam.ac.uk/dasher/}{Dasher}, invented by the group of David MacKay at Cambridge University, UK.
 
-\section{Asymptotic Equipartition Property (AEP)}
+\section{Asymptotic Equipartition Property (AEP)}\label{sec:aep}
 \newcommand{\convto}{\xrightarrow{n \to \infty}}
 \newcommand{\convtoP}{\xrightarrow{p}}
 \newcommand{\convtoMS}{\xrightarrow{m.s.}}
@@ -867,7 +867,7 @@ S_n := \frac{1}{n} \sum_{i=1}^n X_i.
 Then $S_n \convtoP \mu$.
 \end{theorem}
 This important law has an entropy variant, which follows almost directly:
-\begin{theorem}[Asymptotic Equipartition Property (AEP)]
+\begin{theorem}[Asymptotic Equipartition Property (AEP)]\label{thm:aep}
 Let $X_1, X_2, X_3, ...$ be i.i.d.\ random variables with distribution $P_X$. Then
 \[
 -\frac{1}{n} \log P_{X_1 \cdots X_n}(X_1, ..., X_n) \convtoP H(X).
@@ -922,7 +922,7 @@ We see that the variance of the sample mean, $\mbox{Var}[\frac{1}{n}X] = \frac{p
 \end{example}
 The above example leads us to defining the following subset of the image of a random variable:
 
-\begin{definition}[Typical set]
+\begin{definition}[Typical set]\label{def:typset}
 The typical set $\typset$ with respect to $P_X$ is the set of strings $(x_1, ..., x_n) \in {\cal X}^n$ such that
 \[
 2^{-n (H(X) + \epsilon)} \leq P_{X^n}(x_1, ..., x_n) \leq 2^{-n(H(X) - \epsilon)}.
