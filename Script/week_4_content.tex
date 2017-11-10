@@ -1,0 +1,31 @@
+So far in this course we have mostly seen independent random variables. In source coding, we designed our codes according to a single distribution $P_X$, and assumed that if we encoded a sequence of source symbols, the symbols in the sequence would be drawn independently according to $P_X$. In the real world, however, subsequent events are often dependent on each other. For example, in an English text, after observing a letter \texttt{q}, the next letter is much more likely to be \texttt{u} than it is to be \texttt{r}, even though in general the letter \texttt{r} is more prevalent in English text. The event of observing the letter \texttt{q} changes the probability distribution of the next letter.
+
+The above is an example of a stochastic process, a sequence of random variables that are possibly depenent on each other.
+
+\begin{definition}[Discrete-time stochastic process]
+A stochastic process is a sequence $\{X_i\}$ of random variables indexed by $i \in \mathbb{N}$. The random variables all have the same domain (the same sample space) and the same codomain. The process is characterized by the collection of joint probability distributions $P_{X_1 \cdots X_n}$ for all $n \in \mathbb{N}$.
+\end{definition}
+%If the random variables are indexed by $i \in \mathbb{R}$ instead of $i \in \mathbb{N}$, we talk about continuous-time stochastic processes. In this course, we will only consider discrete-time processes.
+
+\begin{example}[Repeatedly tossing a fair coin]
+Suppose you toss a fair coin an infinite amount of times, and at every step, you count the number of heads you have seen so far.
+
+This experiment can be described as a stochastic process by letting each variable $X_i$ denote the number of heads observed up until that toss. For example, a sequence of tosses \texttt{THHTHT}$\cdots$ results in the values $X_1 = 0$, $X_2 = 1$, $X_3 = 2$, $X_4 = 2$, $X_5 = 3$, $X_6 = 3$, \dots . The stochastic process is characterized by the probability distributions
+\begin{align*}
+P_{X_1}(x_1) &= 2 \text{ for all } x_1 \in \{0,1\}\\
+P_{X_1X_2}(x_1,x_2) &= 4 \text{ for all } (x_1,x_2) \in \{00,01,11,12\}\\
+P_{X_1X_2X_3}(x_1,x_2,x_3) &= 8 \text{ for all } (x_1,x_2,x_3) \in \{000, 001, 011, 012, 111, 112, 122, 123\}\\
+&\vdots
+\end{align*}
+Consider the following experiment: you toss , record the outcome, throw the dice again, add the outcome to your previous result, throw the dice again, add the outcome to your previous result, and continue to do this an infinite amount of times.
+
+This experiment can be described as a stochastic process as follows. The sample space, $\Omega$, is the infinite set
+\[
+\Omega = \{1, 2,3,4,5,6\} \times \{1,2,3,4,5,6\} \times \{1,2,3,4,5,6\} \times \cdots
+\]
+
+\end{example}
+
+In this chapter, we will study different types of stochastic processes, and a measure of uncertainty we will call the entropy rate of the process.
+
+\section{Types Of Stochastic Processes}
