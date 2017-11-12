@@ -66,14 +66,14 @@ Let $P_X$ be the distribution of a random variable $X$ (with image ${\cal X}$). 
 
 The \term{extended} code $C^* : {\cal X}^* \to \strg$ is defined by concatenation:
 \[
-C^*(x_1, ..., x_n) := C(x_1) | \cdots |C(x_n).
+C^*(x_1, \ldots, x_n) := C(x_1) | \cdots |C(x_n).
 \]
 Here, ${\cal X}^* = \bigcup_{n \in \N} {\cal X}^n \cup \set{\es}$, and $\es$ is the empty string.
 \end{definition}
 We often refer to the set of codewords, ${\cal C} = \im(C)$, as code and leave the actual encoding function $C$ implicit. 
 
 The injectivity of $C$ ensures that we can always uniquely decode $C(x)$. However, if one transmits a sequence $x_1, \ldots, x_m\in {\cal X}$
-(or stores them ``sequentially'') by sending the concatenation $C(x_1, ..., x_n)$, ambiguities may arise, namely in cases where it is possible to parse this long
+(or stores them ``sequentially'') by sending the concatenation $C(x_1, \ldots, x_n)$, ambiguities may arise, namely in cases where it is possible to parse this long
 string in two consistent but different ways. Indeed, injectivity of
 the encoding function per se does not rule out that there exists a
 positive integer $m'$ and elements $x'_1, \ldots, x'_{m'}\in {\cal X}$
@@ -289,13 +289,13 @@ where $\frak{C}$ is some class of codes, for example the set of all prefix-free 
 As argued, prefix-freeness is a nice feature, but it is also considerably more restrictive than mere unique decodability; thus, it is natural to ask: how much do we lose (in terms of the average codeword length) by requiring the encoding to be prefix-free rather than merely uniquely decodable? Surprisingly, the answer is: {\em nothing}. In this section, we will show that the length of an optimal prefix-free code and the length of an optimal uniquely decodable code coincide. In the next section, we will see that these lengths are essentially given by the Shannon entropy.
 
 \begin{theorem}[Kraft's inequality]
-There exists a prefix-free code with image ${\cal C} = \set{c_1, ..., c_m}$ and codeword lengths $\len_i := \len(c_i)$, if and only if
+There exists a prefix-free code with image ${\cal C} = \set{c_1, \ldots, c_m}$ and codeword lengths $\len_i := \len(c_i)$, if and only if
 \[
 \sum_{i=1}^m 2^{-\ell_i} \leq 1.
 \]
 \end{theorem}
 \begin{proof}
-For the forward direction, suppose we have a prefix-free code $C$ with image ${\cal C} = \set{c_1, ..., c_m}$ and codeword lengths $\len_i := \len(c_i)$. View this code as a tree, with codewords only on the leaves (but not necessarily all the leaves), and assign a weight of $2^{-d}$ to every node in the tree at depth $d$ (including the leaves):
+For the forward direction, suppose we have a prefix-free code $C$ with image ${\cal C} = \set{c_1, \ldots, c_m}$ and codeword lengths $\len_i := \len(c_i)$. View this code as a tree, with codewords only on the leaves (but not necessarily all the leaves), and assign a weight of $2^{-d}$ to every node in the tree at depth $d$ (including the leaves):
 %\begin{figure}[h]
 \begin{center}
 \begin{tikzpicture}
@@ -343,11 +343,11 @@ For the forward direction, suppose we have a prefix-free code $C$ with image ${\
 \sum_{i=1}^{m} 2^{-\ell_i} \leq 2^0 = 1.
 \end{align}
 
-For the backward direction, we build a code ${\cal C} = \{c_1, ..., c_m\}$ with $\ell(c_i) = \len_i$ by selecting the appropriate leaves of a binary tree as codewords, assigning the most `expensive' (i.e.\ those with small depth) first. We proceed by induction on the number of codewords, $m$:
+For the backward direction, we build a code ${\cal C} = \{c_1, \ldots, c_m\}$ with $\ell(c_i) = \len_i$ by selecting the appropriate leaves of a binary tree as codewords, assigning the most `expensive' (i.e.\ those with small depth) first. We proceed by induction on the number of codewords, $m$:
 
 For $m = 1$, the construction is clear: we can assign any string of length $\len_1$ to represent the single codeword.
 
-For $m > 1$, assume without loss of generality that $\ell_1 \leq \cdots \leq \ell_{m-1} \leq \ell_{m}$. We will first try to build a code with $(m-1)$ code words, of lengths $\ell_1, ..., \ell_{m-2}, (\ell_{m-1} - 1)$. In order to be able to invoke the induction hypothesis, we do need to check that
+For $m > 1$, assume without loss of generality that $\ell_1 \leq \cdots \leq \ell_{m-1} \leq \ell_{m}$. We will first try to build a code with $(m-1)$ code words, of lengths $\ell_1, \ldots, \ell_{m-2}, (\ell_{m-1} - 1)$. In order to be able to invoke the induction hypothesis, we do need to check that
 \begin{align}
 \left(\sum_{i=1}^{m-2} 2^{-\ell_{i}}\right) + 2^{-(\ell_{m-1} - 1)} \leq 1.
 \end{align}
@@ -363,7 +363,7 @@ Thus, on the right-hand side, we end up with a fraction of the form $\frac{a}{b}
 &= \ \left(\sum_{i=1}^{m-2} 2^{-\len_i}\right) + 2\cdot 2^{-\len_{m-1}}\nonumber\\
 &= \ \left(\sum_{i=1}^{m-2} 2^{-\ell_{i}}\right) + 2^{-(\ell_{m-1} - 1)},
 \end{align}
-as desired. So we invoke the induction hypothesis to create a prefix-free code ${\cal C}' = \{c'_1, ..., c'_{m-1}\}$ with lengths $\len_1, ..., \len_{m-2}, (\len_{m-1} - 1)$. The new code ${\cal C}$ is then constructed by setting $c_i = c'_i$ for all $i \leq m-2$, and furthermore setting $c_{m-1} = c'_{m-1}|0$ and $c_m = c'_{m-1}|10\cdots 0$, padding with enough zeroes to achieve $\len(c_m) = \len_m$. This new code is necessarily also prefix-free.
+as desired. So we invoke the induction hypothesis to create a prefix-free code ${\cal C}' = \{c'_1, \ldots, c'_{m-1}\}$ with lengths $\len_1, \ldots, \len_{m-2}, (\len_{m-1} - 1)$. The new code ${\cal C}$ is then constructed by setting $c_i = c'_i$ for all $i \leq m-2$, and furthermore setting $c_{m-1} = c'_{m-1}|0$ and $c_m = c'_{m-1}|10\cdots 0$, padding with enough zeroes to achieve $\len(c_m) = \len_m$. This new code is necessarily also prefix-free.
 
 The following image illustrates the induction step for $\ell_1 = \ell_2 = \ell_3 = 2$ and $\ell_4 = 3$. The code is constructed from a prefix-free code ${\cal C}'$ with code lengths $2, 2$ and 1 by replacing the bottom codeword (of length 1) with two new codewords (of lengths 2 and 3).
 
@@ -429,7 +429,7 @@ The following image illustrates the induction step for $\ell_1 = \ell_2 = \ell_3
 \end{proof}
 A stronger version of Kraft's inequality holds as well, this time for uniquely decodable codes:
 \begin{theorem}[McMillan inequality]
-For a uniquely decodable code with image ${\cal C} = \set{c_1, ..., c_m}$ and codeword lengths $\len_i := \len(c_i)$, it holds that
+For a uniquely decodable code with image ${\cal C} = \set{c_1, \ldots, c_m}$ and codeword lengths $\len_i := \len(c_i)$, it holds that
 \[
 \sum_{i=1}^m 2^{-\ell_i} \leq 1.
 \]
@@ -694,7 +694,7 @@ Note that 1101 is also the binary form of the natural number 13. Adding a 0 on t
 \end{example}
 These binary representations of numbers in the interval $[0,1)$ give rise to a very elegant code: 
 \begin{definition}[Arithmetic code]\label{def:arithmetic}
-Given a source $P_X$ with $\mathcal{X} = \{x_1, .., x_m\}$, construct the arithmetic code as follows. Divide the interval $[0,1)$ into disjoint subintervals $I_{x_j} = [a_j, a_{j+1})$, where $a_1, ..., a_{m+1}$ are defined such that $a_{j+1} - a_j = P_X(x_j)$, and $a_1 = 0, a_{m+1} = 1$.
+Given a source $P_X$ with $\mathcal{X} = \{x_1, .., x_m\}$, construct the arithmetic code as follows. Divide the interval $[0,1)$ into disjoint subintervals $I_{x_j} = [a_j, a_{j+1})$, where $a_1, \ldots, a_{m+1}$ are defined such that $a_{j+1} - a_j = P_X(x_j)$, and $a_1 = 0, a_{m+1} = 1$.
 
 The encoding $AC(x_j)$ of the element $x_j$ is the (shortest possible) standard binary representation of some number in the interval $I_{x_j}$. 
 \end{definition}
@@ -819,7 +819,7 @@ Let $Y$ be the random variable as in Example~\ref{example:arithmetic}, that is, 
 \end{center}
 This results in the codewords $\mathcal{C}(1) = 00$, $\mathcal{C}(2) = 011$, and $\mathcal{C}(3) = 11$.
 \end{example}
-The arithmetic code is slightly less efficient than the Huffman code in terms of average codeword length. A big advantage is the way it is able to adapt to changing distributions, such as when we are encoding a stream of English text. Suppose we are given the (not necessarily i.i.d.) random variables $X_1, X_2, ..., X_n$, and we want to encode the source $P_{X_1X_2 \cdots X_n}$. We start by dividing the interval $[0,1)$ into subintervals according to $P_{X_1}$. If, for example, the event $X_1 = b$ happens, we zoom into the interval corresponding to $b$, and subdivide \emph{that} interval according to $P_{X_2|X_1}$, so that the sizes of these intervals add up to $P_{X_1}(b)$. The concept of arithmetic coding is exploited as an accessibility tool in the keyboard alternative \href{http://wol.ra.phy.cam.ac.uk/dasher/}{Dasher}, invented by the group of David MacKay at Cambridge University, UK.
+The arithmetic code is slightly less efficient than the Huffman code in terms of average codeword length. A big advantage is the way it is able to adapt to changing distributions, such as when we are encoding a stream of English text. Suppose we are given the (not necessarily i.i.d.) random variables $X_1, X_2, \ldots, X_n$, and we want to encode the source $P_{X_1X_2 \cdots X_n}$. We start by dividing the interval $[0,1)$ into subintervals according to $P_{X_1}$. If, for example, the event $X_1 = b$ happens, we zoom into the interval corresponding to $b$, and subdivide \emph{that} interval according to $P_{X_2|X_1}$, so that the sizes of these intervals add up to $P_{X_1}(b)$. The concept of arithmetic coding is exploited as an accessibility tool in the keyboard alternative \href{http://wol.ra.phy.cam.ac.uk/dasher/}{Dasher}, invented by the group of David MacKay at Cambridge University, UK.
 
 \section{Asymptotic Equipartition Property (AEP)}
 \newcommand{\convto}{\xrightarrow{n \to \infty}}
@@ -831,9 +831,9 @@ The arithmetic code is slightly less efficient than the Huffman code in terms of
 \newcommand{\typsetb}{B_{\delta}^{(n)}}
 
 
-In this section, we consider the possibility of encoding blocks of symbols, rather than just one symbol at at time. We restrict our attention to sources that are \emph{real} random variables. The following definition of converging random variables may remind you of a converging sequence of numbers. Recall that a sequence $x_1, x_2, x_3, ...$ of numbers converges to $x$ if $\forall\epsilon > 0 \ \exists n_0 \ \forall (n \geq n_0) : |x_n - x| < \epsilon$. We denote this by writing $x_n \convto x$.
+In this section, we consider the possibility of encoding blocks of symbols, rather than just one symbol at at time. We restrict our attention to sources that are \emph{real} random variables. The following definition of converging random variables may remind you of a converging sequence of numbers. Recall that a sequence $x_1, x_2, x_3, \ldots$ of numbers converges to $x$ if $\forall\epsilon > 0 \ \exists n_0 \ \forall (n \geq n_0) : |x_n - x| < \epsilon$. We denote this by writing $x_n \convto x$.
 \begin{definition}[Converging random variables]
-A sequence $X_1, X_2, X_3, ...$ of real random variables converges to a random variable $X$, if it satisfies one of the following definitions:
+A sequence $X_1, X_2, X_3, \ldots$ of real random variables converges to a random variable $X$, if it satisfies one of the following definitions:
 \begin{tabular}{l l l}
 \term{in probability} & (notation $X_n \convtoP X$)  & if $\forall \epsilon > 0$, $P[|X_n - X| > \epsilon] \convto 0$\\
 \term{in mean square} & (notation $X_n \convtoMS X$) & if $\mathbb{E}[(X_n - X)^2] \convto 0$\\
@@ -843,7 +843,7 @@ A sequence $X_1, X_2, X_3, ...$ of real random variables converges to a random v
 \end{definition}
 
 \begin{example}
-Consider the following game: you flip a coin, and if it comes up heads you win one euro. You flip it again, and if it comes up head again, you win the double amount. You continue doing this, until a tails comes up: then you have to give back everything you won so far, and the game is over. To formalize this, let the sequence $X_1, X_2, ...$ denote the amount you won after $1, 2, $ etc coin flips. They are defined by $X_n = 2^n$ if you just flipped $n$ heads in a row (probability $\frac{1}{2^n}$), and $X_n = 0$ otherwise. Furthermore, define $X$ to be the constant-zero random variable with $P_X(0) = 1$.
+Consider the following game: you flip a coin, and if it comes up heads you win one euro. You flip it again, and if it comes up heads again, you win the double amount. You continue doing this, until a tails comes up: then you have to give back everything you won so far, and the game is over. To formalize this, let the sequence $X_1, X_2, \ldots$ denote the amount you won after $1, 2, $ etc coin flips. They are defined by $X_n = 2^n$ if you just flipped $n$ heads in a row (probability $\frac{1}{2^n}$), and $X_n = 0$ otherwise. Furthermore, define $X$ to be the constant-zero random variable with $P_X(0) = 1$.
 
 \begin{itemize}
 \item This sequence converges to $X$ in probability: for every $n$ and every $0 < \epsilon \leq 1$, $P[|X_n - X| > \epsilon] = P[X_n > \epsilon] = \frac{1}{2^n}$, and from standard calculus we know that $\frac{1}{2^n} \convto 0$.
@@ -860,24 +860,24 @@ X_n \convtoAS X \ \ \ &\Rightarrow\ \ \  X_n \convtoP X
 \end{align}
 The following law states that if we sample several times from the same distribution, the average converges (in probability) to the expected value of the distribution.
 \begin{theorem}[Weak Law of Large Numbers]
-Let $X_1, X_2, ...$ be real i.i.d.\ random variables with mean $\mu = \mathbb{E}[X_i]$ and variance $\sigma^2 = \mathbb{E}[(X_i - \mu)^2] < \infty$. Define the random variables
+Let $X_1, X_2, \ldots$ be real i.i.d.\ random variables with mean $\mu = \mathbb{E}[X_i]$ and variance $\sigma^2 = \mathbb{E}[(X_i - \mu)^2] < \infty$. Define the random variables
 \[
 S_n := \frac{1}{n} \sum_{i=1}^n X_i.
 \]
-Then $S_n \convtoP \mu$.
+Then $S_n \convtoP \mu$, where we interpret $\mu$ as the constant random variable that is $\mu$ with probability 1.
 \end{theorem}
 This important law has an entropy variant, which follows almost directly:
-\begin{theorem}[Asymptotic Equipartition Property (AEP)]
-Let $X_1, X_2, X_3, ...$ be i.i.d.\ random variables with distribution $P_X$. Then
+\begin{theorem}[Asymptotic Equipartition Property (AEP)]\label{thm:aep}
+Let $X_1, X_2, X_3, \ldots$ be i.i.d.\ random variables with distribution $P_X$. Then
 \[
--\frac{1}{n} \log P_{X_1 \cdots X_n}(X_1, ..., X_n) \convtoP H(X).
+-\frac{1}{n} \log P_{X_1 \cdots X_n}(X_1, \ldots, X_n) \convtoP H(X).
 \]
-(Note that $P_{X_1 \cdots X_n}(X_1, ..., X_n)$ is itself a random variable, and $H(X)$ can be regarded as a constant random variable.)
+(Note that $P_{X_1 \cdots X_n}(X_1, \ldots, X_n)$ is itself a random variable, and $H(X)$ can be regarded as a constant random variable.)
 \end{theorem}
 \begin{proof}
 Since the variables $X_i$ are independent, so are the random variables $\log P_X(X_i)$. Then
 \begin{align}
--\frac{1}{n} \log P_{X_1\cdots X_n}(X_1, ..., X_n) &= -\frac{1}{n} \sum_{i=1}^n \log P_X(x_i)\nonumber\\
+-\frac{1}{n} \log P_{X_1\cdots X_n}(X_1, \ldots, X_n) &= -\frac{1}{n} \sum_{i=1}^n \log P_X(x_i)\nonumber\\
 &\convtoP - \mathbb{E}[\log P_X(X_i)] = H(X)
 \end{align}
 by the weak law of large numbers.
@@ -922,18 +922,19 @@ We see that the variance of the sample mean, $\mbox{Var}[\frac{1}{n}X] = \frac{p
 \end{example}
 The above example leads us to defining the following subset of the image of a random variable:
 
-\begin{definition}[Typical set]
-The typical set $\typset$ with respect to $P_X$ is the set of strings $(x_1, ..., x_n) \in {\cal X}^n$ such that
+\begin{definition}[Typical set]\label{def:typset}
+The typical set $\typset$ with respect to $P_X$ is the set of strings $(x_1, \ldots, x_n) \in {\cal X}^n$ such that
 \[
-2^{-n (H(X) + \epsilon)} \leq P_{X^n}(x_1, ..., x_n) \leq 2^{-n(H(X) - \epsilon)}.
+2^{-n (H(X) + \epsilon)} \leq P_{X^n}(x_1, \ldots, x_n) \leq 2^{-n(H(X) - \epsilon)} \, ,
 \]
+where $P_{X^n}(x_1, \ldots, x_n) = \prod_{i=1}^n P_X(x_i)$.
 \end{definition}
 The typical set is relatively small, but contains almost all of the probability mass. We start by establishing some general properties of typical sets.
 
 \begin{proposition}\label{prop:typset-properties}
 A typical set $\typset$ satisfies the following:
 \begin{enumerate}
-\item For all $(x_1, ..., x_n) \in \typset$, \[H(X) - \epsilon \leq - \frac{1}{n} \log P_{X^n}(x_1, ..., x_n) \leq H(X) + \epsilon.\]
+\item For all $(x_1, \ldots, x_n) \in \typset$, \[H(X) - \epsilon \leq - \frac{1}{n} \log P_{X^n}(x_1, \ldots, x_n) \leq H(X) + \epsilon.\]
 \item $P[\typset] > 1 - \epsilon$ (for large enough $n$).
 \item $|\typset| \leq 2^{n(H(X) + \epsilon)} \,$.
 \item $|\typset| \geq (1-\epsilon) 2^{n(H(X) - \epsilon)}$ (for large enough $n$).
@@ -943,8 +944,8 @@ A typical set $\typset$ satisfies the following:
 \begin{enumerate}
 \item This is immediate from the definition (take the logarithm and
   divide by $-n$, thereby reversing the inequalities).
-\item This follows from the Asymptotic Equipartition Property: for all $\epsilon > 0$, $P[|-\frac{1}{n} \log P_{X^n}(X_1, ..., X_n) - H(X)| > \epsilon] \convto 0$, that is,
-\begin{align}\forall (\epsilon > 0) \ \forall (\delta > 0) \ \exists n_0 \ \forall (n \geq n_0) \ P[|-\frac{1}{n} \log P_{X^n}(X_1, ..., X_n) - H(X)| \leq \epsilon] > 1 - \delta.
+\item This follows from the Asymptotic Equipartition Property: for all $\epsilon > 0$, $P[|-\frac{1}{n} \log P_{X^n}(X_1, \ldots, X_n) - H(X)| > \epsilon] \convto 0$, that is,
+\begin{align}\forall (\epsilon > 0) \ \forall (\delta > 0) \ \exists n_0 \ \forall (n \geq n_0) \ P[|-\frac{1}{n} \log P_{X^n}(X_1, \ldots, X_n) - H(X)| \leq \epsilon] > 1 - \delta.
 \end{align}
 By choosing $\delta := \epsilon$, the result follows from the first property.
 \item First, observe that
@@ -965,7 +966,7 @@ Typical sets and their properties allow us to code a source $P_X$, in blocks of 
 
 The above scheme can be extended to a lossless version by assigning longer labels to the elements outside of $\typset$, for example binary labels of length $\lceil \log |\mathcal{X}|^n\rceil = \lceil n \log |\mathcal{X}|\rceil$. An extra `flag' bit is needed to indicate whether the element is inside or outside the typical set. For large enough $n$, this code is quite efficient:
 \begin{theorem}
-Let $X_1, ..., X_n$ be i.i.d.\ real random variables with respect to the set $\mathcal{X}$, and distributed according to $P_X$. Let $\epsilon > 0$. Then there exists a lossless code $\mathcal{X}^n \to \{0,1\}^*$ such that, for sufficiently large $n$, $\mathbb{E}[\frac{1}{n} \len(X^n)] \leq H(X) + \epsilon$.
+Let $X_1, \ldots, X_n$ be i.i.d.\ real random variables with respect to the set $\mathcal{X}$, and distributed according to $P_X$. Let $\epsilon > 0$. Then there exists a lossless code $\mathcal{X}^n \to \{0,1\}^*$ such that, for sufficiently large $n$, $\mathbb{E}[\frac{1}{n} \len(X^n)] \leq H(X) + \epsilon$.
 \end{theorem}
 \begin{proof}
 Consider the code described above: the code consist of a flag bit (indicating whether or not the element is inside the typical set), followed by either a short label (for elements in the typical set) or a longer one (for elements outside of it).
@@ -988,7 +989,7 @@ We conclude this chapter by showing that the typical set is in a sense `optimal'
 Let us use the notation $\typsetb$ to denote the smallest subset of $\mathcal{X}^n$ such that $P[\typsetb] > 1 - \delta$ (for some parameter $\delta > 0$). $\typsetb$ can be explicitly constructed by, for example, ordering $\mathcal{X}^n$ in order of decreasing probability, and adding elements to $\typsetb$ until the probability threshold of $1 - \delta$ is reached. The following theorem states that even for large values of $\delta$, we still need almost $n H(X)$ bits to denote an element from $\typsetb$.
 
 \begin{theorem}
-Let $X_1, ..., X_n$ be i.i.d.\ random variables distributed according to $P_X$. For any $\delta < \frac{1}{2}$, and any $\delta' > 0$, if $P[\typsetb] > 1 - \delta$, then
+Let $X_1, \ldots, X_n$ be i.i.d.\ random variables distributed according to $P_X$. For any $\delta < \frac{1}{2}$, and any $\delta' > 0$, if $P[\typsetb] > 1 - \delta$, then
 \[
 \frac{1}{n} \log |\typsetb| > H(X) - \delta',
 \]
