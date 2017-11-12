@@ -761,7 +761,7 @@ Let $x \in \mathcal{X}$, and define $\len_x := \lceil \log (1/P_X(x))\rceil$ to 
 \begin{align}
 2^{-\len_x} = 2^{-\lceil \log (1/P_X(x))\rceil} \leq 2^{-\log (1/P_X(x))} = 2^{\log P_X(x)} = P_X(x).
 \end{align}
-Therefore, since the size of the interval $I_x$ is $P_X(x)$, there must exist $0 \leq s_x < 2^{\len_x}$ such that $s_x \cdot 2^{-\len_x}$ lies in the interval $I_x$. This number $s_x \cdot 2^{-\len_x}$ has a binary representation of length $\len_x \leq -\log P_X(x) + 1$. Repeating this argument for every $x$, we obtain
+Therefore, since the size of the interval $I_x$ is $P_X(x)$, there must exist an integer $0 \leq s_x < 2^{\len_x}$ such that $s_x \cdot 2^{-\len_x}$ lies in the interval $I_x$. This number $s_x \cdot 2^{-\len_x}$ has a binary representation of length $\len_x \leq -\log P_X(x) + 1$. Repeating this argument for every $x$, we obtain
 \begin{align}
 \len_{AC}(P_X) = \mathbb{E}[\len(AC(X))] = \sum_x P_X(x) \len(AC(x)) \leq \sum_x P_X(x) (-\log P_X(x) + 1) = H(X) + 1.
 \end{align}
