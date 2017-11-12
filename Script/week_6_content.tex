@@ -1,8 +1,8 @@
 
 
-In Chapter~\ref{ch:zero-error} we discovered that for some noisy channels, zero-error communication is very hard, or even impossible. For example, if Alice and Bob have to communicate over a binary symmetric channel (BSC, see Example~\ref{example:binary-symmetric-channel}) that has non-zero bit flip probability, they cannot hope to do any zero-error communication, because the Shannon capacity of the BSC's confusability graph is zero.
+In Chapter~\ref{ch:zero-error} we discovered that for some noisy channels, zero-error communication is very hard, or even impossible. For example, if Alice and Bob have to communicate over a binary symmetric channel (BSC, see Example~\ref{example:binary-symmetric-channel}) that has non-zero bit-flip probability, they cannot hope to do any zero-error communication, because the Shannon capacity of the BSC's confusability graph is zero.
 
-In this chapter, Alice and Bob try to achieve a more modest goal. Consider again the setting where they communicate over a noisy, memoryless channel (see Section~\ref{sec:noisy-channel}), but now they are content with a small probability of error. That is, Bob has to have high confidence that the message he decodes is correct, but he is allowed to be wrong with some small probability. Can Alice and Bob do more in this setting? For example, can they communicate information reliably over a noisy BSC?
+In this chapter, Alice and Bob try to achieve a more modest (and realistic) goal. Consider again the setting where they communicate over a noisy, memoryless channel (as described in Section~\ref{sec:noisy-channel}), but now they are content with a small probability of error. That is, Bob has to have high confidence that the message he decodes is correct, but he is allowed to be wrong with some small probability. Can Alice and Bob do more in this setting? For example, can they communicate information reliably over a noisy BSC?
 
 \section{Channel capacity}
 Central to our study of communication over noisy channels will be the concept of channel capacity. It reflects the maximum amount of information that could \emph{in principle} be communicated with a single use of a channel.
@@ -13,9 +13,9 @@ The channel capacity $C$ of a discrete, memoryless channel $(\mathcal{X}, P_{Y|X
 C:= \max_{P_X} I(X;Y).
 \]
 \end{definition}
-The output distribution $P_Y$ is fully determined by the input distribution $P_X$ and the channel $P_{Y|X}$. Maximizing over $P_Y$ rather than $P_X$ would yield the same result for $C$.
+The output distribution $P_Y$ is fully determined by the input distribution $P_X$ and the channel $P_{Y|X}$. Maximizing over $P_Y$ rather than $P_X$ would yield the same result for $C$. \chris{what do you mean? How is $P_{XY}$ defined given $P_{Y|X}$ and $P_Y$? Bayes': $P_{X|Y} = P_{Y|X} \frac{P_X}{P_Y}$, we always seem to miss $P_X$.}
 
-The following exercise asks you to check a basic property of channel capacity: the input alphabet size limits the amount of information the sender can communicate with the single use of a channel.
+The following exercise asks you to check a basic property of channel capacity: the input alphabet size limits the amount of information the sender can communicate with a single use of the channel.
 
 \begin{exercise}
 Prove that $0 \leq C \leq \log |\mathcal{X}|$.
@@ -26,7 +26,7 @@ Recall the binary symmetric channel (BSC) from Example~\ref{example:binary-symme
 \begin{align*}
 \max_{P_X} I(X;Y) &= \max_{P_X} \left( H(Y) - H(Y|X)\right)\\
 &= \max_{P_X} \left( H(Y) - \sum_{x \in \mathcal{X}} P_X(x) \cdot H(Y|X=x)\right)\\
-&= \max_{P_X} \left( H(Y) - \sum_{x \in \mathcal{X}} p_x(X) \cdot h(f)\right)\\
+&= \max_{P_X} \left( H(Y) - \sum_{x \in \mathcal{X}} P_X(X) \cdot h(f)\right)\\
 &= \max_{P_X} \left( H(Y) - h(f)\right)\\
 &= 1- h(f).
 \end{align*}
@@ -70,17 +70,18 @@ The channel capacity of the BEC is a function of $\epsilon$, and computed as fol
 &= \max_{p} \left( h(p) - \sum_{y \in \mathcal{Y}} P_Y(y) \cdot H(X|Y=y)\right)\\
 &= \max_{p} \left( h(p) - P_Y(\bot) \cdot h(p)\right)\\
 &= \max_{p} \left( h(p) (1-\epsilon)\right)\\
-&= 1 - \epsilon.
+&= 1 - \epsilon \, .
 \end{align*}
+Again, the last step follows because $H(X)=h(p)$ is maximized if $X$ is uniform, hence $p=\frac12$.
 \end{example}
 As stated, the channel capacity reflects the maximum amount of information that could theoretically be sent over a noisy channel per use of that channel. The question remains whether this capacity is \term{achievable} by an actual code in the following sense:
 
 \begin{definition}[Achievable rate]
-For a given channel, a rate $R$ is achievable there exists a sequence of $(2^{n \cdot R},n)$ codes (for $n = 1,2,3,...$) such that $\lambda^{(n)} \convto 0$. Here, $\lambda^{(n)}$ is the maximum error probability as defined in Definition~\ref{def:probability-of-error}.
+For a given channel, a rate $R$ is achievable if there exists a sequence of $(2^{n \cdot R},n)$ codes (for $n = 1,2,3,...$) such that $\lambda^{(n)} \convto 0$. Here, $\lambda^{(n)}$ is the maximum error probability as defined in Definition~\ref{def:probability-of-error}.
 \end{definition}
 Note that any $(2^{n \cdot R},n)$ code has rate $R$, since $\frac{1}{n} \cdot \log {2^{n \cdot R}} = R$. Thus, a rate $R$ is achievable if there exists a sequence of rate $R$ codes such that increasing the block size reduces the maximum error asymptotically to zero.
 
-The rest of this chapter will be concerned with proving a theorem, due to Shannon, which states that any rate $R$ that is strictly below the capacity $C$ is achievable (Theorem~\ref{thm:ncc-forward}), and conversely, that any rate strictly above it is not (Theorem~\ref{thm:ncc-backward}). These theorems together are known as \term{Shannon's noisy-channel coding theorem}.
+The rest of this chapter will be concerned with proving a theorem due to Shannon, which states that any rate $R$ that is strictly below the capacity $C$ is achievable (Theorem~\ref{thm:ncc-forward}), and conversely, that any rate strictly above is not achievable (Theorem~\ref{thm:ncc-backward}). These theorems together are known as \term{Shannon's noisy-channel coding theorem}.
 
 Very roughly, the first theorem follows from the asymptotic equipartition property (AEP) discussed in Chapter~\ref{sec:aep}. Increasing $n$ (the size of the input blocks) results in output blocks that are more likely to be typical. But can we be sure that no two typical input sequences result in the same typical output sequence? Such a collision would make it impossible to decode correctly. To show that this does not form a problem, we need stronger mathematical tools.
 
@@ -111,8 +112,8 @@ $Y=0$&0.45&0.05\\
 $Y=1$&0.05&0.45\\
 \end{tabular}
 \end{center}
-Note that the marginal distributions of $X$ and $Y$ are uniform, and so for all $n$ and all $x^n \in \{0,1\}$,
-\[-\frac{1}{n} \log P_{X^n}(x^n) - H(X) = \frac{1}{n} \log \frac{1}{2^n} - \log 2 = 0,\]
+Note that the marginal distributions of $X$ and $Y$ are uniform, and so for all $n$ and all $x^n \in \{0,1\}^n$,
+\[-\frac{1}{n} \log P_{X^n}(x^n) - H(X) = -\frac{1}{n} \log \frac{1}{2^n} - \log 2 = 0,\]
 and a similar statement holds for $Y$. Hence, the first and second inequalities in Definition~\ref{def:joint-typicality} are always satisfied for any $\epsilon > 0$. What about the third inequality? The table below visualizes the probabilities of every pair for $n = 3$ and $\epsilon = 0.35$: every square represents a pair of elements from $\mathcal{X}^3$ and $\mathcal{Y}^3$. Bigger squares represent higher probabilities. The typical pairs are marked in orange.
 
 \newcommand{\mysquare}[4]{%color,size,x,y
@@ -183,7 +184,7 @@ For big $n$ and small $\epsilon$ we see an interesting pattern appear. Take, for
 \[
 \left| -\frac{1}{10,000} \log (0.45^{10,000 - m} \cdot 0.05^m) - H(XY)\right|,
 \]
-is satisfied for $969 \leq m \leq 1031$, or around 10 percent of the positions. This might match your expectation, since the probability of sampling a non-matching pair of bits ((0,1) or (1,0)) from $P_{XY}$ is 10 percent. Thus, these values of $m$ result in very \emph{typical} pairs of sequences. Note in particular that pairs of sequences that differ in less than 969 positions, which have the highest probability of occurring, are not included in the typical set! However, the number of such pairs is so small compared to the number of pairs which differ in 969 to 1031 positions, that their total probability is not relevant. As we will see shortly, the elements in the typical set together constitute almost all of the total probability.
+is satisfied for $969 \leq m \leq 1031$, or around 10 percent of the positions. This might match your expectation, since the probability of sampling a non-matching pair of bits ((0,1) or (1,0)) from $P_{XY}$ is 10 percent. Thus, these values of $m$ result in very \emph{typical} pairs of sequences. Note in particular that pairs of sequences that differ in less than 969 positions, which have the highest probability of occurring, are not included in the \chris{jointly?} typical set! \chris{hard to follow... is it worth trying to make a (huge) picture?} However, the number of such pairs is so small compared to the number of pairs which differ in 969 to 1031 positions, that their total probability is not relevant. As we will see shortly, the elements in the \chris{jointly?} typical set together constitute almost all of the total probability.
 \end{example}
 
 \begin{example}\label{example:jointly-typical-2}
@@ -355,7 +356,7 @@ P[(\tilde{X}^n\tilde{Y}^n) \in \typset]
 With the tools from the previous section, we are ready to prove the forward direction of Shannon's noisy-channel coding theorem, which states that any rate strictly below the channel capacity is achievable:
 
 \begin{theorem}[Shannon's noisy-channel coding theorem (forward direction)]\label{thm:ncc-forward}
-On a discrete memoryless channel with capacity $C$, any rate $R < C$ is achievable.
+For a discrete memoryless channel with capacity $C$, any rate $R < C$ is achievable.
 \end{theorem}
 
 \begin{proof}
@@ -365,15 +366,15 @@ On a discrete memoryless channel with capacity $C$, any rate $R < C$ is achievab
 \newcommand{\error}{\texttt{error}}
 Given a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ with capacity $C = \max{P_X} I(X;Y)$, let $R < C$ and $\epsilon > 0$. We will first show that for big enough $n$, a \emph{randomly constructed} code with rate $R$ has a low error probability. We will then argue that a low average error probability implies the existence of some \emph{specific} code with low error probability.
 
-Fix an input distribution $P_X$ that maximizes $I(X;Y)$. For any $n$, construct a $(2^{n \cdot R},n)$-code \cran by choosing a codebook at random according to $P_X$. That is, for every message $w \in [1,2^{n \cdot R}]$, sample $n$ times from the distribution $P_X$, creating a codeword $\cran(w) = (\xran_1(w), \xran_2(w), ..., \xran_n(w))$ by concatenating the $n$ independent samples $\xran_i(w)$.
+Fix an input distribution $P_X$ that maximizes $I(X;Y)$. For any $n$, construct a $(2^{n \cdot R},n)$-code \cran \chris{what if $2^{n \cdot R}$ is not an integer?} by choosing a codebook at random according to $P_X$. That is, for every message $w \in [1,2^{n \cdot R}]$, sample $n$ times from the distribution $P_X$, creating a codeword $\cran(w) = (\xran_1(w), \xran_2(w), ..., \xran_n(w))$ by concatenating the $n$ independent samples $\xran_i(w)$.
 
 Since the channel is memoryless, if $w$ is sent over the channel using \cran, the output distribution $Y^n$ is given by:
 \begin{align}
 P_{Y^n|X^n}(y^n|\cran(w)) = \prod_{i=1}^n P_{Y|X} (y_i \mid \xran_i(w)).
 \end{align}
-What is the probability that the decoded message $\hat{w}$ is incorrect, i.e., not equal to $w$? This depends on the decoding method used by the receiver. The optimal decoding procedure is \term{maximum-likelihood decoding}, where the input message that is most likely with respect to $P_{X|Y}$ is selected as the decoding $\hat{w}$. However, it is hard to analyze the error probability for this decoding method. Instead, we will assume that the receiver applies \term{jointly typical decoding}, which has a slightly higher probability of decoding to the wrong message, but still small enough for our analysis. Jointly typical decoding works as follows: upon receiving an output $y^n$, the receiver looks for a \emph{unique} message $\hat{w}$ such that the pair $(\cran(\hat{w}),y^n)$ is jointly typical. If there exist no such message, or if it is not unique, the receiver declares a failure by decoding to $\hat{w} = 0$.
+What is the probability that the decoded message $\hat{w}$ is incorrect, i.e., not equal to $w$? This depends on the decoding method used by the receiver. The optimal decoding procedure is \term{maximum-likelihood decoding}, where the input message that is most likely with respect to $P_{X|Y}$ is selected as the decoding $\hat{w}$. However, it is hard to analyze the error probability for this decoding method. Instead, we will assume that the receiver applies \term{jointly typical decoding}, which has a slightly higher probability of decoding to the wrong message, but still small enough for our analysis. Jointly typical decoding works as follows: upon receiving an output $y^n$, the receiver looks for a \emph{unique} message $\hat{w}$ such that the pair $(\cran(\hat{w}),y^n)$ is jointly typical. If there exists no such message, or if it is not unique, the receiver declares a failure by decoding to $\hat{w} = 0$ (which is always wrong because $w \in [1, 2^{n\cdot R}]$).
 
-With this decoding procedure in mind, we will analyze the average error probability $P[\error]$, where the average is taken over both the randomly constructed code \cran and the uniformly randomly selected message $w$. Defining $\lambda_w(\cran) = P[\hat{w} \neq w \mid \cran(w) \text{ was sent over the channel}]$ to be the probability that a message $w$ (encoded using $\cran$) is decoded incorrectly, we get:
+With this decoding procedure in mind, we will analyze the average error probability $P[\error]$, where the average is taken over both the randomly constructed code \cran and the uniformly randomly selected message $w$. Defining $\lambda_w(\cran) := P[\hat{w} \neq w \mid \cran(w) \text{ was sent over the channel}]$ to be the probability that a message $w$ (encoded using $\cran$) is decoded incorrectly, we get:
 \begin{align}
 P[\error] &= \sum_{\cran} P[\cran] \cdot \left(\sum_{w=1}^{2^{n\cdot R}} \frac{1}{2^{n \cdot R}} \cdot \lambda_w(\cran) \right)\nonumber\\
 &= \frac{1}{2^{n \cdot R}} \sum_{w = 1}^{2^{n \cdot R}} \sum_{\cran} P[\cran] \cdot \lambda_w(\cran).\label{eq:prob-error}
@@ -450,7 +451,7 @@ R &= \frac{\log |\mathcal{W}|}{n}\nonumber\\
 &\leq \frac{1}{n} \left( 1 + P[W \neq \hat{W}] \cdot n \log |\mathcal{W}| + n \cdot C\right) \nonumber\\
 &= \frac{1}{n} + P[W \neq \hat{W}] \cdot R + C, \nonumber\\
 \end{align}
-where the second inequality is an application of Fano's inequality. Dividing both sides by $R$ and rearranging, we get the desired inequality:
+where the second inequality is an application of Fano's inequality\chris{ reference to Chapter ? to be inserted}. Dividing both sides by $R$ and rearranging, we get the desired inequality:
 \begin{align}
 p_e^{(n)} = P[W \neq \hat{W}] \geq 1 - \frac{C}{R} - \frac{1}{nR}.
 \end{align}
@@ -458,6 +459,10 @@ p_e^{(n)} = P[W \neq \hat{W}] \geq 1 - \frac{C}{R} - \frac{1}{nR}.
 This theorem shows that if Alice and Bob try to communicate using a code with a rate $R > C$, their probability of error will be bounded away from zero by a constant factor of $1 - \frac{C}{R}$ (for big $n$, the last term in the inequality becomes insignificant). This error probability worsens for a bigger difference between $R$ and $C$.
 
 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "InfTheory3.tex"
+%%% End:
 
 
 
