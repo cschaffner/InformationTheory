@@ -1,37 +1,11 @@
 \ProvidesPackage{solutions}[2017/11/08 solutions package]
 
-% PACKAGES
-\usepackage{amsmath}
-\usepackage{wasysym}
+% Packages
 \usepackage{enumitem}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{tikz}
 \usepackage[english]{babel}
-
-% Some definitions
-\def\defspace{10pt}
-\def\answerstyle{\upshape}
-
-\ProcessOptions
-
-
-
-
-%
-%% Question
-\newenvironment{question}[1]
-{	\newpage
-	\subsection*{Question~#1}
-	\addcontentsline{toc}{subsection}{Question~#1}
-	\answerstyle
-}{}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\usepackage{fancyhdr}
 \usepackage{amsmath,amssymb}
 \usepackage{fullpage}
 \usepackage{comment}
@@ -44,18 +18,34 @@
 	urlcolor=blue
 }
 
+
+\pagestyle{fancy}
+%\rhead{Number}
+
+% Definitions
+\def\defspace{10pt}
+\def\answerstyle{\upshape}
+
+%% Question
+\newenvironment{question}[1]
+{	\newpage
+	\subsection*{Question~#1}
+	\addcontentsline{toc}{subsection}{Question~#1}
+	\answerstyle
+}{}
+
+
 % Styling
 \usepackage{tgpagella}
 \usepackage{AlegreyaSans}
-\setkomafont{section}{\Large\textsc}
-%\RedeclareSectionCommand[afterskip=.3\baselineskip]{subsection}
-\setlength{\columnsep}{7em}
 \definecolor{gray}{gray}{.4}
-\renewcommand*{\pagemark}{}
-
-% Environments etc
 
 \newcommand\frontpage[3]{
+	\renewcommand{\headheight}{15pt}
+	\renewcommand{\headrulewidth}{0pt}
+	\lhead{}
+	\rhead{\sffamily \color{gray} \textsc{#1 -- #2}}
+	\thispagestyle{empty}
 	{\sffamily\flushleft\color{gray}
 		\textsc{\bfseries information theory}\\
 		University of Amsterdam, 2017\\
@@ -72,7 +62,7 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Information-theory-specific commands:
 
 \newcommand{\entropydiagramXY}[7][1.5]{
