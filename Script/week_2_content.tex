@@ -977,7 +977,7 @@ Let $\epsilon' > 0$ (we will specify the value of $\epsilon'$ later). Let $n$ be
 &\leq P[\typsetp] \cdot (\lceil n (H(X) + \epsilon') \rceil + 1) + P[\overline{\typsetp}] \cdot (\lceil n \log |\mathcal{X}| \rceil + 1)\nonumber\\
 &\leq P[\typsetp] \cdot (n (H(X) + \epsilon') + 2) + P[\overline{\typsetp}] \cdot (n \log |\mathcal{X}| + 2)\nonumber\\
 &\leq n ( H(X) + \epsilon') + \epsilon' \cdot n \log |\mathcal{X}| + 2\nonumber\\
-&= n(H(X) + \epsilon'),
+&= n(H(X) + \epsilon),
 \end{align}
 where $\epsilon = \epsilon' + \epsilon' \log |\mathcal{X}| + \frac{2}{n}$ (note that $\epsilon$ can be made arbitrarily small by choosing $\epsilon'$ and $n$ wisely). The +1 in the first inequality is a consequence of the `flag' bit.
 \end{proof}
@@ -1013,7 +1013,7 @@ If we now set $\delta' := \epsilon - \frac{1}{n} \log (1 - \epsilon - \delta)$, 
 \begin{align}
 H(X) - \delta' < \frac{1}{n} \log |\typsetb|,
 \end{align}
-as desired. Observe that we can make the expression for $\delta'$ as small as desired by choosing a large enough $n$, even if $\delta$ is rather large.
+as desired. Observe that we can make the expression for $\delta'$ as small as desired by choosing a small enough $\epsilon>0$ and a large enough $n$, even if $\delta$ is rather large.
 \end{proof}
 
 
