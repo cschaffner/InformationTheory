@@ -1,0 +1,112 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{2}
+\newcommand\deadline{Friday November 18th, 20:00h}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercisespdf}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\homeworkproblems
+
+\begin{exercise}[Deriving the weak law of large numbers]
+	\begin{subex}[(3pt)] (Markov's inequality) For any real non-negative random variable $X$ and any $t > 0$, show that
+	\[
+	P_X(X \geq t) \leq \frac{\mathbb{E}[X]}{t}\, .
+	\]
+\end{subex}
+\begin{subex}
+	Exhibit a random variable (which can depend on $t$) that achieves this inequality with equality.
+	\end{subex}
+	\begin{subex}[(2pt)] (Chebyshev's inequality.) Let $Y$ be a random variable with mean $\mu$ and variance $\sigma^2$. Show that for any $\varepsilon > 0$,
+	\[
+	P(|Y - \mu| \geq \varepsilon) \leq \frac{\sigma^2}{\varepsilon^2} \, .
+	\]
+	\textbf{Hint:} Define a random variable $X := (Y - \mu)^2$.
+	\end{subex}
+	\begin{subex}[(2pt)] (The weak law of large numbers.) Let $Z_1, Z_2, ..., Z_n$ real i.i.d. random variables with mean $\mu = \mathbb{E}[Z_i]$ and variance $\sigma^2 = \mathbb{E}[(X_i - \mu)^2] < \infty$. Define the random variables $S_n = \frac{1}{n} \sum_{i=1}^n Z_i$. Show that
+	\[
+	P(|S_n - \mu | \geq \varepsilon) \leq \frac{\sigma^2}{n\varepsilon^2}\, .
+	\]
+	Thus, $P(|S_n - \mu| \geq \varepsilon) \to 0$ as $n \to \infty$. This is known as the weak law of large numbers (Theorem 2.6.1 in the lecture notes).
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Huffman Coding]
+	\begin{subex}[(4pt)]
+    Consider the binary source $P_X$ with $P_X(0) = \frac{1}{8}$ and $P_X(1) = \frac{7}{8}$.
+    
+    Design a Huffman code for $P_X$. Describe, in order, which source symbols you combine, and list the final codebook. What is the average codeword length?
+	\end{subex}
+\begin{subex}[(4pt)]
+	Design a Huffman code for blocks of $N=2$ bits drawn from the source $P_X$. Describe, in order, which source symbols you combine, and list the final codebook. What is the average codeword length?
+\end{subex}
+\begin{subex}[(4pt)]
+	Design a Huffman code for blocks of $N=3$ bits drawn from the source $P_X$. Describe, in order, which source symbols you combine, and list the final codebook. What is the average codeword length?
+\end{subex}
+\begin{subex}[(4pt)]
+	For the three codes you designed ($N=1,2,3$), divide the average codeword length by $N$, and compare these values to the optimal length, i.e., $H(X)$. What do you observe?
+\end{subex}
+	\begin{subex}[(1pt)]
+	If you were asked to design a Huffman code for a block of $N = 100$ bits, what problem would you run into?
+	\end{subex}
+	\begin{subex}[(2pt)]
+	Consider the random variable $Z$ with
+	\begin{center}
+	\begin{tabular}{c | c c c c c c}
+	$z$ & 1 & 2 & 3 & 4 & 5 & 6\\
+	\hline
+	$P_Z(z)$ & 1/10 & 3/10 & 2/10 & 2/10 & 1/10 & 1/10\\
+	\end{tabular}
+	\end{center}
+	Design a \emph{ternary} Huffman code for $Z$ (i.e. using an alphabet with three symbols).
+	\end{subex}
+\end{exercise}
+
+
+
+\begin{exercise}[Inefficiency when using the wrong code]
+\begin{subex}[(2pt)]
+Given are two distributions $P_X$ and $Q_X$ for the same set $\mathcal{X} = \{\mathtt{a,b,c,d}\}$:
+\[
+\begin{array}{c | c c c c}
+x & \mathtt{a}&\mathtt{b}&\mathtt{c}&\mathtt{d}\\\hline
+P_X(x) & 1/4&1/4&1/4&1/4\\
+Q_X(x) & 1/2&1/4&1/8&1/8\\
+\end{array}
+\]
+Design an optimal prefix-free code for $Q_X(x)$.
+\end{subex}
+\begin{subex}[(4pt)]
+What is the expected codeword length of the code you just designed? (Three decimals precision)
+\end{subex}
+\begin{subex}[(4pt)]
+What is the expected codeword length if you use this code to encode the source $P_X$? (Three decimals precision)
+\end{subex}
+\begin{subex}[(4pt)]
+Show that in general, when using optimal code for any source source $Q_X$ (which has lengths $\ell(x) = \lceil -\log Q_X(x) \rceil$ for all $x \in \mathcal{X}$) to encode another source $P_X$, this incurs a penalty of $D(P_X||Q_X)$ in the average description length.
+
+More formally, prove that
+\[
+H(P_X) + D(P_X||Q_X) \leq \mathbb{E}_{P_X}[\ell(X)] \leq H(P_X) + D(P_X||Q_X) + 1
+\]
+for all $P_X$ and $Q_X$.
+\end{subex}
+\end{exercise}
+
+
+
+
+
+
+\end{document}
