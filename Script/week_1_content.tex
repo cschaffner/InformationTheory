@@ -455,9 +455,8 @@ Using Jensen's inequality, it follows that
 \begin{align}
 H(X|Y) - H(X) &= \sum_{\substack{x,y\\P_{XY}(x,y)>0}} P_{XY}(x,y)\log
 \frac{P_X(x)P_Y(y)}{P_{XY}(x,y)} \nonumber \\
-&\leq \log\Bigl( \sum_{\substack{x,y\\P_{XY}(x,y)>0}} P_X(x)P_Y(y) \Bigr) \leq \log\Bigl(\big(\sum_{x \in \mathcal{X}}P_X(x)\big)\big(\sum_{y \in \mathcal{Y}}P_Y(y)\big)\Bigr)\\
+&\leq \log\Bigl( \sum_{\substack{x,y\\P_{XY}(x,y)>0}} P_X(x)P_Y(y) \Bigr) \leq \log\Bigl(\big(\sum_{x \in \mathcal{X}}P_X(x)\big)\big(\sum_{y \in \mathcal{Y}}P_Y(y)\big)\Bigr) \label{eq:inequalities}\\
 &= \log 1 = 0 \, . \nonumber
-\label{eq:inequalities}
 \end{align}
 Note that in the second inequality, we replaced the summation over all $(x,y)$ with $P_{XY}(x,y) > 0$ by the summation over all $(x,y) \in {\cal X} \times {\cal Y}$. Inequality then follows by the monotonicity of the logarithm function.
 
