@@ -53,10 +53,12 @@ I(X_1;X_2), I(X_2;X_3|X_1), ..., I(X_{n-1};X_n|X_1, ..., X_{n-2}).
 \end{exercise}
 \vspace{-0.5cm}
 \begin{exercise}[Markov chains with 4 random variables]
-Let $W \rightarrow X \rightarrow Y \rightarrow Z$ be a Markov chain with 4 RVs, i.e.\ it holds that $P_{Z|YXW} = P_{Z|Y}$ and both $W \leftrightarrow X \leftrightarrow Y$ and $X \leftrightarrow Y \leftrightarrow Z$ are Markov chains with three random variables as defined in the lecture.
+Let $W \rightarrow X \rightarrow Y \rightarrow Z$ be a Markov chain with 4 RVs, i.e.,\ it holds that $P_{Z|YXW} = P_{Z|Y}$ and $W \leftrightarrow X \leftrightarrow Y$ is a Markov chain with three random variables as defined in the lecture.
 \begin{subex}
-Show that $W \leftrightarrow (X,Y) \leftrightarrow Z$ is a Markov chain with three random variables $W, (XY), Z$. \\
-\textbf{Hint: } Argue and use the fact that $P_{X|YZ} = P_{X|Y}$.
+	Show that $X \leftrightarrow Y \leftrightarrow Z$ is a Markov chain.
+\end{subex}
+\begin{subex}
+Show that $W \leftrightarrow (X,Y) \leftrightarrow Z$ is a Markov chain with three random variables $W, (XY), Z$.
 \end{subex}
 \begin{subex}
 Show that $Z \rightarrow Y \rightarrow X \rightarrow W$. Therefore, it is also justified to write $W \leftrightarrow X \leftrightarrow Y \leftrightarrow Z$, as in the case for three RVs.
