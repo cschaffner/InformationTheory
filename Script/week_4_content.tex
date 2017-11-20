@@ -186,7 +186,7 @@ Let $X$ be a random variable. Consider a stochastic process $\{X_i\}$ where $P_{
 
 This process is stationary, since
 \[
-P_{X_1\cdots X_n} = \prod_{i=1}^n P_{X_i} = \prod{i=1+k}^n+k P_{X_i} = P_{X_{1+k} \cdots X_{n+k}}.
+P_{X_1\cdots X_n} = \prod_{i=1}^n P_{X_i} = \prod_{i=1+k}^n+k P_{X_i} = P_{X_{1+k} \cdots X_{n+k}}.
 \]
 \end{example}
 
@@ -378,6 +378,8 @@ H(\{X_i\}) := \lim_{n \to \infty} \frac{1}{n} H(X_1, \dots, X_n),
 \]
 if the limit exists, and undefined otherwise.
 \end{definition}
+In the literature, the entropy rate is often denoted $H(\mathcal{X})$, referring to the common support of the variables in the stochastic process. The notation $H(X)$ is also sometimes used, but this can be ambiguous and confusing.
+
 The entropy rate reflects the way in which the entropy of the sequence (observed so far) grows as $n$ grows large.
 
 \begin{example}
