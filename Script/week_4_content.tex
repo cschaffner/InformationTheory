@@ -222,13 +222,13 @@ Verify that for a Markov process, $P_{X_1 \cdots X_n} = P_{X_1} \cdot P_{X_2|X_1
 In a Markov process, the value of each step depends only on the previous value, similarly to the three-variable Markov chains from Section~\ref{sec:three-var-MC}. The infinite sequence of coin tosses from Example~\ref{ex:stochastic-process} is an example of a Markov process: you can see this by inspecting the definition of $P_{X_{n+1}|X_1 \cdots X_{n}}$, and noting that it is indeed independent of the values for $X_1$ to $X_{n-1}$. The process in this example even fulfills a stronger property: it is time invariant.
 
 \begin{definition}[Time-invariant Markov process]
-A Markov process is time invariant if for all $n \in \mathbb{N}$,
+A Markov process is time invariant if for all $n \in \mathbb{N}$, and for all $a,b \in \mathcal{X}$,
 \[
-P_{X_{n+1} | X_n} = P_{X_2 | X_1}.
+P_{X_{n+1} | X_n}(a|b) = P_{X_2 | X_1}(a|b) \qquad \text{whenever } P_{X_n}(b) > 0 \text{ and } P_{X_1}(b) > 0.
 \]
 \end{definition}
 
-Time-invariant Markov processes can be nicely visualized using state diagrams, where the \term{states} represent the values in $\mathcal{X}$, and the labels on the arrows represent the conditional probabilities. A time-dependent Markov process could also be visualized in this way, but the labels on the arrows would have to be functions of the time step $i$.
+Time-invariant Markov processes can be nicely visualized using state diagrams, where the \term{states} represent the values in $\mathcal{X}$, and the labels on the arrows represent the conditional probabilities. A time-dependent Markov process could also be visualized in this way, but the labels on the arrows would have to be functions of the time step $i$. In both cases, one also needs to specify $P_{X_1}$, the \term{initial distribution}, in order to completely describe the stochastic process.
 
 \begin{example}[Repeatedly tossing a fair coin, continued]\label{ex:markov-diagram-infinite}
 The time-invariant Markov process in Example~\ref{ex:stochastic-process} is represented by the following state diagram:
@@ -252,7 +252,7 @@ The time-invariant Markov process in Example~\ref{ex:stochastic-process} is repr
 \end{center}
 For example, the arrow from state \texttt{2} to state \texttt{3}, represents the probability $P_{X_{n+1}|X_{n}}(3|2) = 0.5$.
 
-In order to describe the stochastic process completely, we need to specify $P_{X_1}$, the \term{initial distribution}. In the current example we have $P_{X_1}(0) = P_{X_1}(1) = 0.5$: the process is equally likely to start out in state \texttt{0} (if the first toss is a tails) or state \texttt{1} (if the first toss is a heads).
+The initial distribution is $P_{X_1}(0) = P_{X_1}(1) = 0.5$: the process is equally likely to start out in state \texttt{0} (if the first toss is a tails) or state \texttt{1} (if the first toss is a heads).
 \end{example}
 
 \begin{definition}[Finite-state Markov process]
@@ -277,7 +277,7 @@ The process starts in state \texttt{a} with probability one. A possible run of t
 
 Note that in the state diagrams, the probabilities of the outgoing arrows add up to 1 for every state. This is necessary for a well-defined Markov process.
 
-A time-invariant Markov process can alternatively be represented by a \term{transition matrix} $P$, where the entry $P_{ij}$ represents the probability $P_{X_{n+1}|X_{n}}(j|i)$. For a finite-state process, the transition matrix is finite. In the transition matrix, the row entries have to sum up to 1.
+A time-invariant Markov process can alternatively be represented by its initial distribution combined with a \term{transition matrix} $P$, where the entry $P_{ij}$ represents the probability $P_{X_{n+1}|X_{n}}(j|i)$. For a finite-state process, the transition matrix is finite. In the transition matrix, the row entries have to sum up to 1.
 
 \begin{example}[A finite-state time-invariant Markov process, continued]
 The matrix representation of the process in Example~\ref{ex:markov-diagram} is given by
@@ -289,7 +289,7 @@ P = \left[
 \end{array}
 \right]
 \]
-where the state \texttt{a} is represented by the first row/column, and the state \texttt{b} by the second. Verify that the row entries indeed sum up to 1.
+where the state \texttt{a} is represented by the first row/column, and the state \texttt{b} by the second. Verify that the row entries indeed sum up to 1. The initial distribution is still given by $P_{X_1}(\texttt{a}) = 1$ and $P_{X_1}(\texttt{b}) = 0$.
 \end{example}
 
 \begin{definition}[Irreducible Markov process]
@@ -338,7 +338,7 @@ A stationary distribution is a distribution $P_{X_n}$ such that $P_{X_{n+1}} = P
 \end{definition}
 If the initial distribution of a time-invariant Markov process is stationary, then the entire process is stationary in the sense of Definition~\ref{def:stationary}.
 
-Not every Markov process has a stationary distribution, and if it does, the distribution might not be unique. However, in some cases we can be sure that the stationary distribution exists and is unique.
+The stationary distribution of a Markov chain might not be unique. However, in some cases we can be sure that it is.
 
 \begin{proposition}
 If a time-invariant Markov chain is finite-state, irreducible and aperiodic, then there exists a unique stationary distribution. Moreover, from any initial distribution, the distribution of $X_n$ tends to the stationary distribution as $n \to \infty$.
