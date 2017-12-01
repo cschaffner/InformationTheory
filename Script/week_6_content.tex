@@ -13,7 +13,6 @@ The channel capacity $C$ of a discrete, memoryless channel $(\mathcal{X}, P_{Y|X
 C:= \max_{P_X} I(X;Y).
 \]
 \end{definition}
-The output distribution $P_Y$ is fully determined by the input distribution $P_X$ and the channel $P_{Y|X}$. Maximizing over $P_Y$ rather than $P_X$ would yield the same result for $C$. \chris{what do you mean? How is $P_{XY}$ defined given $P_{Y|X}$ and $P_Y$? Bayes': $P_{X|Y} = P_{Y|X} \frac{P_X}{P_Y}$, we always seem to miss $P_X$.}
 
 The following exercise asks you to check a basic property of channel capacity: the input alphabet size limits the amount of information the sender can communicate with a single use of the channel.
 
@@ -180,11 +179,7 @@ As expected, pairs $(x^3,y^3)$ with a higher overlap in bits have a higher proba
 
 Increasing $\epsilon$ would result in a bigger typical set. For example, for $\epsilon = 0.8$, all pairs that differ at at most one position (e.g., (\texttt{000},\texttt{001})) are part of the jointly typical set. Increasing $n$ would have the same effect: for example, for $n = 10$ and $\epsilon = 0.35$, all pairs of sequences that differ at 0, 1, or 2 positions are part of the jointly typical set.
 
-For big $n$ and small $\epsilon$ we see an interesting pattern appear. Take, for example, $n = 10,000$ and $\epsilon = 0.01$. A pair of sequences differing in $0 \geq m \geq 10,000$ positions occurs with probability $0.45^{10,000 - m} \cdot 0.05^m$ under $P_{XY}$. The third inequality in Definition~\ref{def:joint-typicality}, 
-\[
-\left| -\frac{1}{10,000} \log (0.45^{10,000 - m} \cdot 0.05^m) - H(XY)\right|,
-\]
-is satisfied for $969 \leq m \leq 1031$, or around 10 percent of the positions. This might match your expectation, since the probability of sampling a non-matching pair of bits ((0,1) or (1,0)) from $P_{XY}$ is 10 percent. Thus, these values of $m$ result in very \emph{typical} pairs of sequences. Note in particular that pairs of sequences that differ in less than 969 positions, which have the highest probability of occurring, are not included in the \chris{jointly?} typical set! \chris{hard to follow... is it worth trying to make a (huge) picture?} However, the number of such pairs is so small compared to the number of pairs which differ in 969 to 1031 positions, that their total probability is not relevant. As we will see shortly, the elements in the \chris{jointly?} typical set together constitute almost all of the total probability.
+Similarly to the typical sets in Example~\ref{example:typical-set}, we see that for big $n$ and small $\epsilon$, the jointly typical set contains only those pairs of sequences that differ in roughly 10 percent of the positions. The highest-probability pairs are excluded from the typical set. This might match your expectation, since the probability of sampling a non-matching pair of bits ((0,1) or (1,0)) is 10 percent: pairs with that percentage of non-matching bits are `typical'. These jointly typical pairs together make up almost all of the probability mass, even though individually they are not the highest-probability pairs under $P_{XY}$.
 \end{example}
 
 \begin{example}\label{example:jointly-typical-2}
@@ -366,7 +361,7 @@ For a discrete memoryless channel with capacity $C$, any rate $R < C$ is achieva
 \newcommand{\error}{\texttt{error}}
 Given a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ with capacity $C = \max{P_X} I(X;Y)$, let $R < C$ and $\epsilon > 0$. We will first show that for big enough $n$, a \emph{randomly constructed} code with rate $R$ has a low error probability. We will then argue that a low average error probability implies the existence of some \emph{specific} code with low error probability.
 
-Fix an input distribution $P_X$ that maximizes $I(X;Y)$. For any $n$, construct a $(2^{n \cdot R},n)$-code \cran \chris{what if $2^{n \cdot R}$ is not an integer?} by choosing a codebook at random according to $P_X$. That is, for every message $w \in [1,2^{n \cdot R}]$, sample $n$ times from the distribution $P_X$, creating a codeword $\cran(w) = (\xran_1(w), \xran_2(w), ..., \xran_n(w))$ by concatenating the $n$ independent samples $\xran_i(w)$.
+Fix an input distribution $P_X$ that maximizes $I(X;Y)$. For any $n$, construct a $(2^{n \cdot R},n)$-code\footnote{$2^{n \cdot R}$ is not necessarily an integer. In exercise~\ref{exercise:non-integer-rate}, you will be asked to show that it is possible to construct a $\lceil 2^{n \cdot R} \rceil$ code instead.} \cran by choosing a codebook at random according to $P_X$. That is, for every message $w \in [1,2^{n \cdot R}]$, sample $n$ times from the distribution $P_X$, creating a codeword $\cran(w) = (\xran_1(w), \xran_2(w), ..., \xran_n(w))$ by concatenating the $n$ independent samples $\xran_i(w)$.
 
 Since the channel is memoryless, if $w$ is sent over the channel using \cran, the output distribution $Y^n$ is given by:
 \begin{align}
@@ -401,7 +396,7 @@ We can thus bound the average probability of error, using the union bound and th
 \begin{align}
 P[\error] &\leq \epsilon + (2^{n \cdot R} - 1) 2^{-n (I(X;Y) - 3 \epsilon)}\nonumber\\
 &\leq \epsilon + 2^{n \cdot R} 2^{-n (I(X;Y) - 3 \epsilon)}\nonumber\\
-&= \epsilon + 2^{-n (I(X;Y) - R - 3 \epsilon)}\nonumber\\
+&= \epsilon + 2^{-n (I(X;Y) - R - 3 \epsilon)}\label{eq:p-error}
 \end{align}
 As long as $R < I(X;Y)$, one can choose $n$ large enough so that $P[\error] \leq 2 \epsilon$.
 
@@ -413,6 +408,10 @@ Finally, in \cspec, we aim to bound the \emph{maximal} error probability, i.e., 
 \end{align}
 and maximal probability of error $\lambda^{(n)} \leq 4 \epsilon$.
 \end{proof}
+
+\begin{exercise}\label{exercise:non-integer-rate}
+In the above proof, we implicitly assumed that $2^{n\cdot R}$ is an integer. Redo the proof for the case when it is not: construct $\mathcal{C}$ as a $(\lceil 2^{n \cdot R}\rceil, n)$ code, and verify that equation~\eqref{eq:p-error} still holds (i.e., the average probability of error is still sufficiently small). Also compute a lower bound on the rate of the final code.
+\end{exercise}
 
 \section{Shannon's Noisy-Channel Coding Theorem: Converse}
 In the previous section, we showed that any rate strictly below the channel capacity is achievable. Here, we show that one cannot do better: rates strictly above the channel capacity are not achievable. Specifically, codes with such rates suffer from non-negligible error probabilities. 
@@ -451,7 +450,7 @@ R &= \frac{\log |\mathcal{W}|}{n}\nonumber\\
 &\leq \frac{1}{n} \left( 1 + P[W \neq \hat{W}] \cdot n \log |\mathcal{W}| + n \cdot C\right) \nonumber\\
 &= \frac{1}{n} + P[W \neq \hat{W}] \cdot R + C, \nonumber\\
 \end{align}
-where the second inequality is an application of Fano's inequality\chris{ reference to Chapter ? to be inserted}. Dividing both sides by $R$ and rearranging, we get the desired inequality:
+where the second inequality is an application of \href{https://en.wikipedia.org/wiki/Fano's_inequality}{Fano's inequality}. Dividing both sides by $R$ and rearranging, we get the desired inequality:
 \begin{align}
 p_e^{(n)} = P[W \neq \hat{W}] \geq 1 - \frac{C}{R} - \frac{1}{nR}.
 \end{align}
