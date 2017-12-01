@@ -344,19 +344,21 @@ Every time-invariant finite-state Markov process has a stationary distribution.
 \begin{proof}
 Let $k:= |\mathcal{X}|$. The $k \times k$ transition matrix $P$ with entries $P_{ij} = P_{X_{n+1}|X_n}(j|i)$
 is a \href{https://en.wikipedia.org/wiki/Stochastic_matrix}{stochastic matrix}, as for every row $i$, the sum over columns is
-$\sum_{j=1}^k P_{ij} = 1$. Clearly, a possible eigenvector is the all-1
+$\sum_{j=1}^k P_{ij} = 1$. We are interested in finding a vector $v \in \R_{\geq 0}^k$ such that $\|v\| = 1$ and $P^Tv = v$. This vector then represents the stationary distribution.
+
+Clearly, a possible eigenvector for $P$ is the all-1
 vector $w=(1,\ldots,1)^T$ because $P w = w$ by definition of a
 stochastic matrix. Hence, 1 is an eigenvalue of $P$. As $P$ and $P^T$ \href{https://math.stackexchange.com/questions/123923/a-matrix-and-its-transpose-have-the-same-set-of-eigenvalues/123927}{have the same eigenvalues}, 1 is
-also an eigenvalue of $P^T$ and let $v \in \R^k$ be the corresponding eigenvector
-$P^T v = v$. If all coordinates of $v$ are non-negative, it is easy to
+also an eigenvalue of $P^T$; let $v \in \R^k$ be the corresponding eigenvector such that
+$P^T v = v$. If all coordinates of $v$ are non-negative, one can
 verify that we have found a
 stationary distribution by renormalizing $v / \sum_{i=1}^k v_i$. Otherwise,
 let us write $v = v^+ - v^-$ with $v^+,v^- \in \R_{\geq 0}^k$. Note
-that $P^T v = P^T (v^+ - v^-) = P^T v^+ - P^T v^- = v^+ - v^- = v$. As all entries
+that $P^T v^+ - P^T v^- = P^T (v^+ - v^-) = P^T v = v = v^+ - v^-$. As all entries
 of $P^T, v^+$ and $v^-$ are positive, equality must hold for both the
 positive and negative parts: $P^T v^+ = v^+$ and $P^T v^- = v^-$. As either $v^+ \neq 0^k$ or $v^-
-\neq 0^k$ (otherwise $v = 0^k$ which cannot be the case for an
-eigenvector), renormalizing as above yields the stationary distribution.
+\neq 0^k$ (otherwise $v = 0^k$, which cannot be the case for an
+eigenvector), renormalizing that non-zero vector as above yields the stationary distribution.
 \end{proof}
 
 Every time-invariant Markov process has a stationary distribution, but it might not be unique, and the process might never reach the stationary distribution. For that, we need additional requirements on the Markov process.
