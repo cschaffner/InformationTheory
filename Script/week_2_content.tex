@@ -883,8 +883,8 @@ Since the variables $X_i$ are independent, so are the random variables $\log P_X
 by the weak law of large numbers.
 \end{proof}
 
-\begin{example}[Biased coin flip]
-Consider flipping a biased coin, with probability of heads being $p_1 = 0.1$ and probability of tails being $p_0 = 0.9$, and counting the number of heads that come up. The random variable $X$ describing the outcome is distributed according to the binomial$(n,p)$ distribution, where $n$ is the number of coin flips. Below, the distribution is plotted for $n = 100$ and $n = 1000$:
+\begin{example}[Biased coin flip]\label{example:biased-coin}
+Consider flipping a biased coin, with probability of heads being $P_{X}(\texttt{H}) = 0.1$ and probability of tails being $P_{X}(\texttt{T}) = 0.9$, and counting the number of heads that come up. The random variable $Y$ describing this number is distributed according to the binomial$(n,P_{X}(\texttt{H}))$ distribution, where $n$ is the number of coin flips. Below, the distribution of $Y$ is plotted for $n = 100$ and $n = 1000$:
 \begin{center}
 \begin{tikzpicture}[
     declare function={binom(\k,\n,\p)=\n!/(\k!*(\n-\k)!)*\p^\k*(1-\p)^(\n-\k);}
@@ -918,7 +918,7 @@ Consider flipping a biased coin, with probability of heads being $p_1 = 0.1$ and
 \end{axis}
 \end{tikzpicture}
 \end{center}
-We see that the variance of the sample mean, $\mbox{Var}[\frac{1}{n}X] = \frac{p(1-p)}{n}$, decreases as the number of samples increases. The weight of the distribution becomes centered around an increasingly narrow set of outcomes.
+We see that the variance of the sample mean, $\mbox{Var}[\frac{1}{n}Y] = \frac{0.1(1-0.1)}{n}$, decreases as the number of samples increases. The weight of the distribution becomes centered around an increasingly narrow set of outcomes.
 \end{example}
 The above example leads us to defining the following subset of the image of a random variable:
 
@@ -929,7 +929,37 @@ The typical set $\typset$ with respect to $P_X$ is the set of strings $(x_1, \ld
 \]
 where $P_{X^n}(x_1, \ldots, x_n) = \prod_{i=1}^n P_X(x_i)$.
 \end{definition}
-The typical set is relatively small, but contains almost all of the probability mass. We start by establishing some general properties of typical sets.
+The typical set is relatively small, but contains almost all of the probability mass.
+
+\begin{example}\label{example:typical-set}
+Consider again the experiment from Example~\ref{example:biased-coin}: flipping $n$ biased coins, where the probability of observing a heads is 0.1. We investigate the typical set for $n = 10$ and $\epsilon = 0.1$. Note that $H(X) = \cdot h(0.9) \approx 0.469$.
+
+The typical set contains those elements that have probability between $2^{-10 (H(X) + 0.1)} \approx 0.0194$ and $2^{-10 (H(X) - 0.1)} \approx 0.0775$. Using the fact that a sequence with $k$ heads occurs with probability $0.1^k \cdot 0.9^{10-k}$, we can compute that the typical set consists of all sequences with exactly 1 heads and 9 tails (those sequences all have probability approximately 0.0387). The graph on the left visualizes the probability of a particular sequence of outcomes $(x_1, ..., x_{10})$, given the number of heads $k$ in that sequence. The gray area represents the probabilities that cause a sequence to fall into the typical set. We see that indeed, only the sequences with $k = 1$ are included in the typical set.
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis} [domain=0:10, samples=11, xlabel={$k$ (number of heads)}, ylabel={$0.1^k \cdot 0.9^{10-k}$},
+				width=5cm,
+				ybar, bar width=0.2cm]
+\fill [black!25] (axis cs:-1,0.0194) rectangle (axis cs:11,0.0775);
+\addplot[ocre, fill=ocre] {(0.1^x)*(0.9)^(10-x)};
+\end{axis}
+\end{tikzpicture}\qquad \qquad
+\begin{tikzpicture}
+\begin{axis} [domain=0:10, samples=11, xlabel={$k$ (number of heads)}, ylabel={$\binom{10}{k} 0.1^k \cdot 0.9^{10-k}$},
+				width=5cm, ybar, bar width=0.2cm]
+%\fill [ocre!25] (axis cs:-1,0.0361) rectangle (axis cs:11,0.0415);
+\addplot[ocre,fill=ocre] {(0.1^x)*(0.9^(10-x))*(10!)/(x!*(10-x)!)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+In particular, the all-tails outcome ($k = 0$) is \emph{not} included in the typical set, even though is by far the most likely outcome. Why do we --- by definition --- exclude such high-probability outcomes from the typical set? The graph on the right justifies this choice. It depicts the probability of the event of observing $k$ heads (computed as the total number of possible sequences with $k$ heads, multiplied by the probability of one such sequence). From it, we see that the total probability of the typical set (all ten elements with $k = 1$) is relatively high: approximately 0.387. There is only one sequence with $k = 0$, so even though its individual probability is quite high, it weighs less than all of the sequences with $k = 1$ combined.
+
+This effect intensifies as we increase $n$. For $n = 100$ and $\epsilon = 0.1$, all sequences with 7--13 heads (both included) are typical. All sequences with less than 7 heads have higher probability per sequence, but there are very few such sequences compared to the number of sequences with 7 or more heads. The elements in $A^{(100)}_{\epsilon}$ have a combined probability of approximately 0.759. For $n = 1000$, the probability of the typical set (containing elements with 69--131 heads) is $P[A^{(1000)}_{\epsilon}] \approx 0.999$. The `typical' sequences, where roughly one in ten tosses results in a heads, make up almost all of the probability. The high-probability sequences, those with fewer heads, are so scarce that their total probability mass is tiny. See also the graphs in Example~\ref{example:biased-coin} to observe that indeed, all the probability mass is centered around the 10-percent-heads outcomes.
+\end{example}
+
+The above example exhibited a random variable for which the typical set eventually contained almost all of the probability. The following proposition states that this is a general property of typical sets. It also bounds the size of the typical set.
 
 \begin{proposition}\label{prop:typset-properties}
 A typical set $\typset$ satisfies the following:
@@ -944,7 +974,9 @@ A typical set $\typset$ satisfies the following:
 \begin{enumerate}
 \item This is immediate from the definition (take the logarithm and
   divide by $-n$, thereby reversing the inequalities).
-\item This follows from the Asymptotic Equipartition Property: for all $\epsilon > 0$, $P[|-\frac{1}{n} \log P_{X^n}(X_1, \ldots, X_n) - H(X)| > \epsilon] \convto 0$, that is,
+\item This follows from the Asymptotic Equipartition Property: for all $\epsilon > 0$,
+\begin{align}P[|-\frac{1}{n} \log P_{X^n}(X_1, \ldots, X_n) - H(X)| > \epsilon] \convto 0,\end{align}
+ that is,
 \begin{align}\forall (\epsilon > 0) \ \forall (\delta > 0) \ \exists n_0 \ \forall (n \geq n_0) \ P[|-\frac{1}{n} \log P_{X^n}(X_1, \ldots, X_n) - H(X)| \leq \epsilon] > 1 - \delta.
 \end{align}
 By choosing $\delta := \epsilon$, the result follows from the first property.
