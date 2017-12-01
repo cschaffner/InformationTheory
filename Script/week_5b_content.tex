@@ -180,7 +180,7 @@ Given a channel with confusability graph $G$, the maximal message set $[M]$ that
 \begin{proof}
 Let $(x,x') \in E(G)$, i.e.\ $x$ and $x'$ are confusable. They cannot both be used to send different messages, for suppose there are messages $m \neq m'$ such that $\enc{m} = x$ and $\enc{m'} = x'$, then by definition of the confusability graph, there is a $y \in \mathcal{Y}$ such that $x$ and $x'$ are both mapped to $y$ with nonzero probability. In order to correctly decode in all cases, it must therefore be that $\dec{y} = m$ and $\dec{y} = m'$, contradicting the assumption that $m \neq m'$. Therefore, the number of messages that can be sent over the channel cannot exceed the independence number $\alpha(G)$.
 
-For the other direction, it is easy to find an encoding and decoding function for $\alpha(G)$ different messages. Let $\{x_1, x_2, ..., x_{\alpha(G)}\}$ be a largest independent set of $G$. Define $\enc{m_i} = x_i$ for all $i \in [\alpha(G)]$. Then for all $y \in \mathcal{Y}$, by definition of the confusability graph and the independent set, there is exactly one $i$ such that $P_{Y|X}(y|x_i) > 0$. Define $\dec{y} = m_i$. This code can send $\alpha(G)$ different messages over the channel without error.
+For the other direction, it is easy to find an encoding and decoding function for $\alpha(G)$ different messages. Let $\{x_1, x_2, \ldots, x_{\alpha(G)}\}$ be a largest independent set of $G$. Define $\enc{m_i} = x_i$ for all $i \in [\alpha(G)]$. Then for all $y \in \mathcal{Y}$, by definition of the confusability graph and the independent set, there is exactly one $i$ such that $P_{Y|X}(y|x_i) > 0$. Define $\dec{y} = m_i$. This code can send $\alpha(G)$ different messages over the channel without error.
 \end{proof}
 
 
@@ -225,7 +225,7 @@ i.e.\ there is an edge between $(x,y)$ and $(x',y')$ if and only if the vertices
 For our application, we are often interested in the strong graph product of a graph $G$ with itself, possibly many times. Therefore it is useful to work out the definition of $G^{\boxtimes n}$, based on Definition~\ref{def:strong-graph-product}:
 \begin{align*}
 V(G^{\boxtimes n}) &= V(G) \times \cdots \times V(G)\\
-E(G^{\boxtimes n}) &= \big\{ \{(x_1, ..., x_n),(v_1, ..., v_n)\}  \mid (x_1, ..., x_n) \neq (v_1, ..., v_n) \mbox{ and } \forall i : x_i = v_i \vee \{x_i,v_i\} \in E(G)\}
+E(G^{\boxtimes n}) &= \big\{ \{(x_1, \ldots, x_n),(v_1, \ldots, v_n)\}  \mid (x_1, \ldots, x_n) \neq (v_1, \ldots, v_n) \mbox{ and } \forall i : x_i = v_i \vee \{x_i,v_i\} \in E(G)\}
 \end{align*}
 
 

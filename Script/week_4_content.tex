@@ -1,14 +1,18 @@
 So far in this course we have mostly seen independent random variables. In source coding, we designed our codes according to a single distribution $P_X$, and assumed that if we encoded a sequence of source symbols, the symbols in the sequence would be drawn independently according to $P_X$. In the real world, however, subsequent events are often dependent on each other. For example, in an English text, after observing a letter \texttt{q}, the next letter is much more likely to be \texttt{u} than it is to be \texttt{r}, even though in general the letter \texttt{r} is more prevalent in English text. The event of observing the letter \texttt{q} changes the probability distribution of the next letter.
 
 \section{Finite Markov Chains}\label{sec:three-var-MC}
-We start by studying a restricted form of dependence between variables: Markov chains. Random variables forms a Markov chain if the distribution of each random variable depends only on the outcome of the random variable that directly precedes it.
+We start by studying a restricted form of dependence between variables: Markov chains. Random variables form a Markov chain if the distribution of each random variable depends only on the outcome of the random variable that directly precedes it.
 
-\begin{definition}[Markov chain (length 3)]\label{def:Markov-chain}
-The random variables $X, Y,$ and $Z$ form a Markov chain (notation: $X \to Y \to Z$) if
+\begin{definition}[Markov chain (of length 3)]\label{def:Markov-chain}
+The random variables $X, Y,$ and $Z$ form a Markov chain (notation: $X \to Y \to Z$) if and only if
 \[
 P_{Z|XY} = P_{Z|Y}.
 \]
 \end{definition}
+In this chapter, we regularly use the shortcut $P_{Z|XY} = P_{Z|Y}$ to denote that this equality should hold for all possible input values, i.e.
+\begin{align}
+P_{Z|XY} = P_{Z|Y} \qquad \Leftrightarrow \qquad \forall x \in \mathcal{X}, y \in \mathcal{Y}, z \in \mathcal{Z}: P_{Z|XY}(z|x,y) = P_{Z|Y}(z|x) \, .
+\end{align}
 
 \begin{exercise}
 Verify that for a Markov chain, $P_{XYZ} = P_X \cdot P_{Y|X} \cdot P_{Z|Y}$.
@@ -43,7 +47,7 @@ where we go from the top to the bottom line using the assumption that $Z \to Y \
 \item[(c) $\Rightarrow$ (a):] For the final implication, suppose that $P_{XZ|Y} = P_{X|Y} \cdot P_{Z|Y}$. Then
 \begin{align}
 P_{Z|YX} &= \frac{P_{XYZ}}{P_{XY}} = \frac{P_{XZ|Y} \cdot P_Y}{P_{XY}}\nonumber\\
-&= \frac{P_{X|Y} \cdot P_{Z|Y} \cdot P_Y}{P_{XY}} = \frac{P_{XY} \cdot P_{Z|Y}}{P_{XY}} - P_{Z|Y},
+&= \frac{P_{X|Y} \cdot P_{Z|Y} \cdot P_Y}{P_{XY}} = \frac{P_{XY} \cdot P_{Z|Y}}{P_{XY}} = P_{Z|Y},
 \end{align}
 and therefore $X \to Y \to Z$.
 \end{description}
@@ -62,7 +66,7 @@ Finally, let $C$ be the message that Charlie heard: again, let us suppose that i
 Proposition~\ref{prop:markov-chains} tells us that we can also look at this game in the converse direction: if we are curious about Alice's original message $A$, we only have to look at Bob's interpretation $B$ of the message. Additionally knowing Charlie's interpretation $C$ does not change the distribution of $A$.
 \end{example}
 Example~\ref{ex:whispering-game} also exhibits an important property of Markov chains: you can only lose information down the line. Charlie's final message $C$ does not contain any more information about Alice's original message $A$ than what was already contained in Bob's message $B$. This observation is formalized in the following theorem:
-\begin{theorem}[Data-processing inequality]
+\begin{theorem}[Data-processing inequality]\label{thm:data-processing-inequality}
 If $X \to Y \to Z$, then $I(X;Y) \geq I(X;Z)$. Equality holds if and only if $I(X;Y|Z) = 0$.
 \end{theorem}
 
@@ -118,7 +122,7 @@ $I(X;Y) \geq I(X;g(Y))$ for any two random variables $X$ and $Y$, and any functi
 \end{corollary}
 
 We can extend the definition of Markov chains to more than three variables:
-\begin{definition}[Markov chain (length $n$)]
+\begin{definition}[Markov chain (of length $n$)]
 The random variables $X_1, X_2, \dots, X_n$ form a Markov chain (notation: $X_1 \to X_2 \to \cdots \to X_n$) if for all $3 \leq i \leq n$,
 \[
 P_{X_i|X_1 \cdots X_{i-1}} = P_{X_i|X_{i-1}}\, .
@@ -126,12 +130,26 @@ P_{X_i|X_1 \cdots X_{i-1}} = P_{X_i|X_{i-1}}\, .
 \end{definition}
 Markov chains of length $n$ exhibit similar properties to the properties we have seen for Markov chains of length 3. In particular, the reverse chain is also a Markov chain ($X_n \to \cdots \to X_2 \to X_1$), and a more general form of the data-processing inequality holds in the sense that the further apart two variables are in the chain, the less correlated they are.
 
+\begin{exercise}
+	Show that if $X_1 \to X_2 \to X_3 \to X_4$, then also the following are Markov chains:
+	\begin{align*}
+	X_1 &\to X_2 \to X_3\\
+	X_2 &\to X_3 \to X_4\\
+	X_1 &\to X_2X_3 \to X_4\\
+	X_4 &\to X_3 \to X_2 \to X_1
+	\end{align*}
+\end{exercise}
+
+\begin{exercise}
+	Show that if $X_1, X_2, \ldots, X_n$ forms a Markov chain, then for all $1 \leq i \leq j \leq k \leq n$: $I(X_i, X_j) \geq I(X_i,X_k)$. This is a generalized form of the data-processing inequality (Theorem~\ref{thm:data-processing-inequality}).
+\end{exercise}
+
 \section{Stochastic Processes}
 
 Let us now consider more general sets of random variables than the three-variable Markov chains we saw in the previous section. In the rest of this chapter, we will consider infinite sequences of random variables, that can have varying degrees of independence. We start off with the most general definition of such an infinite process. 
 
 \begin{definition}[Discrete-time stochastic process]
-A stochastic process is a sequence $\{X_i : \Omega \to \mathcal{X}\}$ of random variables indexed by $i \in \mathbb{N}$. The process is characterized by the collection of probability distributions $P_{X_n|X_1 \cdots X_{n-1}}$ for all $n \in \mathbb{N}$.
+A stochastic process is a sequence $\{X_i : \Omega \to \mathcal{X}\}$ of random variables indexed by $i \in \mathbb{N}_+$. The process is characterized by the collection of probability distributions $P_{X_n|X_1 \cdots X_{n-1}}$ for all $n \in \mathbb{N}_+$.
 \end{definition}
 Equivalently, we can say that a stochastic process is characterized by the joint probability distributions $P_{X_1 \cdots X_n}$ for all $n \in \mathbb{N}$.
 
@@ -166,20 +184,29 @@ Stationary processes are invariant under time shifts: when observing a subsequen
 \begin{example}[i.i.d. process]\label{ex:stationary-1}
 Let $X$ be a random variable. Consider a stochastic process $\{X_i\}$ where $P_{X_i} = P_X$ for all $i$. That is, the random variables in the sequence are all independent and identically distributed.
 
-This process is stationary, which can be shown by induction on $n$. For $n = 1$, it is immediate from the definition of the process: $P_{X_1} = P_X = P_{X_{1+k}}$ for all $k \in \mathbb{N}$. For the induction step, suppose that for some $n \in \mathbb{N}$, for all $k$, $P_{X_1 \cdots X_n} = P_{X_{1+k} \cdots X_{n+k}}$. Then also for all $k$,
-\begin{align*}
-P_{X_1 \cdots X_{n+1}} &= P_{X_1 \cdots X_n} \cdot P_{X_{n+1}} &&\text{(by independence)}\\
-&= P_{X_1 \cdots X_n} \cdot P_{X_{n+1+k}} &&\text{(by identical distribution)}\\
-&= P_{X_{1+k} \cdots X_{n+k}} \cdot P_{X_{n+1+k}} &&\text{(by induction hypothesis)}\\
-&= P_{X_{1+k} \cdots X_{n+1+k}} &&\text{(by independence)}\\
-\end{align*}
+This process is stationary, since
+\[
+P_{X_1\cdots X_n} = \prod_{i=1}^n P_{X_i} = \prod{i=1+k}^n+k P_{X_i} = P_{X_{1+k} \cdots X_{n+k}}.
+\]
 \end{example}
 
-\begin{example}[Ten fair coins]
-Throw a fair coin 10 times: this gives the finite sample space $\{\texttt{H},\texttt{T}\}^{10}$. Define the stochastic process $\{X_i\}$ by setting $X_i = 0$ if coin number $(i \mod\ 10)$ is heads, and $X_i = 1$ otherwise.
-
-This process is stationary. You can prove this yourself by observing that for all $i$, $X_i = X_{i+10} = X_{i+20} = \dots$, and using a similar induction argument as in Example~\ref{ex:stationary-1}.
+\begin{example}[Ten fair coins]\label{ex:stationary-not-markov}
+	The following is another example of a stationary process.
+	
+Throw a fair coin 10 times: this can be described by the finite sample space $\{\texttt{H},\texttt{T}\}^{10}$. Define the stochastic process $\{X_i\}_{i \in \N_0}$ by setting
+\[
+X_i = \left\{
+\begin{array}{l l}
+1 &\text{if the [$i$ mod 10]th coin lands on heads}\footnote{Here, $[k$ mod $N]$ is defined to be an element of $\{0,1,2,\ldots,N-1\}$. If we want the first variable in the process to be $X_1$ instead of $X_0$, we can determine the value of $X_i$ based on the $[((i-1)$ mod $10)+1]$th coin.}\\
+0 & \text{otherwise.}
+\end{array}
+\right.
+\]
 \end{example}
+
+\begin{exercise}
+Show that the process described in Example~\ref{ex:stationary-not-markov} is indeed stationary. \\\textbf{Hint:} observe that for all $i$, $X_i = X_{i+10} = X_{i+20} = ...$
+\end{exercise}
 
 \begin{definition}[Markov process]
 A stochastic process is a Markov process (or: Markov chain) if for all $n \in \mathbb{N}$,
@@ -229,7 +256,7 @@ In order to describe the stochastic process completely, we need to specify $P_{X
 \end{example}
 
 \begin{definition}[Finite-state Markov process]
-A time-invariant Markov process is finite-state if $|\mathcal{X}|$ is finite. \yfke{Or should we say: if the set of elements $\mathcal{X}$ that have non-zero probability is finite?}
+A time-invariant Markov process is finite-state if $|\mathcal{X}|$ is finite.
 \end{definition}
 
 \begin{example}[A finite-state time-invariant Markov process] \label{ex:markov-diagram}
@@ -293,16 +320,18 @@ Consider the process that starts in state \texttt{a} with probability 1, and is 
 \end{center}
 The state \texttt{a} is aperiodic, but \texttt{b} and \texttt{c} are not. The paths from state \texttt{b} to itself are all of even length, as are the paths from state \texttt{c} to itself. A typical run of this process might look like \texttt{aaaaabcbcbcbc}$\cdots$; the period 2 is clearly visible in this run.
 \end{example}
-Suppose that we run the process of Example~\ref{ex:markov-diagram} for a very large number of steps, and wonder what the probability will be of observing an \texttt{a} at the next step. Given the initial distribution and the state diagram, we can compute the probability distribution for every $X_i$. In Figure~\ref{fig:stationary-distribution}, $P_{X_i}(\texttt{a})$ is plotted for several values of $i$. The probability to observe an \texttt{a} seems to stabilize. This leads us to the following definition:
+
 \begin{figure}[h]
-\centering
-\begin{tikzpicture}
-\begin{axis}[xlabel={$i$ (time step)},ylabel={$P_{X_i}(\texttt{a})$},domain=1:10,ymin=0, samples=100,xtick={0,1,...,7},ytick={0,0.1,0.2,...,1}]
-\addplot[mark=*, mark options={ocre}] coordinates {(1,1) (2,0.7) (3,0.628) (4,0.626) (5,0.625) (6,0.625) (7,0.625)};
-\end{axis}
-\end{tikzpicture}
-\caption{The probability that $X_i = \texttt{a}$ in the Markov process of Example~\ref{ex:markov-diagram}, plotted for the first few values of $i$.}\label{fig:stationary-distribution}
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[xlabel={$i$ (time step)},ylabel={$P_{X_i}(\texttt{a})$},domain=1:10,ymin=0, samples=100,xtick={0,1,...,7},ytick={0,0.1,0.2,...,1}]
+	\addplot[mark=*, mark options={ocre}] coordinates {(1,1) (2,0.7) (3,0.628) (4,0.626) (5,0.625) (6,0.625) (7,0.625)};
+	\end{axis}
+	\end{tikzpicture}
+	\caption{The probability that $X_i = \texttt{a}$ in the Markov process of Example~\ref{ex:markov-diagram}, plotted for the first few values of $i$.}\label{fig:stationary-distribution}
 \end{figure}
+Suppose that we run the process of Example~\ref{ex:markov-diagram} for a very large number of steps, and wonder what the probability will be of observing an \texttt{a} at the next step. Given the initial distribution and the state diagram, we can compute the probability distribution for every $X_i$. In Figure~\ref{fig:stationary-distribution}, $P_{X_i}(\texttt{a})$ is plotted for several values of $i$. The probability to observe an \texttt{a} seems to stabilize. This leads us to the following definition:
+
 
 \begin{definition}[Stationary distribution]
 A stationary distribution is a distribution $P_{X_n}$ such that $P_{X_{n+1}} = P_{X_n}$.
@@ -315,6 +344,7 @@ Not every Markov process has a stationary distribution, and if it does, the dist
 If a time-invariant Markov chain is finite-state, irreducible and aperiodic, then there exists a unique stationary distribution. Moreover, from any initial distribution, the distribution of $X_n$ tends to the stationary distribution as $n \to \infty$.
 \end{proposition}
 
+
 \begin{example}
 Consider again the process of Example~\ref{ex:markov-diagram}. This process does have a stationary distirbution, because it is finite-state, irreducible and aperiodic. Let $\mu_{\texttt{a}}$ denote the probability of observing an \texttt{a} in the stationary distribution, and $\mu_{\texttt{b}}$ the probability of observing a \texttt{b}. Then the stationary distribution must satisfy the following set of equations:
 \begin{align*}
@@ -323,44 +353,57 @@ Consider again the process of Example~\ref{ex:markov-diagram}. This process does
 \mu_{\texttt{a}} + \mu_{\texttt{b}} &= 1.
 \end{align*}
 Solving this set of equations gives the stationary distribution $\mu_{\texttt{a}} = 0.625$ and $\mu_{\texttt{b}} = 0.375$. This outcome matches our observations in Figure~\ref{fig:stationary-distribution}.
+
+The starting distribution is irrelevant, because in the limit, the stationary distribution is reached. The following plot exemplifies this for three different starting distributions ($P_{X_1}(\texttt{a}) = 0$, $P_{X_1}(\texttt{a}) = 0.3$, and $P_{X_1}(\texttt{a}) = 1$).
+
+\begin{center}
+	\begin{tikzpicture}
+	\begin{axis}[xlabel={$i$ (time step)},ylabel={$P_{X_i}(\texttt{a})$},domain=1:10,ymin=0, samples=100,xtick={0,1,...,7},ytick={0,0.1,0.2,...,1}]
+	\addplot[mark=*, mark options={ocre}] coordinates {(1,1) (2,0.7) (3,0.628) (4,0.626) (5,0.625) (6,0.625) (7,0.625)};
+	\addplot[mark=*, mark options={ocre}] coordinates {(1,0) (2,0.5) (3,0.6) (4,0.62) (5,0.624) (6,0.625) (7,0.625)};
+	\addplot[mark=*, mark options={ocre}] coordinates {(1,0.3) (2,0.56) (3,0.612) (4,0.6224) (5,0.62448) (6,0.625) (7,0.625)};
+	\end{axis}
+	\end{tikzpicture}
+	%\caption{The probability that $X_i = \texttt{a}$ in the Markov process of Example~\ref{ex:markov-diagram} with three different starting distributions, plotted for the first few values of $i$.}\label{fig:stationary-distribution-2}
+\end{center}
 \end{example}
 
 \section{Entropy rate}
 Intuitively, some of the stochastic processes we have seen in the previous section are more predictable than others. The periodic Markov process from Example~\ref{ex:periodic-markov-process} is not so surprising anymore as soon as the first \texttt{b} is observed. In this section, we will study a measure for the unpredictability of a stochastic process: the entropy rate.
 
 \begin{definition}[Entropy rate]
-The entropy rate $H(\mathcal{X})$ of a stochastic process $\{X_i\}$ is
+The entropy rate $H(\{X_i\})$ of a stochastic process $\{X_i\}$ is
 \[
-H(\mathcal{X}) := \lim_{n \to \infty} \frac{1}{n} H(X_1, \dots, X_n),
+H(\{X_i\}) := \lim_{n \to \infty} \frac{1}{n} H(X_1, \dots, X_n),
 \]
 if the limit exists, and undefined otherwise.
 \end{definition}
 The entropy rate reflects the way in which the entropy of the sequence (observed so far) grows as $n$ grows large.
 
 \begin{example}
-Consider a process $\{X_i\}$ where the $X_i$ are i.i.d. fair coin tosses. Then
+Consider a process $\{X_i\}$ where the $X_i$ are i.i.d. sampled from $P_X$. Then
 \begin{align*}
-H(\mathcal{X}) &= \lim_{n \to \infty} \frac{1}{n} H(X_1, \dots X_n)\\
-&= \lim_{n \to \infty} \frac{1}{n} H(X_1) \cdot H(X_1) \cdots H(X_n)\\
-&= \lim_{n \to \infty} \frac{n}{n} H(X_1)\\
-&= 1.
+H(\{X_i\}) &= \lim_{n \to \infty} \frac{1}{n} H(X_1, \dots X_n)\\
+&= \lim_{n \to \infty} \frac{1}{n} \left( H(X_1) + H(X_2) + \ldots + H(X_n) \right)\\
+&= \lim_{n \to \infty} \frac{n}{n} H(X)\\
+&= H(X).
 \end{align*}
-So, every new coin toss increases the entropy of the entire observed sequence by 1.
+So, every new coin toss increases the entropy of the entire observed sequence by $H(X)$.
 \end{example}
 
 We can also define an alternative measure of the unpredictability of a stochastic process, where we focus not on the amount of entropy in the entire sequence observed so far, but on the amount of entropy present in the current random variable, given the past sequence.
 
 \begin{definition}[Entropy rate given the past]
-The entropy rate given the past $H'(\mathcal{X})$ of a stochastic process $\{X_i\}$ is
+The entropy rate given the past $H'(\{X_i\})$ of a stochastic process $\{X_i\}$ is
 \[
-H'(\mathcal{X}) := \lim_{n \to \infty} H(X_n | X_1, \dots, X_{n-1}),
+H'(\{X_i\}) := \lim_{n \to \infty} H(X_n | X_1, \dots, X_{n-1}),
 \]
 if the limit exists, and undefined otherwise.
 \end{definition}
 For all stationary processes, this alternative definition turns out to coincide with the original definition of entropy rate. In order to show this, we need an analytic statement about the convergence of sums.
 
 \begin{theorem}[Ces\`{a}ro mean]\label{lem:cesaro}
-If $\lim_{n \to \infty} a_n = a$ and $b_n = \frac{1}{n} \sum_{i=1}^n a_i$, then $\lim_{n \to \infty} b_n = a$.
+If $\lim\limits_{n \to \infty} a_n = a$ and $b_n = \frac{1}{n} \sum_{i=1}^n a_i$, then $\lim\limits_{n \to \infty} b_n = a$.
 \end{theorem}
 
 \begin{exercise}
@@ -368,23 +411,28 @@ Prove Theorem~\ref{lem:cesaro}.
 \end{exercise}
 
 \begin{theorem}
-For a stationary process $\{X_i\}$, $H(\mathcal{X}) = H'(\mathcal{X})$ (and both exist).
+For a stationary process $\{X_i\}$, $H(\{X_i\}) = H'(\{X_i\})$ (and both exist).
 \end{theorem}
 \begin{proof}
 We first show that $H(X_n \mid X_1, \dots, X_{n-1})$ is a non-increasing function of $n$:
 \begin{align}
 H(X_{n}|X_1, \dots, X_{n-1}) &= H(X_{n+1}|X_2, \dots, X_{n})\nonumber &\text{(stationary)}\\
-&\geq H(X_{n+1}|X_1, \dots, X_{n-1}).
+&\geq H(X_{n+1}|X_1, X_2, \ldots, X_{n}) &\text{(Proposition~\ref{prop:conditional-bounds})}.
 \end{align}
-Combined with the fact that $H(X_n \mid X_1, \dots, X_{n-1})$ is lower bounded by 0, this implies that the limit $\lim_{n \to \infty} H(X_n \mid X_1, \dots, X_{n-1})$ must exist. It is $H'(\mathcal{X})$.
+Combined with the fact that $H(X_n \mid X_1, \dots, X_{n-1})$ is lower bounded by 0, this implies that the limit $\lim_{n \to \infty} H(X_n \mid X_1, \dots, X_{n-1})$ must exist. It is $H'(\{X_i\})$.
 
-It remains to show that $H(\mathcal{X}) = H'(\mathcal{X})$:
+It remains to show that $H(\{X_i\}) = H'(\{X_i\})$:
 \begin{align}
-H(\mathcal{X}) &= \lim_{n \to \infty} \frac{1}{n} H(X_1, \dots, X_n)\nonumber\\
+H(\{X_i\}) &= \lim_{n \to \infty} \frac{1}{n} H(X_1, \dots, X_n)\nonumber\\
 &= \lim_{n \to \infty} \frac{1}{n} \sum_{i=1}^n H(X_i \mid X_1, \dots, X_{i-1})\nonumber\\
-&= H'(\mathcal{X}).
+&= H'(\{X_i\}).
 \end{align}
 The final equality follows from Theorem~\ref{lem:cesaro}, the Ces\`{a}ro mean.
 
 \end{proof}
 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "InfTheory3.tex"
+%%% End:

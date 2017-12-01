@@ -1,0 +1,100 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{5}
+\newcommand\deadline{Friday November 18th, 20:00h}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercises}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\begin{document}
+
+\practiceproblems
+
+{\sffamily\noindent
+This week's exercises deal with random walks, noisy channels and error-correcting codes. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=2219}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
+}
+
+\begin{exercise}[Random walk on a chessboard]
+Consider a 3x3 chessboard. We place a knight (who can move 2 spaces horizontally and 1 vertically or 1 space horizontally and 2 vertically) in the top left corner, and let him perform a random walk on this chessboard, choosing his move uniformly random every time. What is the entropy rate of this process?
+\end{exercise}
+
+\begin{exercise}[Repetition code]
+Consider the repetition code $R_9$. One way of viewing this code is as a \emph{concatenation} of $R_3$ with itself. We first encode the source stream with $R_3$, then encode the resulting output with $R_3$ again. We could call this code $R_3^2$. This idea motivates an alternative decoding algorithm, in which we decode the bits three at a time using the decoder for $R_3$, and then decode the decoded bits from that first decoder using the decoder for $R_3$.
+
+Evaluate the probability of error for this decoder and compare it with the probability of error for the optimal decoder for $R_9$.
+
+Can you think of reasons to use $R_3^2$ (instead of $R_9$) in practice?
+\end{exercise}
+
+\begin{exercise}[Another linear code]
+Consider the linear code defined by appending to a 3-bit message string $x_1x_2x_3$ the parity bit $(x_1 \oplus x_2 \oplus x_3)$.
+
+\begin{subex}
+How long are the codewords of $C$? How many different codewords are there?
+\end{subex}
+
+\begin{subex}
+Find the generator matrix $G$.
+\end{subex}
+
+\begin{subex}
+Find the parity check matrix $H$.
+\end{subex}
+
+\begin{subex}
+What is the minimal distance? What kind of errors can $C$ correct for?
+\end{subex}
+
+\begin{subex}
+Encode the strings 101, 111 according to $C$.
+\end{subex}
+
+\begin{subex}
+Decode 1011, 1111, 1110, and 0011.
+\end{subex}
+\end{exercise}
+
+
+
+\begin{exercise}[Determining the minimal distance]
+Prove that for a linear code $C$ with parity check matrix $H$, the minimal distance $d_{min}$ equals the minimum number of linearly dependent columns in $H$.
+
+Check that this lemma holds for the linear code from the previous exercise.
+\end{exercise}
+
+
+\begin{exercise}[Correcting more than one error]
+We saw in class that a [7,4]-Hamming code can correct up to one bit of error.
+	\begin{subex}
+	Might there exist a linear [14,8] error-correcting code that can correct up to two bits of error?
+	\end{subex}
+	\begin{subex**}
+	Might there exist a non-linear [14,8] error-correcting code that can correct up to two bits of error?
+	\end{subex**}
+\end{exercise}
+
+
+\begin{exercise}[A zero error channel coding example]
+Let the input to a channel be a word of 8 bits. The output is also a word of 8 bits. Each time it is used, the channel flips exactly one of the transmitted bits, but the receiver does not know which one. The other seven bits are received without error. All 8 bits are equally likely to be the one that is flipped. Show, by describing an explicit encoder and decoder, that it is possible to communicate with \emph{zero error} 5 bits per channel use.
+\end{exercise}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

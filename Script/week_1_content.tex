@@ -105,7 +105,7 @@ P_{XY}(x,y) := P[X = x, Y = y].
 This definition naturally extends to three and more random variables. Unless otherwise stated, a collection of random variables is assumed to be defined on the same (implicit) probability space, so that their joint distribution is always well-defined.
 
 If $P_{XY} = P_X \cdot P_Y$, in the sense that $P_{XY}(x,y) = P_X(x)P_Y(y)$ for all $x \in \mathcal{X}$ and $y 
-\in \mathcal{Y}$, then the random variables $X$ and $Y$ are said to be \term{independent}. If a set of variables $X_1, ..., X_n$ are all mutually independent and all have the same distribution (i.e. $P_{X_i} = P_{X_j}$ for all $i,j$), then they are \term{independent and identically distributed}, or \term{i.i.d.}
+\in \mathcal{Y}$, then the random variables $X$ and $Y$ are said to be \term{independent}. If a set of variables $X_1, \ldots, X_n$ are all mutually independent and all have the same distribution (i.e. $P_{X_i} = P_{X_j}$ for all $i,j$), then they are \term{independent and identically distributed}, or \term{i.i.d.}
 
 From a joint distribution, we can always find out the ``original'' (or \term{marginal}) distribution of one of the random variables (for example, $X$) by \term{marginalizing} out the variable that we want to discard (for example, $Y$):
 \begin{align}
@@ -168,7 +168,7 @@ The variance of a \emph{real} random variable $X$ is defined as
 The variation is a measure for the deviation of the mean. Hoeffding's inequality (here stated for binary random variables) states that for a list of i.i.d. random variables, the average of the random variables is close to the expectation, except with very small probability. We state it here without proof.
 
 \begin{theorem}[Hoeffding's inequality]
-Let $X_1, ..., X_n$ be independent and identically distributed binary random variables with $P_{X_i}(0) = 1 - \mu$ and $P_{X_i}(1) = \mu$, and thus $\Exp[X_i] = \mu$. Then, for any $\delta > 0$
+Let $X_1, \ldots, X_n$ be independent and identically distributed binary random variables with $P_{X_i}(0) = 1 - \mu$ and $P_{X_i}(1) = \mu$, and thus $\Exp[X_i] = \mu$. Then, for any $\delta > 0$
 \[
 P\left[\sum_i X_i > (\mu + \delta) \cdot n\right] \leq \exp(-2\delta^2n).
 \]
@@ -295,11 +295,11 @@ Let $f : \mathcal{D} \to \mathbb{R}$. If $\mathcal{D}$ is open, and for all $x \
 We omit the proof, which can be found in, for example, \href{http://homepages.cwi.nl/~schaffne/courses/inftheory/2016/notes/CramerFehr.pdf}{[CF]} (Lemma 1).
 
 
-\begin{theorem}[Jensen's inequality] Let $f : \mathcal{D} \to \mathbb{R}$ be a convex function, and let $n \in \mathbb{N}$. Then for any $p_1, ..., p_n \in \mathbb{R}_{\geq 0}$ such that $\sum_{i=1}^n p_i = 1$ and for any $x_1, ..., x_n \in \mathcal{D}$ it holds that
+\begin{theorem}[Jensen's inequality] Let $f : \mathcal{D} \to \mathbb{R}$ be a convex function, and let $n \in \mathbb{N}$. Then for any $p_1, \ldots, p_n \in \mathbb{R}_{\geq 0}$ such that $\sum_{i=1}^n p_i = 1$ and for any $x_1, \ldots, x_n \in \mathcal{D}$ it holds that
 \[
 \sum_{i=1}^n p_if(x_i) \geq f\left(\sum_{i=1}^np_ix_i\right).
 \]
-If $f$ is strictly convex and $p_1, ..., p_n > 0$, then equality holds iff $x_1 = \cdots = x_n$.
+If $f$ is strictly convex and $p_1, \ldots, p_n > 0$, then equality holds iff $x_1 = \cdots = x_n$.
 
 In particular, if $X$ is a real random variable whose image $\mathcal{X}$ is contained in $\mathcal{D}$, then
 \[
@@ -317,7 +317,7 @@ The proof is by induction. The case $n=1$ is trivial, and the case $n=2$ is iden
 &= f\left(p_n x_n + \sum_{i=1}^{n-1} p_i x_i\right)\nonumber\\
 &= f\left(\sum_{i=1}^np_ix_i\right).
 \end{align}
-That proves the claim. As for the strictness claim, if $x_1, ..., x_n$ are not all identical, then either $x_1, ..., x_{n-1}$ are not all identical and the first inequality is strict by induction hypothesis, or $x_1 = \cdots = x_{n-1} \neq x_n$ so that the second inequality is strict by the definition of convexity.
+That proves the claim. As for the strictness claim, if $x_1, \ldots, x_n$ are not all identical, then either $x_1, \ldots, x_{n-1}$ are not all identical and the first inequality is strict by induction hypothesis, or $x_1 = \cdots = x_{n-1} \neq x_n$ so that the second inequality is strict by the definition of convexity.
 \end{proof}
 
 \section{Shannon Entropy}
@@ -398,9 +398,9 @@ This yields the correct distribution $P_X$. The following computation now leads 
 \begin{align}
 H(X) = h\left(\frac{1}{2}\right) + \frac{1}{2}h(0) + \frac{1}{2}h\left(\frac{1}{2}\right) = \frac{3}{2}.
 \end{align}
-The first coin toss determines whether the outcome is $a$ (on heads $\mathsf{h}$) or something else (on tails $\mathsf{t}$). On heads, the second coin toss does not give any more information, whereas on tails, the second coin toss still decides between outcome $b$ and outcome $c$. In general, the entropy of a random variable with probabilities $p_1, ..., p_n$ can be expressed as
+The first coin toss determines whether the outcome is $a$ (on heads $\mathsf{h}$) or something else (on tails $\mathsf{t}$). On heads, the second coin toss does not give any more information, whereas on tails, the second coin toss still decides between outcome $b$ and outcome $c$. In general, the entropy of a random variable with probabilities $p_1, \ldots, p_n$ can be expressed as
 \begin{align}
-H(p_1, ..., p_k, p_{k+1}, ..., p_n) &= h(p_1 + \cdots + p_k) +\nonumber\\
+H(p_1, \ldots, p_k, p_{k+1}, \ldots, p_n) &= h(p_1 + \cdots + p_k) +\nonumber\\
 &\ \ \ \ \ (p_1 + \cdots + p_k) H\left(\frac{p_1}{p_1+\cdots+p_k} + \cdots + \frac{p_k}{p_1+\cdots+p_k}\right) +\nonumber\\
 &\ \ \ \ \ (p_{k+1} + \cdots + p_n)H\left(\frac{p_{k+1}}{p_{k+1}+\cdots+p_n} + \cdots + \frac{p_n}{p_{k+1}+\cdots+p_n}\right).
 \end{align}
@@ -455,9 +455,8 @@ Using Jensen's inequality, it follows that
 \begin{align}
 H(X|Y) - H(X) &= \sum_{\substack{x,y\\P_{XY}(x,y)>0}} P_{XY}(x,y)\log
 \frac{P_X(x)P_Y(y)}{P_{XY}(x,y)} \nonumber \\
-&\leq \log\Bigl( \sum_{\substack{x,y\\P_{XY}(x,y)>0}} P_X(x)P_Y(y) \Bigr) \leq \log\Bigl(\big(\sum_{x \in \mathcal{X}}P_X(x)\big)\big(\sum_{y \in \mathcal{Y}}P_Y(y)\big)\Bigr)\\
+&\leq \log\Bigl( \sum_{\substack{x,y\\P_{XY}(x,y)>0}} P_X(x)P_Y(y) \Bigr) \leq \log\Bigl(\big(\sum_{x \in \mathcal{X}}P_X(x)\big)\big(\sum_{y \in \mathcal{Y}}P_Y(y)\big)\Bigr) \label{eq:inequalities}\\
 &= \log 1 = 0 \, . \nonumber
-\label{eq:inequalities}
 \end{align}
 Note that in the second inequality, we replaced the summation over all $(x,y)$ with $P_{XY}(x,y) > 0$ by the summation over all $(x,y) \in {\cal X} \times {\cal Y}$. Inequality then follows by the monotonicity of the logarithm function.
 
