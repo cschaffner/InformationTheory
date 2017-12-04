@@ -88,7 +88,7 @@ is weakly symmetric but not symmetric.
 Prove the lemma below stating that the capacity per transmission is not increased if we use a discrete memoryless channel many times. For inspiration, look again at the proof of the converse of Shannon's noisy-channel coding theorem.
 
 \medskip
-\noindent\textbf{Lemma 7.9.2 in [CT]}\  Let $Y^n$ be the result of passing $X^n$ through a discrete memoryless channel of capacity $C$. Prove that for all $P_{X^n}$, it holds that $I(X^n; Y^n) \leq nC$.
+\noindent\textbf{Lemma 7.9.2 in [CT]}\  Let $X_1, X_2, \ldots X_n = X^n$ be $n$ random variables with arbitrary joint distribution $P_{X^n}$. Let $Y^n$ be the result of passing $X^n$ through a discrete memoryless channel of capacity $C$. Prove that for all $P_{X^n}$, it holds that $I(X^n; Y^n) \leq nC$.
 \medskip
 
 Does your proof also work in case of coding with feedback (i.e.\ $X_{i+1}$ is allowed to depend on $X^i$ and $Y^i$)? If not, point out the steps in your proof where you use that there is no feedback.
