@@ -215,9 +215,9 @@ R := \frac{\log M}{n}.
 Given a code for a specific channel, we can study the probability that an error occurs while transmitting a message. For a fixed message $m$, this probability is represented by the following quantity.
 
 \begin{definition}[Probability of error]\label{def:probability-of-error}
-Given an $(M,n)$ code for a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$, the probability of error $\lambda_m$ is the probability that the decoded output is not equal to the input message $m$. More formally,
+Given an $(M,n)$ code for a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$, the probability of error $\lambda_w$ is the probability that the decoded output is not equal to the input message $w$. More formally,
 \[
-\lambda_w := P[\mathtt{dec}(Y^n) \neq m \mid X^n = \mathtt{enc}(w)].
+\lambda_w := P[\mathtt{dec}(Y^n) \neq w \mid X^n = \mathtt{enc}(w)].
 \]
 Given this quantity, the \term{maximal probability of error} is defined as 
 \[\lambda^{(n)} := \max_{w \in [M]} \lambda_w.\]
@@ -404,7 +404,7 @@ The generator matrix is used in the encoding function as follows:
 \[
 \mathtt{enc}(m) = G^T \cdot m.
 \]
-The codebook $C$ is the set $\Set{G^T \cdot m}{m \in \mathcal{X}^n}$.
+The codebook $C$ is the set $\Set{G^T \cdot m}{m \in \{0,1\}^k}$.
 \footnote{The reason for the transposition in $G^T$ is that historically, coding theorists preferred to use row vectors and matrix multiplication from the right instead of column vectors and multiplication from the left, which is more standard in other areas. Notice that for row vectors $c = m \cdot G$, we equivalently have column vectors $c^T = (m \cdot G)^T = G^T \cdot m^T$.}
 
 \begin{example}[{Generator matrix of the $[7,4]$ Hamming code}]
@@ -479,7 +479,7 @@ Notice that all columns of $H$ are different, and that there are $2^3 = 8$ possi
 \begin{example}[The 5-bit repetition code]
 The generating matrix of $R_5$, the 5-bit repetition code, is
 \[G^T = \left(\begin{array}{c}
-1\\1\\1\\1
+1\\1\\1\\1\\1
 \end{array}\right).\]
 The parity check matrix is
 \[
