@@ -1,0 +1,6 @@
+{
+for(x=1;x<=NF;x++) if($x~/GROUPREF/) {sub(/GROUPREF/,"group"++i)}
+}
+{
+for(x=1;x<=NF;x++) if($x~/GROUPLABEL/) {sub(/GROUPLABEL/,"group"++j)}
+}1

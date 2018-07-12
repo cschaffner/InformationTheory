@@ -1,0 +1,59 @@
+#replace math delimiters (also align environment)
+s/\$\$([^\$]+)\$\$/\\[\1\\]/g
+s/\\begin[{]align[}]/\\[/g
+s/\\end[{]align[}]/\\]/g
+s/\\nonumber//g
+s/&=/=/g
+s/\$([^$]+)\$/\\(\1\\)/g
+
+# emphasize and bold
+s/\\emph[{]([^}]+)[}]/<i>\1<\/i>/g
+s/\\textbf[{]([^}]+)[}]/<strong>\1<\/strong>/g
+s/[{]\\em ([^}]+)[}]/<i>\1<\/i>/g
+s/[{]\\bf ([^}]+)[}]/<strong>\1<\/strong>/g
+
+# layout terms in bold / red
+s/\\term[{]([^}]+)[}]/<span style="color: #bc0031;"><strong>\1<\/strong><\/span>/g
+
+# theorem box, with expandable proof button
+s/\\begin[{]theorem[}]\[([^]]+)\]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #bc0031;"><strong>Theorem: \1<\/strong><\/h4>/g
+s/\\begin[{]theorem[}]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #bc0031;"><strong>Theorem<\/strong><\/h4>/g
+s/\\end[{]theorem[}]/<p><span class="element_toggler" role="button" aria-controls="GROUPREF" aria-label="Toggler" aria-expanded="false"><span class="Button">Show proof<\/span><\/span><\/p><div id="GROUPLABEL" style="display: none;"><div class="content-box">Paste proof here<\/div><\/div><\/div>/g
+
+# same for lemma
+s/\\begin[{]lemma[}]\[([^]]+)\]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #bc0031;"><strong>Lemma: \1<\/strong><\/h4>/g
+s/\\begin[{]lemma[}]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #bc0031;"><strong>Lemma<\/strong><\/h4>/g
+s/\\end[{]lemma[}]/<p><span class="element_toggler" role="button" aria-controls="GROUPREF" aria-label="Toggler" aria-expanded="false"><span class="Button">Show proof<\/span><\/span><\/p><div id="GROUPLABEL" style="display: none;"><div class="content-box">Paste proof here<\/div><\/div><\/div>/g
+
+# same for proposition
+s/\\begin[{]proposition[}]\[([^]]+)\]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #bc0031;"><strong>Proposition: \1<\/strong><\/h4>/g
+s/\\begin[{]proposition[}]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #bc0031;"><strong>Proposition<\/strong><\/h4>/g
+s/\\end[{]proposition[}]/<p><span class="element_toggler" role="button" aria-controls="GROUPREF" aria-label="Toggler" aria-expanded="false"><span class="Button">Show proof<\/span><\/span><\/p><div id="GROUPLABEL" style="display: none;"><div class="content-box">Paste proof here<\/div><\/div><\/div>/g
+
+# definition box
+s/\\begin[{]definition[}]\[([^]]+)\]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #bc0031;"><strong>Definition: \1<\/strong><\/h4>/g
+s/\\end[{]definition[}]/<\/div>/g
+
+# example box, with optional "show solution" button (can be used to turn examples into ungraded/untracked questions)
+s/\\begin[{]example[}]\[([^]]+)\]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #2d3b45;"><strong>Example: \1<\/strong><\/h4>/g
+s/\\begin[{]example[}]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #2d3b45;"><strong>Example<\/strong><\/h4>/g
+s/\\end[{]example[}]/<p><span class="element_toggler" role="button" aria-controls="GROUPREF" aria-label="Toggler" aria-expanded="false"><span class="Button">Show solution<\/span><\/span><\/p><div id="GROUPLABEL" style="display: none;"><div class="content-box">decide whether this button is necessary, and whether the title of this block should be question instead of example<\/div><\/div><\/div>/g
+
+# remove labels (try later: replace them by anchors?)
+s/\\label[{]([^}]+)[}]//g
+
+# urls
+s/\\href[{]([^}]+)[}][{]([^}]+)[}]/<a href="\1">\2<\/a>/g
+
+# hard line breaks (\\)
+s/\\\\/\n/g
+
+# set macro:
+s/\\set[{]([^}]+)[}]/{\1}/g
+
+# expected value macro:
+s/\\Exp/\\mathbb{E}/g
+
+# event macro:
+s/\\evA/\\mathcal{A}/g
+s/\\evB/\\mathcal{B}/g
