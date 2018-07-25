@@ -49,7 +49,7 @@ s/\\href[{]([^}]+)[}][{]([^}]+)[}]/<a href="\1">\2<\/a>/g
 s/\\\\/\n/g
 
 # set macro:
-s/\\set[{]([^}]+)[}]/{\1}/g
+s/\\set[{]([^}]+)[}]/\\{\1\\}/g
 
 # expected value macro:
 s/\\Exp/\\mathbb{E}/g
@@ -57,3 +57,6 @@ s/\\Exp/\\mathbb{E}/g
 # event macro:
 s/\\evA/\\mathcal{A}/g
 s/\\evB/\\mathcal{B}/g
+
+# length macro:
+s/\\len/\\ell/g
