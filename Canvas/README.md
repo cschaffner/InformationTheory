@@ -19,7 +19,9 @@ awk -f latex2html2 text-temp.html > text.html
 
 STEP 3
 We now transform the images into svg format.
+```
 htlatex image.tex
+```
 It creates (among other things) an svg image that can be uploaded to canvas, and inserted into the html page by hand
 
 STEP 4
