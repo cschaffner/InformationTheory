@@ -13,6 +13,7 @@ Run sed:
 sed -r -f latex2html text.tex > text-temp.html
 ```
 [On Mac, use -E instead of -r]
+
 And then awk:
 ```
 awk -f latex2html2 text-temp.html > text.html
