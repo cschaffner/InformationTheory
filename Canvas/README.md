@@ -12,6 +12,7 @@ Run sed:
 ```
 sed -r -f latex2html text.tex > text-temp.html
 ```
+[On Mac, use -E instead of -r]
 And then awk:
 ```
 awk -f latex2html2 text-temp.html > text.html
@@ -23,6 +24,7 @@ We now transform the images into svg format.
 htlatex image.tex
 ```
 It creates (among other things) an svg image that can be uploaded to canvas, and inserted into the html page by hand
+[on Mac with TexLive 2017, I got an error message and had to follow https://tex.stackexchange.com/questions/185349/error-using-pgfsysdriver-with-tex4ht-only-shows-up-with-texlive-2014-ok-with-t in order to get htlatex to work]
 
 STEP 4
 Paste result into canvas content page. Check that it looks good (optional: add new commands to sed/awk files). Several things need to be done by hand, for example:
