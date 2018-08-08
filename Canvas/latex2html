@@ -1,9 +1,10 @@
 #replace math delimiters (also align environment)
+# CS: align environment does seem to work...
 s/\$\$([^\$]+)\$\$/\\[\1\\]/g
-s/\\begin[{]align[}]/\\[/g
-s/\\end[{]align[}]/\\]/g
+#s/\\begin[{]align[}]/\\[/g
+#s/\\end[{]align[}]/\\]/g
 s/\\nonumber//g
-s/&=/=/g
+#s/&=/=/g
 s/\$([^$]+)\$/\\(\1\\)/g
 
 # emphasize and bold
@@ -30,6 +31,11 @@ s/\\begin[{]proposition[}]\[([^]]+)\]/<div class="content-box pad-box-mini borde
 s/\\begin[{]proposition[}]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #bc0031;"><strong>Proposition<\/strong><\/h4>/g
 s/\\end[{]proposition[}]/<p><span class="element_toggler" role="button" aria-controls="GROUPREF" aria-label="Toggler" aria-expanded="false"><span class="Button">Show proof<\/span><\/span><\/p><div id="GROUPLABEL" style="display: none;"><div class="content-box">Paste proof here<\/div><\/div><\/div>/g
 
+# same for corollary
+s/\\begin[{]corollary[}]\[([^]]+)\]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #bc0031;"><strong>Corollary: \1<\/strong><\/h4>/g
+s/\\begin[{]corollary[}]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #bc0031;"><strong>Corollary<\/strong><\/h4>/g
+s/\\end[{]corollary[}]/<p><span class="element_toggler" role="button" aria-controls="GROUPREF" aria-label="Toggler" aria-expanded="false"><span class="Button">Show proof<\/span><\/span><\/p><div id="GROUPLABEL" style="display: none;"><div class="content-box">Paste proof here<\/div><\/div><\/div>/g
+
 # definition box
 s/\\begin[{]definition[}]\[([^]]+)\]/<div class="content-box pad-box-mini border border-trbl border-round"><h4 style="color: #bc0031;"><strong>Definition: \1<\/strong><\/h4>/g
 s/\\end[{]definition[}]/<\/div>/g
@@ -46,10 +52,15 @@ s/\\label[{]([^}]+)[}]//g
 s/\\href[{]([^}]+)[}][{]([^}]+)[}]/<a href="\1">\2<\/a>/g
 
 # hard line breaks (\\)
-s/\\\\/\n/g
+# CS: is required for align environment...
+#s/\\\\/\n/g
+
+# remove protected spaces after a dot (.\ )
+s/\.\\\ /.\ /g
 
 # set macro:
 s/\\set[{]([^}]+)[}]/\\{\1\\}/g
+# CS doesn't know how to get this to work: s/\\SET[{]([^}]+)[}][{]([^}]+)[}]/\\big\\{\1,\\big\|\2\\big\\}/g
 
 # expected value macro:
 s/\\Exp/\\mathbb{E}/g
@@ -60,3 +71,18 @@ s/\\evB/\\mathcal{B}/g
 
 # length macro:
 s/\\len/\\ell/g
+
+# strings:
+s/\\strg/\\{0,1\\}^*/g
+
+# CT reference:
+s/\\CT/<a href="http:\/\/onlinelibrary.wiley.com\/book\/10.1002\/0471200611" target="\_blank">Cover\/Thomas<\/a>/g
+
+# itemize (TODO: also insert the closing </li>)
+s/\\begin[{]itemize[}]/<ul>/g
+s/\\item/<li>/g
+s/\\end[{]itemize[}]/<\/ul>/g
+
+# quotation marks
+s/\`\`/"/g
+s/\'\'/"/g
