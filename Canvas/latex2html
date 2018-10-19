@@ -69,6 +69,11 @@ s/\\Exp/\\mathbb{E}/g
 s/\\evA/\\mathcal{A}/g
 s/\\evB/\\mathcal{B}/g
 
+# natural and reals:
+s/\\N/\\mathbb{N}/g
+s/\\R/\\mathbb{R}/g
+
+
 # length macro:
 s/\\len/\\ell/g
 

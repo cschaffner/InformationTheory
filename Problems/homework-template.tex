@@ -1,0 +1,32 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{solutions}
+
+\begin{document}
+\frontpage{Your name}{Your student number}{1}
+
+\begin{question}{1}
+Your solution here
+\end{question}
+
+\begin{question}{5}
+Your solution here
+\end{question}
+
+\begin{question}{$\infty$}
+Here are some macros for you that might be helpful when writing out your solutions to the problems.
+
+\begin{itemize}
+\item Different fonts: $\mathcal{X}$, $\mathbb{E}$, $\mathbb{R}$, \texttt{abc}
+\item Binomial: $\binom{n}{k}$
+\item Set symbols: $\cap, \cup, \bigcap_{i=1}^n, \backslash, \overline{A}$
+\end{itemize}
+
+
+Entropy diagram for two variables:
+\begin{center}
+%% the optional argument in [] lets you determine the size of the circles
+\entropydiagramXY[2]{$H(X)$}{$H(Y)$}{$H(XY)$}{$H(X|Y)$}{$H(Y|X)$}{$I(X;Y)$}
+\end{center}
+\end{question}
+
+\end{document}
