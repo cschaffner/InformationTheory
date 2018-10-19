@@ -19,35 +19,36 @@
 
 \homeworkproblems
 
-\begin{exercise}[Deriving the weak law of large numbers]
-	\begin{subex}[(3pt)] (Markov's inequality) For any real non-negative random variable $X$ and any $t > 0$, show that
+\begin{exercise}[Deriving the weak law of large numbers (9pt)]
+	\begin{subex}[(2pt)] (Markov's inequality) For any real non-negative random variable $X$ and any $t > 0$, show that
 	\[
 	P_X(X \geq t) \leq \frac{\mathbb{E}[X]}{t}\, .
 	\]
 \end{subex}
-\begin{subex}
+\begin{subex}[(1pt)]
 	Exhibit a random variable (which can depend on $t$) that achieves this inequality with equality.
 	\end{subex}
-	\begin{subex}[(2pt)] (Chebyshev's inequality.) Let $Y$ be a random variable with mean $\mu$ and variance $\sigma^2$. Show that for any $\varepsilon > 0$,
+
+	\begin{subex}[(3pt)] (Chebyshev's inequality.) Let $Y$ be a random variable with mean $\mu$ and variance $\sigma^2$. Show that for any $\varepsilon > 0$,
 	\[
 	P(|Y - \mu| \geq \varepsilon) \leq \frac{\sigma^2}{\varepsilon^2} \, .
 	\]
 	\textbf{Hint:} Define a random variable $X := (Y - \mu)^2$.
 	\end{subex}
-	\begin{subex}[(2pt)] (The weak law of large numbers.) Let $Z_1, Z_2, ..., Z_n$ real i.i.d. random variables with mean $\mu = \mathbb{E}[Z_i]$ and variance $\sigma^2 = \mathbb{E}[(X_i - \mu)^2] < \infty$. Define the random variables $S_n = \frac{1}{n} \sum_{i=1}^n Z_i$. Show that
+	\begin{subex}[(3pt)] (The weak law of large numbers.) Let $Z_1, Z_2, ..., Z_n$ real i.i.d. random variables with mean $\mu = \mathbb{E}[Z_i]$ and variance $\sigma^2 = \mathbb{E}[(X_i - \mu)^2] < \infty$. Define the random variables $S_n = \frac{1}{n} \sum_{i=1}^n Z_i$. Show that
 	\[
 	P(|S_n - \mu | \geq \varepsilon) \leq \frac{\sigma^2}{n\varepsilon^2}\, .
 	\]
-	Thus, $P(|S_n - \mu| \geq \varepsilon) \to 0$ as $n \to \infty$. This is known as the weak law of large numbers (Theorem 2.6.1 in the lecture notes).
+	Thus, $P(|S_n - \mu| \geq \varepsilon) \to 0$ as $n \to \infty$. This is known as the weak law of large numbers (which we will use heavily in Week 03).
 	\end{subex}
 \end{exercise}
 
-\begin{exercise}[Multiple-choice test (6pt)]
+\begin{exercise}[Multiple-choice test (3pt)]
 A multiple-choice exam has 4 choices for each question. A student has studied enough so that the probability she will know the answer to a question is 0.5, the probability that she will be able to eliminate one choice is 0.25, otherwise all 4 choices seem equally plausible. If she knows the answer she will get the question right. If not she has to guess from the 3 or 4 choices.
 As the teacher you want the test to measure what the student knows. If the student answers a question correctly what’s the probability she knew the answer?
 \end{exercise}
 
-\begin{exercise}[Probability urn (6pt)]
+\begin{exercise}[Probability urn (3pt)]
 There are 7 white and 4 black balls in a urn. You draw three balls in sequence at random. On each draw, if the ball is white you set it aside and if the ball is black you put it back in the urn. What is the probability that the third draw is white? (If you get a black ball it counts as a draw even though you put it back in the urn)
 
 
@@ -65,8 +66,28 @@ If they only give tea to 10 of the 20 people, what is the probability that 9 stu
 \end{subex}
 \end{exercise}
 
+\begin{exercise}[Two coins and a die (8pt)]
+  You have two (fair) coins and a (fair) 4-sided die. Let $X$ be the number of
+  heads after flipping the two coins and let $Y$ be the result of rolling the
+  die. Let $Z$ be the average of $X$ and $Y$.
 
-\begin{exercise}[Fermi estimates]
+\begin{subex}[(2pt)]
+What is the distribution $P_Z$ of $Z$?
+\end{subex}
+
+  \begin{subex}[(3pt)]
+    Compute the variations of $X$, $Y$ and $Z$.	
+  \end{subex}
+  
+  \begin{subex}[(3pt)]
+    You play the following game. If $2X \ge Y$, you win $X^2$ euros and
+    otherwise you lose 1 euro. What is your expected total gain or loss after
+    playing this game $40$ times?
+  \end{subex}
+\end{exercise}
+
+
+\begin{exercise}[Fermi estimates (10pt)]
 Read up on what a
 \href{https://en.wikipedia.org/wiki/Fermi_problem}{Fermi estimate}
 is. Remember that when doing Fermi estimates, it is important to state
@@ -77,11 +98,11 @@ One team member should post your answers to
 \href{https://canvas.uva.nl/courses/2205/discussion_topics/23268}{this
   discussion forum}, don't forget to state your team name.
 
-\begin{subex}[5pt]
+\begin{subex}[(5pt)]
 Total number of traffic lights in the Netherlands.
 \end{subex}
 
-\begin{subex}[5pt]
+\begin{subex}[(5pt)]
 The total number of living tree leaves (i.e. leaves attached to a
 living tree) in the Netherlands.
 \end{subex}
