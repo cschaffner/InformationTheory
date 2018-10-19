@@ -443,7 +443,7 @@ where $L_{\min} = \min_{c \in \cal C} \len(c)$, $L_{\max} = \max_{c \in \cal C} 
 \begin{align}
 S^k = \sum_{c_1,\ldots,c_k \in \mathcal{C}^k} \frac{1}{2^{\len(c_1)+\ldots+\len(c_k)}} = \sum_{\ell = k L_{\min}}^{k L_{\max}} \frac{n_\ell^{(k)}}{2^\ell} 
 \end{align}
-where $n_\ell^{(k)}$ is defined as $n_\ell^{(k)} = \big|\SET[\big]{(c_1,\ldots,c_k) \in {\cal C}^k}{\sum_i\len(c_i) = \len(c_1|\ldots|c_k) = \ell}\big|$. Note that
+where $n_\ell^{(k)}$ is defined as $n_\ell^{(k)} = \big|\SET{(c_1,\ldots,c_k) \in {\cal C}^k}{\sum_i\len(c_i) = \len(c_1|\ldots|c_k) = \ell}\big|$. Note that
 \begin{align}
 n_\ell^{(k)} = \sum_{x \in \set{0,1}^{\ell}} \big|\SET{(c_1,\ldots,c_k) \in {\cal C}^k}{\,c_1|\ldots|c_k = x}\big| \leq \sum_{x \in \set{0,1}^{\ell}} 1 = 2^{\ell}
 \end{align}
