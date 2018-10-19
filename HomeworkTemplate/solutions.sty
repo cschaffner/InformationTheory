@@ -40,19 +40,18 @@
 \usepackage{AlegreyaSans}
 \definecolor{gray}{gray}{.4}
 
-\newcommand\frontpage[3]{
+\newcommand\frontpage[2]{
 	\renewcommand{\headheight}{15pt}
 	\renewcommand{\headrulewidth}{0pt}
 	\lhead{}
-	\rhead{\sffamily \color{gray} \textsc{#1 -- #2}}
+	\rhead{\sffamily \color{gray} \textsc{#1}}
 	\thispagestyle{empty}
 	{\sffamily\flushleft\color{gray}
 		\textsc{\bfseries information theory}\\
 		University of Amsterdam, 2018\\
-		\textsc{Name:} #1\\
-		\textsc{Student nr:} #2%
+		\textsc{Team Name:} #1
 		{\sffamily\flushleft\huge\bfseries
-		Homework set\ #3
+		Homework set\ #2
 		}\\[1em]%
 		\tableofcontents
 	}
