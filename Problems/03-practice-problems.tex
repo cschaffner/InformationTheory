@@ -18,8 +18,25 @@
 \practiceproblems
 
 {\sffamily\noindent
-This week's exercises deal with codes and the AEP. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=2219}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
+This week's exercises deal with codes and the AEP. \practiceinstructions
 }
+
+\begin{exercise}[An optimal code]
+Let $X$ be a random variable.
+	\begin{subex}
+	Show that if there exists an $n \in \mathbb{N}$ such that for all $x \in \mathcal{X}$, $P_X(x) = \frac{1}{2^n}$, then there exists a source code whose expected length equals the entropy.
+	\end{subex}
+	\begin{subex}
+	(\href{http://www.inference.phy.cam.ac.uk/mackay/itila/book.html}{[MacKay]}, Exercise 5.25:) Show that if for all $x \in \mathcal{X}$, there exists an $n \in \mathbb{N}$ such that $P_X(x) = \frac{1}{2^n}$, then there exists a source code whose expected length equals the entropy.
+	\end{subex}
+\end{exercise}
+
+\begin{bonusexercise}[Unique decodability]
+Construct a binary symbol code (for a finite alphabet $\mathcal{X}$ of your own choice) that is uniquely decodable, but for which there exists an \emph{infinite} binary string that can be decoded in more than one way.
+\end{bonusexercise}
+
+
+
 
 \begin{exercise}[Prefix-free arithmetic codes]
 	\begin{subex}

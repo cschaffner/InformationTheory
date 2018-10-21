@@ -50,7 +50,7 @@ As the teacher you want the test to measure what the student knows. If the stude
 
 \begin{exercise}[Probability urn (3pt)]
 There are 7 white and 4 black balls in a urn. You draw three balls in sequence at random. On each draw, if the ball is white you set it aside and if the ball is black you put it back in the urn. What is the probability that the third draw is white? (If you get a black ball it counts as a draw even though you put it back in the urn)
-
+\end{exercise}
 
 \begin{exercise}[Birthday party (9pt)]
  20 ILLC members are having a party.
@@ -66,19 +66,29 @@ If they only give tea to 10 of the 20 people, what is the probability that 9 stu
 \end{subex}
 \end{exercise}
 
+\begin{exercise}[Expectation and variance (4pt)]
+	\begin{subex}[(2pt)]
+	Show that expectation is linear: for arbitrary $a,b \in \mathbb{R}$ and arbitrary real random variables $X,Y$,
+	\[
+	\mathbb{E}[aX + bY] = a\mathbb{E}[X] + b \mathbb{E}[Y].
+	\]
+	\end{subex}
+	\begin{subex}[(2pt)]
+	Use Jensen's inequality to show that $\mbox{Var}(X) \geq 0$ for any $X$.
+	\end{subex}
+\end{exercise}
+
+
 \begin{exercise}[Two coins and a die (8pt)]
-  You have two (fair) coins and a (fair) 4-sided die. Let $X$ be the number of
+  You have two (fair) coins and a (fair) 4-sided die with outcomes $\{1,2,3,4\}$. Let $X$ be the number of
   heads after flipping the two coins and let $Y$ be the result of rolling the
   die. Let $Z$ be the average of $X$ and $Y$.
-
 \begin{subex}[(2pt)]
 What is the distribution $P_Z$ of $Z$?
 \end{subex}
-
   \begin{subex}[(3pt)]
     Compute the variations of $X$, $Y$ and $Z$.	
   \end{subex}
-  
   \begin{subex}[(3pt)]
     You play the following game. If $2X \ge Y$, you win $X^2$ euros and
     otherwise you lose 1 euro. What is your expected total gain or loss after
@@ -87,26 +97,33 @@ What is the distribution $P_Z$ of $Z$?
 \end{exercise}
 
 
-\begin{exercise}[Fermi estimates (10pt)]
+\begin{exercise}[Fermi estimates (8pt)]
 Read up on what a
 \href{https://en.wikipedia.org/wiki/Fermi_problem}{Fermi estimate}
-is. Remember that when doing Fermi estimates, it is important to state
-clearly what assumptions you make and which data points you have
-looked up (and where) when giving your answer.
+is. Give a Fermi estimate for the \emph{daily number of git commits
+in the world}.
+ 
+In this exercise, it is more important to be clear about your
+arguments and assumptions rather than getting the correct result.
+
+\begin{subex}[(4pt)]
+Give your Fermi estimate without looking up any numbers on the internet.
+\end{subex}
+
+\begin{subex}[(4pt)]
+Look up the number for your estimates from the previous
+sub-exercise. Possibly revise your strategy to do the
+estimate. Compare the new final outcome to what you got previously as
+endresult in (a).
+\end{subex}
 
 One team member should post your answers to
 \href{https://canvas.uva.nl/courses/2205/discussion_topics/23268}{this
   discussion forum}, don't forget to state your team name.
+\end{exercise}
 
-\begin{subex}[(5pt)]
-Total number of traffic lights in the Netherlands.
-\end{subex}
-
-\begin{subex}[(5pt)]
-The total number of living tree leaves (i.e. leaves attached to a
-living tree) in the Netherlands.
-\end{subex}
-
+\begin{exercise}[Programming... (5pt)]
+TODO: count bigrams and trigrams? Sample a ``text'' according to these frequencies.
 \end{exercise}
 
 

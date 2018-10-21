@@ -2,13 +2,13 @@
 
 %% Settings
 \newcommand\problemset{2}
-\newcommand\deadline{Wednesday, 14 November 2018, 12:00h}
+\newcommand\deadline{Wednesday, 21 November 2018, 12:00h}
 \newif\ifcomments
 \commentsfalse % hide comments
 %\commentstrue % show comments
 
 % Packages
-\usepackage[english]{exercisespdf}
+\usepackage[english]{exercises}
 \usepackage{wasysym}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
@@ -19,69 +19,75 @@
 
 \homeworkproblems
 
-
-\begin{exercise}[Huffman Coding]
-	\begin{subex}[(4pt)]
-    Consider the binary source $P_X$ with $P_X(0) = \frac{1}{8}$ and $P_X(1) = \frac{7}{8}$.
-    
-    Design a Huffman code for $P_X$. Describe, in order, which source symbols you combine, and list the final codebook. What is the average codeword length?
-	\end{subex}
-\begin{subex}[(4pt)]
-	Design a Huffman code for blocks of $N=2$ bits drawn from the source $P_X$. Describe, in order, which source symbols you combine, and list the final codebook. What is the average codeword length?
-\end{subex}
-\begin{subex}[(4pt)]
-	Design a Huffman code for blocks of $N=3$ bits drawn from the source $P_X$. Describe, in order, which source symbols you combine, and list the final codebook. What is the average codeword length?
-\end{subex}
-\begin{subex}[(4pt)]
-	For the three codes you designed ($N=1,2,3$), divide the average codeword length by $N$, and compare these values to the optimal length, i.e., $H(X)$. What do you observe?
-\end{subex}
+\begin{exercise}[Fun with dice (6 pt)]
+Consider the following random experiment with two fair (regular six-sided) dice. First, the first die is thrown -- let the outcome be $A$. Then, the second die is thrown until the outcome has the same parity (even, odd) as $A$. Let this final outcome of the second die be $B$. The random variables $X$, $Y$ and $Z$ are defined as follows:
+\[
+X = (A + B) \mod 2, \ \ \ \ \ Y = (A \cdot B) \mod 2, \ \ \ \ \ Z = |A - B|.
+\]
 	\begin{subex}[(1pt)]
-	If you were asked to design a Huffman code for a block of $N = 100$ bits, what problem would you run into?
+	Find the joint distribution $P_{AB}$.
+	\end{subex}
+	\begin{subex}[(1pt)]
+	Determine $H(X), H(Y)$ and $H(Z)$.
+	\end{subex}
+	\begin{subex}[(1pt)]
+	Compute $H(Z|A=1)$.
+	\end{subex}
+	\begin{subex}[(1pt)]
+	Compute $H(AB)$, i.e.\ the joint entropy of $A$ and $B$.
 	\end{subex}
 	\begin{subex}[(2pt)]
-	Consider the random variable $Z$ with
-	\begin{center}
-	\begin{tabular}{c | c c c c c c}
-	$z$ & 1 & 2 & 3 & 4 & 5 & 6\\
-	\hline
-	$P_Z(z)$ & 1/10 & 3/10 & 2/10 & 2/10 & 1/10 & 1/10\\
-	\end{tabular}
-	\end{center}
-	Design a \emph{ternary} Huffman code for $Z$ (i.e. using an alphabet with three symbols).
+	A random variable $M$ describes whether the sum $A + B$ is strictly larger than seven, between five and seven (both included) or scrictly smaller than five. How much entropy is present in $M$?
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Mutual information (2pt)]
+Let the binary random variables $X$ and $Y$ be defined by the joint probability distribution $P_{XY}(00) = 0.3$, $P_{XY}(01) = 0.1$, $P_{XY}(10) = 0.2$, $P_{XY}(11) = 0.4$.
+
+%in the following table:
+%\begin{center}
+%\begin{tabular}{c | c | c}
+%& $X = 0$ & $X = 1$\\\hline
+%$Y = 0$ & 0.3 & 0.2\\
+%$Y = 1$ & 0.1 & 0.4
+%\end{tabular}
+%\end{center}
+Draw the entropy diagram for $X$ and $Y$, and compute $H(X)$, $H(Y)$, $H(XY)$, $H(X|Y)$, $H(Y|X)$, and $I(X;Y)$. Reading off a value from the diagram is a valid `computation', as long as you clearly state how you did it.
+\begin{center}
+\entropydiagramXY[1]{?}{?}{?}{?}{?}{?}
+\end{center}
+\end{exercise}
+
+
+\begin{exercise}[Entropy of functions of a random variable (3pt)]
+Let $X$ be a random variable, and let $f$ be a function of $X$.
+	\begin{subex}[(1pt)]
+	Show that $H(f(X) | X) = 0$.
+	\end{subex}
+	\begin{subex}[(2pt)]
+	Show that $H(f(X)) \leq H(X)$. \emph{Hint:} use the chain rule.
+	\end{subex}
+\end{exercise}
+
+
+\begin{exercise}[Relative entropy (9pt)]
+This exercise is about relative entropy, as defined in Section 1.7 of the \href{https://github.com/cschaffner/InformationTheory/raw/master/Script/InfTheory3.pdf}{lecture notes}. 
+	\begin{subex}[(5pt)]
+	Prove that for any two distributions $P$ and $Q$ over $\mathcal{X}$, $D(P||Q) \geq 0$, and that equality holds if and only if $P = Q$.
+	\end{subex}
+	\begin{subex}[(3pt)]
+	Show that the mutual information can be expressed in terms of the relative entropy, i.e.\ that $I(X;Y) = D(P_{XY}||P_XP_Y)$.
+	\end{subex}
+	\begin{subex}[(1pt)]
+	Use (a) and (b) to show that $H(X|Y) \leq H(X)$.
 	\end{subex}
 \end{exercise}
 
 
 
-\begin{exercise}[Inefficiency when using the wrong code]
-\begin{subex}[(2pt)]
-Given are two distributions $P_X$ and $Q_X$ for the same set $\mathcal{X} = \{\mathtt{a,b,c,d}\}$:
-\[
-\begin{array}{c | c c c c}
-x & \mathtt{a}&\mathtt{b}&\mathtt{c}&\mathtt{d}\\\hline
-P_X(x) & 1/4&1/4&1/4&1/4\\
-Q_X(x) & 1/2&1/4&1/8&1/8\\
-\end{array}
-\]
-Design an optimal prefix-free code for $Q_X(x)$.
-\end{subex}
-\begin{subex}[(4pt)]
-What is the expected codeword length of the code you just designed? (Three decimals precision)
-\end{subex}
-\begin{subex}[(4pt)]
-What is the expected codeword length if you use this code to encode the source $P_X$? (Three decimals precision)
-\end{subex}
-\begin{subex}[(4pt)]
-Show that in general, when using optimal code for any source source $Q_X$ (which has lengths $\ell(x) = \lceil -\log Q_X(x) \rceil$ for all $x \in \mathcal{X}$) to encode another source $P_X$, this incurs a penalty of $D(P_X||Q_X)$ in the average description length.
-
-More formally, prove that
-\[
-H(P_X) + D(P_X||Q_X) \leq \mathbb{E}_{P_X}[\ell(X)] \leq H(P_X) + D(P_X||Q_X) + 1
-\]
-for all $P_X$ and $Q_X$.
-\end{subex}
+\begin{exercise}[Programming... (5pt)]
+TODO: compute the entropy of a big distribution
 \end{exercise}
-
 
 
 

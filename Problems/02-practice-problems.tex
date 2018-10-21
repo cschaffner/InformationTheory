@@ -18,8 +18,7 @@
 \practiceproblems
 
 {\sffamily\noindent
-%This week's exercises deal with sets, counting and uniform probabilities.
-This week's exercises deal with entropy. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://canvas.uva.nl/courses/2205/discussion_topics/22949}{discussion forum on Canvas}, and try to help each other. We will also keep an eye on the forum.
+This week's exercises deal with entropy. \practiceinstructions
 }
 
 \begin{exercise}[Properties of entropy]
@@ -44,7 +43,9 @@ Let $X$ and $Y$ be random variables.
 
 \begin{exercise}[Entropy of a deck of cards]
 	\begin{subex}
-	Compute the entropy of a perfectly shuffled deck of 52 cards (i.e.\ the set of cards is uniformly distributed over all possible orders).
+	Compute the entropy of a perfectly shuffled deck of 52 cards
+        (i.e.\ the set of cards is uniformly distributed over all
+        possible orders, not just the entropy of the first card).
 	\end{subex}
 	
 	\begin{subex}
@@ -69,16 +70,6 @@ P_X(k) = (1-p)^{k-1}p \ \ \ \ \ \mbox{for } k = 1, 2, 3, ...
 Compute the entropy of the geometric distribution.
 \end{exercise}
 
-\begin{exercise}[An optimal code]
-Let $X$ be a random variable.
-	\begin{subex}
-	Show that if there exists an $n \in \mathbb{N}$ such that for all $x \in \mathcal{X}$, $P_X(x) = \frac{1}{2^n}$, then there exists a source code whose expected length equals the entropy.
-	\end{subex}
-	\begin{subex}
-	(\href{http://www.inference.phy.cam.ac.uk/mackay/itila/book.html}{[MacKay]}, Exercise 5.25:) Show that if for all $x \in \mathcal{X}$, there exists an $n \in \mathbb{N}$ such that $P_X(x) = \frac{1}{2^n}$, then there exists a source code whose expected length equals the entropy.
-	\end{subex}
-\end{exercise}
-
 \begin{exercise}[Stirling's Approximation]
 Let $n \in \mathbb{N}$ and $p \in [0,1]$ such that $np \in \mathbb{N}$. Use the approximation $\ln(n!) \approx n \ln(n)$ to prove that
 \[
@@ -86,11 +77,6 @@ Let $n \in \mathbb{N}$ and $p \in [0,1]$ such that $np \in \mathbb{N}$. Use the 
 \]
 where $h$ is the binary entropy function.
 \end{exercise}
-
-\begin{bonusexercise}[Unique decodability]
-Construct a binary symbol code (for a finite alphabet $\mathcal{X}$ of your own choice) that is uniquely decodable, but for which there exists an \emph{infinite} binary string that can be decoded in more than one way.
-\end{bonusexercise}
-
 
 
 
