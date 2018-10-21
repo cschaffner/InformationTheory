@@ -20,8 +20,94 @@
 \practiceproblems
 
 {\sffamily\noindent
-This week's exercises deal with noisy-channel coding. You do not have to hand in these exercises, they are for practicing only. Problems marked with a $\bigstar$ are generally a bit harder. If you have questions about any of the exercises, please post them in the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=2219}{discussion forum on Moodle}, and try to help each other. We will also keep an eye on the forum.
+This week's exercises deal with noisy-channel coding. \practiceinstructions
 }
+
+\begin{exercise}[Symmetric Channels]
+Consider the channel with transition matrix
+\[
+P_{Y|X} = \left[
+\begin{array}{c c c}
+0.3&0.2&0.5\\
+0.5&0.3&0.2\\
+0.2&0.5&0.3
+\end{array}
+\right].
+\]
+Recall that in a transition matrix, the entry in the $x$th row and the $y$th column denotes the conditional probability $P_{Y|X}(y|x)$ that $y$ is received when $x$ has been sent.
+
+A channel is said to be \textbf{symmetric} if the rows of the channel transition matrix $P_{Y|X}$ are permutations of each other, and the columns are permutations of each other. A channel is said to be \textbf{weakly symmetric} if every row of the transition matrix is a permutation of every other row and all the column sums $\sum_x P_{Y|X}(y|x)$ are equal.
+
+For instance, the channel $P_{Y|X}$ above is symmetric, and the channel
+\[
+Q_{Y|X} = \left[
+\begin{array}{c c c}
+\frac{1}{3}&\frac{1}{6}&\frac{1}{2}\\
+\frac{1}{3}&\frac{1}{2}&\frac{1}{6}
+\end{array}
+\right]
+\]
+is weakly symmetric but not symmetric.
+	\begin{subex}
+	Find the optimal input distribution and channel capacity of $Q_{Y|X}$.
+	\end{subex}
+	\begin{subex}
+	Give a general strategy how to compute the capacity of weakly symmetric channels. What is the optimal input distribution?
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Multiple Channel Uses]
+Prove the lemma below stating that the capacity per transmission is not increased if we use a discrete memoryless channel many times. For inspiration, look again at the proof of the converse of Shannon's noisy-channel coding theorem.
+
+\medskip
+\noindent\textbf{Lemma 7.9.2 in [CT]}\  Let $X_1, X_2, \ldots X_n = X^n$ be $n$ random variables with arbitrary joint distribution $P_{X^n}$. Let $Y^n$ be the result of passing $X^n$ through a discrete memoryless channel of capacity $C$. Prove that for all $P_{X^n}$, it holds that $I(X^n; Y^n) \leq nC$.
+\medskip
+
+Does your proof also work in case of coding with feedback (i.e.\ $X_{i+1}$ is allowed to depend on $X^i$ and $Y^i$)? If not, point out the steps in your proof where you use that there is no feedback.
+\end{exercise}
+
+\begin{exercise}[Z-channel]
+The following channel is known as the \emph{Z-channel}:
+\begin{center}
+\begin{tikzpicture}
+\fill[black] (0,0) circle (1mm);
+\fill[black] (0,2) circle (1mm);
+\fill[black] (2,0) circle (1mm);
+\fill[black] (2,2) circle (1mm);
+\draw (0,2) -- (2,2);
+\node[anchor=south] at (1,2) {1};
+\draw (0,0) -- (2,0);
+\node[anchor=north] at (1,0) {$1-f$};
+\draw (0,0) -- (2,2);
+\node[anchor=east] at (1,1) {$f$};
+
+\node[anchor=east] at (0,2) {a};
+\node[anchor=east] at (0,0) {b};
+\node[anchor=west] at (2,2) {a};
+\node[anchor=west] at (2,0) {b};
+\end{tikzpicture}
+\end{center}
+Let $p \in [0,1]$ and write $P_X(a) = 1-p$, $P_X(b) = p$.
+
+\begin{subex}
+Express $I(X;Y)$ in terms of $p$ and $f$.
+\end{subex}
+
+\begin{subex}
+Find the optimal input distribution and the channel capacity for $f = 0.3$.
+\end{subex}
+\begin{subex}
+Do the same for $f = 0.15$ and $f = 0.01$. What do you observe?
+\end{subex}
+\end{exercise}
+
+
+
+
+
+
+
+
 
 \begin{exercise}[Encoder and decoder as part of the channel]
 % [CT, 7.16] 
