@@ -123,7 +123,34 @@ One team member should post your answers to
 \end{exercise}
 
 \begin{exercise}[Programming... (5pt)]
-TODO: count bigrams and trigrams? Sample a ``text'' according to these frequencies.
+For a real parameter $0 < p < \infty$, the $L_p$-distance between two probability distributions $P$ and $Q$
+over the finite alphabet $\mathcal{X}$ is defined as 
+\begin{align*}
+\| P - Q \|_p := \left( \sum_{x \in \mathcal{X} } | P(x) - Q(x) |^p \right) ^{(1/p)}
+\end{align*}
+For $p=1$, the value $\frac12 \| P - Q \|_1$ is called the
+\emph{statistical distance} or \emph{total variation distance} 
+  between $P$ and $Q$.
+
+In this exercise, we are going to analyze the letter frequencies of \emph{Alice in
+  Wonderland} in five different languages: English, German, Esperanto,
+Italian, Finnish. Here, we are going to ignore that languages like German and Finnish have important other letters such as {\"a}, {\"o}, {\"u}, and only consider the 26 English letters and space.
+
+\newcommand{\lang}{\textrm{lang}}
+For $\lang \in \{ \textrm{eng, ger, esp, ita, fin} \}$, let $P_{\lang}$ be the frequency distribution of the 26 English letters and space of Alice in Wonderland.
+
+\begin{subex}
+Compute $\| P_{\textrm{eng}} - P_{\textrm{ger}} \|_p$ for $p \in \{0.01, 0.2, 0.5, 1, 1.5, 10, 1000\}$. Plot the $L_p$ distance as function of $0 < p < \infty$.
+\end{subex}
+
+\begin{subex}
+For $p=1$, compute all pairwise distances $\| P_{\lang} - P_{\lang'} \|_1$ for $\lang, \lang' \in \{ \textrm{eng, ger, esp, ita, fin} \}$.
+\end{subex}
+
+\begin{subex}
+
+\end{subex}
+
 \end{exercise}
 
 
