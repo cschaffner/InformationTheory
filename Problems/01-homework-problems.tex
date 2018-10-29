@@ -43,14 +43,14 @@
 	\end{subex}
 \end{exercise}
 
-\begin{exercise}[Multiple-choice test (3pt)]
-A multiple-choice exam has 4 choices for each question. A student has studied enough so that the probability she will know the answer to a question is 0.5, the probability that she will be able to eliminate one choice is 0.25, otherwise all 4 choices seem equally plausible. If she knows the answer she will get the question right. If not she has to guess from the 3 or 4 choices.
-As the teacher you want the test to measure what the student knows. If the student answers a question correctly what’s the probability she knew the answer?
-\end{exercise}
+% \begin{exercise}[Multiple-choice test (3pt)]
+% A multiple-choice exam has 4 choices for each question. A student has studied enough so that the probability she will know the answer to a question is 0.5, the probability that she will be able to eliminate one choice is 0.25, otherwise all 4 choices seem equally plausible. If she knows the answer she will get the question right. If not she has to guess from the 3 or 4 choices.
+% As the teacher you want the test to measure what the student knows. If the student answers a question correctly what’s the probability she knew the answer?
+% \end{exercise}
 
-\begin{exercise}[Probability urn (3pt)]
-There are 7 white and 4 black balls in a urn. You draw three balls in sequence at random. On each draw, if the ball is white you set it aside and if the ball is black you put it back in the urn. What is the probability that the third draw is white? (If you get a black ball it counts as a draw even though you put it back in the urn)
-\end{exercise}
+% \begin{exercise}[Probability urn (3pt)]
+% There are 7 white and 4 black balls in a urn. You draw three balls in sequence at random. On each draw, if the ball is white you set it aside and if the ball is black you put it back in the urn. What is the probability that the third draw is white? (If you get a black ball it counts as a draw even though you put it back in the urn)
+% \end{exercise}
 
 \begin{exercise}[Birthday party (9pt)]
  20 ILLC members are having a party.
@@ -122,33 +122,52 @@ One team member should post your answers to
   discussion forum}, don't forget to state your team name.
 \end{exercise}
 
-\begin{exercise}[Programming... (5pt)]
-For a real parameter $0 < p < \infty$, the $L_p$-distance between two probability distributions $P$ and $Q$
+\newcommand{\lang}{\textit{lang}}
+\newcommand{\coll}{\textit{coll}}
+
+\begin{exercise}[Programming: Computing Variational Distance (8pt)]
+The \emph{total variation distance} between two probability distributions $P$ and $Q$
 over the finite alphabet $\mathcal{X}$ is defined as 
 \begin{align*}
-\| P - Q \|_p := \left( \sum_{x \in \mathcal{X} } | P(x) - Q(x) |^p \right) ^{(1/p)}
+\| P - Q \| := \frac12 \sum_{x \in \mathcal{X} } | P(x) - Q(x) | 
 \end{align*}
-For $p=1$, the value $\frac12 \| P - Q \|_1$ is called the
-\emph{statistical distance} or \emph{total variation distance} 
-  between $P$ and $Q$.
+This distance measure is symmetric, fulfills the triangle inequality and is normalized, i.e.\ it is 0 iff $P=Q$ and 1 iff $P$ and $Q$ have disjoint support.
+
+The \emph{collision probability} of a distribution $P$ over finite alphabet $\mathcal{X}$ is defined as
+\begin{align*}
+Coll(P) := \sum_{x \in \mathcal{X}} P(x)^2
+\end{align*}
 
 In this exercise, we are going to analyze the letter frequencies of \emph{Alice in
   Wonderland} in five different languages: English, German, Esperanto,
-Italian, Finnish. Here, we are going to ignore that languages like German and Finnish have important other letters such as {\"a}, {\"o}, {\"u}, and only consider the 26 English letters and space.
+Italian and Finnish. You can find all necessary files here: \url{https://github.com/cschaffner/InformationTheory/tree/master/Problems/HW1}. Hereby, we are going to consider only the 26 English letters (without space) and ignore that languages like German and Finnish have important other letters such as {\"a}, {\"o}, {\"u}. 
 
-\newcommand{\lang}{\textrm{lang}}
-For $\lang \in \{ \textrm{eng, ger, esp, ita, fin} \}$, let $P_{\lang}$ be the frequency distribution of the 26 English letters and space of Alice in Wonderland.
+For $\lang \in \{ \textrm{eng, ger, esp, ita, fin} \}$, let $P_{\lang}$ be the frequency distribution of the 26 English letters (without space) of Alice in Wonderland.
 
-\begin{subex}
-Compute $\| P_{\textrm{eng}} - P_{\textrm{ger}} \|_p$ for $p \in \{0.01, 0.2, 0.5, 1, 1.5, 10, 1000\}$. Plot the $L_p$ distance as function of $0 < p < \infty$.
+\begin{subex}[(2pt)]
+Compute all pairwise variational distances $\| P_{\lang} - P_{\lang'} \|$ for $\lang \neq \lang' \in \{ \textrm{eng, ger, esp, ita, fin} \}$. Which two languages are closest, which two are furthest apart in terms of variational distance?
 \end{subex}
 
-\begin{subex}
-For $p=1$, compute all pairwise distances $\| P_{\lang} - P_{\lang'} \|_1$ for $\lang, \lang' \in \{ \textrm{eng, ger, esp, ita, fin} \}$.
+\begin{subex}[(2pt)]
+Compute the five collision probabilities $Coll(P_{\lang})$ for  $\lang \in \{ \textrm{eng, ger, esp, ita, fin} \}$. 
 \end{subex}
 
-\begin{subex}
+\begin{subex}[(1pt)]
+ Why is it called collision probability?
+\end{subex}
 
+\begin{subex}[(2pt)]
+  You are \href{https://github.com/cschaffner/InformationTheory/blob/master/Problems/HW1/permuted_cipher.txt}{given the file} {\tt permuted\_cipher.txt} that has been encrypted by (first removing spaces and then) shuffling around the
+characters (i.e.\ by applying a permutation cipher). Note that this kind of 
+encryption preserves the letter frequencies. Compute the frequency distribution
+$P_{\textit{cipher}}$ and figure out which language the original text was by
+picking the one that minimizes by the variational distance
+$\| P_{\textit{cipher}} - P_{\lang}\|$ with $\lang \in \{
+\textrm{eng, ger, esp, ita, fin} \}$ as above.
+\end{subex}
+
+\begin{subex}[(1pt)]
+Would you have picked the same language when comparing the collision probability $Coll(P_{\textit{cipher}})$ to the ones above?
 \end{subex}
 
 \end{exercise}
