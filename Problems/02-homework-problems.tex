@@ -42,7 +42,7 @@ X = (A + B) \mod 2, \ \ \ \ \ Y = (A \cdot B) \mod 2, \ \ \ \ \ Z = |A - B|.
 \end{exercise}
 
 \begin{exercise}[Mutual information (2pt)]
-Let the binary random variables $X$ and $Y$ be defined by the joint probability distribution $P_{XY}(00) = 0.3$, $P_{XY}(01) = 0.1$, $P_{XY}(10) = 0.2$, $P_{XY}(11) = 0.4$.
+Let the binary random variables $X$ and $Y$ be defined by the joint probability distribution $P_{XY}(00) = 3/7$, $P_{XY}(01) = 1/7$, $P_{XY}(10) = 1/7$, $P_{XY}(11) = 2/7$.
 
 %in the following table:
 %\begin{center}
@@ -70,16 +70,21 @@ Let $X$ be a random variable, and let $f$ be a function of $X$.
 \end{exercise}
 
 
-\begin{exercise}[Relative entropy (9pt)]
-This exercise is about relative entropy, as defined in Section 1.7 of the \href{https://github.com/cschaffner/InformationTheory/raw/master/Script/InfTheory3.pdf}{lecture notes}. 
+\begin{exercise}[Relative and cross entropy (9pt)]
 	\begin{subex}[(5pt)]
 	Prove that for any two distributions $P$ and $Q$ over $\mathcal{X}$, $D(P||Q) \geq 0$, and that equality holds if and only if $P = Q$.
 	\end{subex}
-	\begin{subex}[(3pt)]
-	Show that the mutual information can be expressed in terms of the relative entropy, i.e.\ that $I(X;Y) = D(P_{XY}||P_XP_Y)$.
-	\end{subex}
 	\begin{subex}[(1pt)]
-	Use (a) and (b) to show that $H(X|Y) \leq H(X)$.
+	We have seen that the mutual information can be expressed in
+        terms of the relative entropy, i.e.\ that $I(X;Y) =
+        D(P_{XY}||P_X \cdot P_Y)$. Use (a) and this fact to show that $H(X|Y) \leq H(X)$.
+	\end{subex}
+	\begin{subex}[(2pt)]
+	We have seen a relation between relative entropy and cross
+        entropy in Intro/Team Quiz 02. Use this relation to express
+        the mutual information $I(X;Y)$ in terms of entropies of $X$
+        and $Y$ and of the cross entropy $H_c$ of $P_{XY}$ and $P_X
+        \cdot P_Y$.
 	\end{subex}
 \end{exercise}
 
