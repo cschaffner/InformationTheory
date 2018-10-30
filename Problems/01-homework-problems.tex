@@ -19,10 +19,48 @@
 
 \homeworkproblems
 
+\begin{exercise}[Two coins and a die (7pt)]
+	You have two (fair) coins and a (fair) 4-sided die with outcomes $\{1,2,3,4\}$. Let $X$ be the number of
+	heads after flipping the two coins and let $Y$ be the result of rolling the
+	die. Let $Z$ be the average of $X$ and $Y$.
+	\begin{subex}[(2pt)]
+		What is the distribution $P_Z$ of $Z$?
+	\end{subex}
+	\begin{subex}[(3pt)]
+		Compute the variations of $X$, $Y$ and $Z$.	
+	\end{subex}
+	\begin{subex}[(2pt)]
+		You play the following game. If $2X \ge Y$, you win $X^2$ euros and
+		otherwise you lose 1 euro. What is your expected total gain or loss after
+		playing this game $40$ times?
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Expectation and variance (7pt)]
+	\begin{subex}[(2pt)]
+		Show that expectation is linear: for arbitrary $a,b \in \mathbb{R}$ and arbitrary real random variables $X,Y$,
+		\[
+		\mathbb{E}[aX + bY] = a\mathbb{E}[X] + b \mathbb{E}[Y].
+		\]
+	\end{subex}
+	\begin{subex}[(2pt)]
+		Show that for arbitrary $a \in \mathbb{R}$ and an arbitrary real random variable $X$,
+		\[
+		Var[aX] = a^2Var[X].
+		\]
+	\end{subex}
+	\begin{subex}[(3pt)]
+		Show that if two real random variables $X$ and $Y$ are independent, then
+		\[Var[X+Y] = Var[X] + Var[Y].\]
+		\textbf{Hint:} start by showing that if $X$ and $Y$ are independent, then $\mathbb{E}[X]\mathbb{E}[Y] = \mathbb{E}[XY]$.
+		\\ Does the converse also hold, i.e., are $X$ and $Y$ independent whenever $Var[X+Y] = Var[X] + Var[Y]$? If so, give a proof. If not, give a counterexample.
+	\end{subex}
+\end{exercise}
+
 \begin{exercise}[Deriving the weak law of large numbers (9pt)]
 	\begin{subex}[(2pt)] (Markov's inequality) For any real non-negative random variable $X$ and any $t > 0$, show that
 	\[
-	P_X(X \geq t) \leq \frac{\mathbb{E}[X]}{t}\, .
+	P[X \geq t] \leq \frac{\mathbb{E}[X]}{t}\, .
 	\]
 \end{subex}
 \begin{subex}[(1pt)]
@@ -31,70 +69,46 @@
 
 	\begin{subex}[(3pt)] (Chebyshev's inequality.) Let $Y$ be a random variable with mean $\mu$ and variance $\sigma^2$. Show that for any $\varepsilon > 0$,
 	\[
-	P(|Y - \mu| \geq \varepsilon) \leq \frac{\sigma^2}{\varepsilon^2} \, .
+	P[|Y - \mu| \geq \varepsilon] \leq \frac{\sigma^2}{\varepsilon^2} \, .
 	\]
 	\textbf{Hint:} Define a random variable $X := (Y - \mu)^2$.
 	\end{subex}
-	\begin{subex}[(3pt)] (The weak law of large numbers.) Let $Z_1, Z_2, ..., Z_n$ real i.i.d. random variables with mean $\mu = \mathbb{E}[Z_i]$ and variance $\sigma^2 = \mathbb{E}[(X_i - \mu)^2] < \infty$. Define the random variables $S_n = \frac{1}{n} \sum_{i=1}^n Z_i$. Show that
+	\begin{subex}[(3pt)] (The weak law of large numbers.) Let $Z_1, Z_2, ..., Z_n$ real i.i.d. random variables with mean $\mu = \mathbb{E}[Z_i]$ and variance $\sigma^2 = \mathbb{E}[(Z_i - \mu)^2] < \infty$. Define the random variables $S_n = \frac{1}{n} \sum_{i=1}^n Z_i$. Show that
 	\[
-	P(|S_n - \mu | \geq \varepsilon) \leq \frac{\sigma^2}{n\varepsilon^2}\, .
+	P[|S_n - \mu | \geq \varepsilon] \leq \frac{\sigma^2}{n\varepsilon^2}\, .
 	\]
-	Thus, $P(|S_n - \mu| \geq \varepsilon) \to 0$ as $n \to \infty$. This is known as the weak law of large numbers (which we will use heavily in Week 03).
+	Thus, $P[|S_n - \mu| \geq \varepsilon] \to 0$ as $n \to \infty$. This is known as the weak law of large numbers (which we will use heavily in Week 03).
 	\end{subex}
 \end{exercise}
 
-% \begin{exercise}[Multiple-choice test (3pt)]
-% A multiple-choice exam has 4 choices for each question. A student has studied enough so that the probability she will know the answer to a question is 0.5, the probability that she will be able to eliminate one choice is 0.25, otherwise all 4 choices seem equally plausible. If she knows the answer she will get the question right. If not she has to guess from the 3 or 4 choices.
-% As the teacher you want the test to measure what the student knows. If the student answers a question correctly what’s the probability she knew the answer?
-% \end{exercise}
+ \begin{exercise}[Multiple-choice test (3pt)]
+ A multiple-choice exam has 4 choices for each question. A student has studied enough so that the probability she will know the answer to a question is 0.5, the probability that she will be able to eliminate one choice is 0.25, otherwise all 4 choices seem equally plausible. If she knows the answer she will get the question right. If not she has to guess from the 3 or 4 choices.
+ 
+ As the teacher you want the test to measure what the student knows. If the student answers a question correctly, what is the probability she knew the answer? Give your answer with three decimals of precision.
+ \end{exercise}
 
 % \begin{exercise}[Probability urn (3pt)]
 % There are 7 white and 4 black balls in a urn. You draw three balls in sequence at random. On each draw, if the ball is white you set it aside and if the ball is black you put it back in the urn. What is the probability that the third draw is white? (If you get a black ball it counts as a draw even though you put it back in the urn)
 % \end{exercise}
 
-\begin{exercise}[Birthday party (9pt)]
- 20 ILLC members are having a party.
-
-\begin{subex}[(3pts)]
-To prepare, they need to choose 3 people to set the table, 2 people to bake cake and 6 people to clean up. Each person can only do 1 task (this doesn't add up to 20, the rest of the people don't help). In how many different ways can they choose which people perform these tasks?
-\end{subex}
-\begin{subex}[(3pts)]
-The party crowd consists of 5 staff members and 15 students, and tea and coffee is served after the cake. It turns out that all staff members don't like tea. If they only give tea to 10 of the 20 people, what is the probability that only students get tea?
-\end{subex}
-\begin{subex}[(3pts)]
-If they only give tea to 10 of the 20 people, what is the probability that 9 students and 1 staff member gets tea?
-\end{subex}
-\end{exercise}
-
-\begin{exercise}[Expectation and variance (4pt)]
-	\begin{subex}[(2pt)]
-	Show that expectation is linear: for arbitrary $a,b \in \mathbb{R}$ and arbitrary real random variables $X,Y$,
-	\[
-	\mathbb{E}[aX + bY] = a\mathbb{E}[X] + b \mathbb{E}[Y].
-	\]
-	\end{subex}
-	\begin{subex}[(2pt)]
-	Use Jensen's inequality to show that $\mbox{Var}(X) \geq 0$ for any $X$.
-	\end{subex}
-\end{exercise}
+%\begin{exercise}[Birthday party (9pt)]
+% 20 ILLC members are having a party.
+%
+%\begin{subex}[(3pts)]
+%To prepare, they need to choose 3 people to set the table, 2 people to bake cake and 6 people to clean up. Each person can only do 1 task (this doesn't add up to 20, the rest of the people don't help). In how many different ways can they choose which people perform these tasks?
+%\end{subex}
+%\begin{subex}[(3pts)]
+%The party crowd consists of 5 staff members and 15 students, and tea and coffee is served after the cake. It turns out that all staff members don't like tea. If they only give tea to 10 of the 20 people, what is the probability that only students get tea?
+%\end{subex}
+%\begin{subex}[(3pts)]
+%If they only give tea to 10 of the 20 people, what is the probability that 9 students and 1 staff member gets tea?
+%\end{subex}
+%\end{exercise}
 
 
-\begin{exercise}[Two coins and a die (8pt)]
-  You have two (fair) coins and a (fair) 4-sided die with outcomes $\{1,2,3,4\}$. Let $X$ be the number of
-  heads after flipping the two coins and let $Y$ be the result of rolling the
-  die. Let $Z$ be the average of $X$ and $Y$.
-\begin{subex}[(2pt)]
-What is the distribution $P_Z$ of $Z$?
-\end{subex}
-  \begin{subex}[(3pt)]
-    Compute the variations of $X$, $Y$ and $Z$.	
-  \end{subex}
-  \begin{subex}[(3pt)]
-    You play the following game. If $2X \ge Y$, you win $X^2$ euros and
-    otherwise you lose 1 euro. What is your expected total gain or loss after
-    playing this game $40$ times?
-  \end{subex}
-\end{exercise}
+
+
+
 
 
 \begin{exercise}[Fermi estimates (8pt)]
@@ -146,10 +160,14 @@ For $\lang \in \{ \textrm{eng, ger, esp, ita, fin} \}$, let $P_{\lang}$ be the f
 
 \begin{subex}[(2pt)]
 Compute all pairwise variational distances $\| P_{\lang} - P_{\lang'} \|$ for $\lang \neq \lang' \in \{ \textrm{eng, ger, esp, ita, fin} \}$. Which two languages are closest, which two are furthest apart in terms of variational distance?
+
+\textbf{Note:} for this exercise and any future programming exercises, you do not have to submit your code. In the pdf that you hand in, describe in a few sentences which general strategy you used (e.g., what quantities did you compute and in what order?), any choices you made (e.g., how did you treat uppercase letters? How did you deal with edge cases?), and any `sanity check' computations you may have performed (e.g., did you check what the variational distance between a text file and itself was?) By adding this information, you may still receive partial credit for your approach, even if your final numerical answer is incorrect.
 \end{subex}
 
 \begin{subex}[(2pt)]
 Compute the five collision probabilities $Coll(P_{\lang})$ for  $\lang \in \{ \textrm{eng, ger, esp, ita, fin} \}$. 
+
+\textbf{Note:} You do not have to submit your code.
 \end{subex}
 
 \begin{subex}[(1pt)]
@@ -157,13 +175,15 @@ Compute the five collision probabilities $Coll(P_{\lang})$ for  $\lang \in \{ \t
 \end{subex}
 
 \begin{subex}[(2pt)]
-  You are \href{https://github.com/cschaffner/InformationTheory/blob/master/Problems/HW1/permuted_cipher.txt}{given the file} {\tt permuted\_cipher.txt} that has been encrypted by (first removing spaces and then) shuffling around the
+  You are \href{https://github.com/cschaffner/InformationTheory/blob/master/Problems/HW1/permuted_cipher.txt}{given the file} {\texttt{permuted\_cipher.txt}} that has been encrypted by (first removing spaces and then) shuffling around the
 characters (i.e.\ by applying a permutation cipher). Note that this kind of 
 encryption preserves the letter frequencies. Compute the frequency distribution
 $P_{\textit{cipher}}$ and figure out which language the original text was by
 picking the one that minimizes by the variational distance
 $\| P_{\textit{cipher}} - P_{\lang}\|$ with $\lang \in \{
 \textrm{eng, ger, esp, ita, fin} \}$ as above.
+
+\textbf{Note:} You do not have to submit your code.
 \end{subex}
 
 \begin{subex}[(1pt)]
