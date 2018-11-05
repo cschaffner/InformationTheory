@@ -2,7 +2,7 @@
 
 %% Settings
 \newcommand\problemset{2}
-\newcommand\deadline{Wednesday, 21 November 2018, 12:00h}
+\newcommand\deadline{Wednesday, 14 November 2018, 12:00h}
 \newif\ifcomments
 \commentsfalse % hide comments
 %\commentstrue % show comments
@@ -39,7 +39,7 @@ X = (A + B) \mod 2, \ \ \ \ \ Y = (A \cdot B) \mod 2, \ \ \ \ \ Z = |A - B|.
 	Compute $H(AB)$, i.e.\ the joint entropy of $A$ and $B$.
 	\end{subex}
 	\begin{subex}[(2pt)]
-	A random variable $M$ describes whether the sum $A + B$ is strictly larger than seven, between five and seven (both included) or scrictly smaller than five. How much entropy is present in $M$?
+	A random variable $M$ descrbies whether the sum $A + B$ is strictly larger than seven, between five and seven (both included) or strictly smaller than five. How much entropy is present in $M$?
 	\end{subex}
 \end{exercise}
 
@@ -84,29 +84,33 @@ Let $X$ be a random variable, and let $f$ be a function of $X$.
 	\begin{subex}[(2pt)]
 	We have seen a relation between relative entropy and cross
         entropy in Intro/\href{https://canvas.uva.nl/courses/2205/assignments/27821}{Team Quiz 02}. Use this relation to express
-        the mutual information $I(X;Y)$ in terms of entropies of $X$
-        and $Y$ and of the cross entropy $H_c$ of $P_{XY}$ and $P_X
+        the mutual information $I(X;Y)$ in terms of Shannon entropies
+        of $X$ and $Y$ (such as $H(X), H(Y), H(X|Y), H(Y|X), H(YX)$) and of the cross entropy $H_c$ of $P_{XY}$ and $P_X
         \cdot P_Y$.
 	\end{subex}
 \end{exercise}
 
 
 
-\begin{exercise}[Programming (5pt)]
+\begin{exercise}[Programming (8pt)]
+	\textbf{Note:} You do not have to hand in your code. As before, describe briefly what you did to reach your answer, what choices you made, and how you treated edge cases if those arose.
 	\begin{subex}[(1pt)]
 	In the \href{https://canvas.uva.nl/courses/2205/assignments/5648}{first programming quiz} for this module, you computed the entropy of sampling a single letter from the story of Jack and the beanstalk.
 	
 	If you instead decided to sample a single \emph{word} from the same story, do you expect the entropy to be higher or lower compared to sampling a single letter?
 	\end{subex}
-	\begin{subex}[(1pt)]
-	In the \href{https://canvas.uva.nl/courses/2205/assignments/5668}{second programming quiz} for this module, you computed the entropy of the second letter given the first when sampling a pair of letters from the story of Jack and the beanstalk.
-	
-	If you instead decided to sample triples of letters from the same stories (again including spaces), how would the entropy of the last letter given the first two letters compare? Do you expect it to be higher or lower than the entropy when sampling pairs as before?
-	\end{subex}
 	\begin{subex}[(3pt)]
-	Select one of your predictions (either subquestion (a) or (b)), and verify its correctness by writing a program that computes the entropy explicitly. Use \href{https://canvas.uva.nl/files/61660/download?download_frd=1}{the same text file} as input.
-	
-	\textbf{Note:} You do not have to hand in your code. As before, describe briefly what you did to reach your answer, what choices you made, and how you treated edge cases if those arose.
+	Verify your answer from (a) by writing a program that computes the entropy explicitly. Use \href{https://canvas.uva.nl/files/63724/download?download_frd=1}{the same text file} as input.
+      \end{subex}
+      \begin{subex}[(1pt)]
+	In the \href{https://canvas.uva.nl/courses/2205/assignments/5668}{second programming quiz} for this module, you computed the entropy of the second letter given the first when sampling a pair of letters from the story of Jack and the beanstalk. Let $P_{XY}$ denote the joint distribution where $X$ is the first and $Y$ is the second letter (again negleticing the beginning and end of the text).
+
+        Explain in words why $P_X = P_Y$.
+      \end{subex}
+      \begin{subex}[(2pt)] For $P_{XY}$ the bigram distribution from above, write a program to compute the cross entropy $H_C(P_{XY} , P_X \cdot P_Y)$ between the bigram distribution and the independent single-letter distribution. 
+	\end{subex}
+	\begin{subex}[(1pt)]
+Express in words what this quantity  $H_C(P_{XY} , P_X \cdot P_Y)$ means.
 	\end{subex}
 \end{exercise}
 
