@@ -66,34 +66,24 @@ Let $X$ be a random variable which takes on values in the finite set $\mathcal{X
 Construct a binary symbol code with a finite number of codewords that is uniquely decodable, but for which there exists an \emph{infinite} binary string that can be decoded in more than one way.
 \end{bonusexercise}
 
-\begin{exercise}
+\begin{exercise}[Kraft's inequality for Huffman codes]
 Prove the following statement. 
 If $|\mathcal{X}| >1$, then the word lengths of a binary Huffman code for the source $P_X$ must satisfy Kraft's inequality with equality, i.e. $\sum_i 2^{-\ell_i} = 1$.
 \end{exercise}
 
 
-
-\begin{bonusexercise}[Optimal codeword lengths]
+\begin{exercise}[Optimal codeword lengths]
 Although the codeword lengths of an optimal variable-length code are complicated functions of the source probabilities, it can be said that less probable symbols are encoded into longer codewords. Suppose that the message probabilities are given in decreasing order $p_1 > p_2 \geq \cdots \geq p_m$.
-
 \begin{subex}
-For a binary code for the above source with the property that all code words have length at least 2, let $C_{xy}$ denote the set of all codewords starting with the two-bitstring $xy$. Assume 
+For a binary code for the above source with the property that all code words have length at least 2, let $C_{xy}$ denote the set of all codewords starting with the two-bitstring $xy \in \{0,1\}^2$, and let $P(C_{xy})$ denote the sum of the message probabilities of codewords in $C_{xy}$. Assume that $C_{00}$ contains the codeword corresponding to message probability $p_1 > 2/5$, and furthermore it holds that $P(C_{01}) \geq P(C_{10}) \geq P(C_{11})$. Find a way to improve the average codeword length of this code.
 \end{subex}
 \begin{subex}
 	Prove that for any binary Huffman code, if the most probable message symbol has probability $p_1 > 2/5$, then that symbol must be assigned a codeword of length 1.
-	\end{subex}
-	\begin{subex}
+\end{subex}
+\begin{subex}
 	Prove that for any binary Huffman code, if the most probable message symbol has probability $p_1 < 1/3$, then that symbol must be assigned a codeword of length $\geq 2$.
-	\end{subex}
-\end{bonusexercise}
-
-
-
-
-
-
-
-
+\end{subex}
+\end{exercise}
 
 
 \end{document}
