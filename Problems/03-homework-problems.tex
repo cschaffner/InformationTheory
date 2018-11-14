@@ -19,20 +19,20 @@
 
 \homeworkproblems
 
+Unless otherwise stated, you should provide exact answers rather than rounded numbers (e.g., $\log 3$ instead of 1.585) for non-programming exercises.
 
-\begin{exercise}[Huffman Coding]
-	\begin{subex}[(4pt)]
-    Consider the binary source $P_X$ with $P_X(0) = \frac{1}{8}$ and $P_X(1) = \frac{7}{8}$.
-    
+\begin{exercise}[Huffman Coding (8pt)]
+Consider the binary source $P_X$ with $P_X(0) = \frac{1}{8}$ and $P_X(1) = \frac{7}{8}$.
+	\begin{subex}[(1pt)]
     Design a Huffman code for $P_X$. Describe, in order, which source symbols you combine, and list the final codebook. What is the average codeword length?
 	\end{subex}
-\begin{subex}[(4pt)]
+\begin{subex}[(1pt)]
 	Design a Huffman code for blocks of $N=2$ bits drawn from the source $P_X$. Describe, in order, which source symbols you combine, and list the final codebook. What is the average codeword length?
 \end{subex}
-\begin{subex}[(4pt)]
+\begin{subex}[(1pt)]
 	Design a Huffman code for blocks of $N=3$ bits drawn from the source $P_X$. Describe, in order, which source symbols you combine, and list the final codebook. What is the average codeword length?
 \end{subex}
-\begin{subex}[(4pt)]
+\begin{subex}[(2pt)]
 	For the three codes you designed ($N=1,2,3$), divide the average codeword length by $N$, and compare these values to the optimal length, i.e., $H(X)$. What do you observe?
 \end{subex}
 	\begin{subex}[(1pt)]
@@ -53,7 +53,7 @@
 
 
 
-\begin{exercise}[Inefficiency when using the wrong code]
+\begin{exercise}[Inefficiency when using the wrong code (8pt)]
 \begin{subex}[(2pt)]
 Given are two distributions $P_X$ and $Q_X$ for the same set $\mathcal{X} = \{\mathtt{a,b,c,d}\}$:
 \[
@@ -65,10 +65,10 @@ Q_X(x) & 1/2&1/4&1/8&1/8\\
 \]
 Design an optimal prefix-free code for $Q_X(x)$.
 \end{subex}
-\begin{subex}[(4pt)]
+\begin{subex}[(1pt)]
 What is the expected codeword length of the code you just designed? (Three decimals precision)
 \end{subex}
-\begin{subex}[(4pt)]
+\begin{subex}[(1pt)]
 What is the expected codeword length if you use this code to encode the source $P_X$? (Three decimals precision)
 \end{subex}
 \begin{subex}[(4pt)]
@@ -108,43 +108,42 @@ the sum of the probabilities of all symbols less than $i$. Then the Shannon code
 	\end{subex}
 \end{exercise}
 
-\begin{exercise}[Sampling from any distribution using random bits]
+\begin{exercise}[Sampling from any distribution using random bits (10pt)]
 In this exercise, we come up with a strategy to sample from an arbitrary distribution $P_X$ using fair random bits (for example, the outcome of a sequence of fair coin tosses).
-	\begin{subex}
+	\begin{subex}[(1pt)]
 	Let $Z_1$ be a random variable with $\mathcal{Z}_1 = \{a,b,c\}$ and $P_{Z_1}(a) = 1/2$, $P_{Z_1}(b) = P_{Z_1}(c) = 1/4$. Come up with a strategy to sample from $X$ using a number of fair coin tosses. How many coin tosses do you expect to do? How does this compare to the entropy of $Z_1$?
 	\end{subex}
-	\begin{subex}
+	\begin{subex}[(1pt)]
 	Consider the standard binary representation of some $p_i \in [0,1)$. Let the \emph{atoms} of this representation be the set $At_i := \{2^{-k} \mid \mbox{ the } k^{th} \mbox{ bit of the binary representation of } p_i \mbox{ is 1.}\}$. Find the atoms for the binary expansion of $p_1 = \frac{1}{3}$ and $p_2 = \frac{2}{3}$.
 	\end{subex}
-	\begin{subex}
-	Show that for any probability distribution with probabilities $(p_1, ..., p_n)$, it is possible to construct a binary tree (the \emph{sampling tree} for this distribution) such that if $2^{-k} \in At_i$ for some $i$, then the tree contains a leaf with label $i$ at depth $k$. \textbf{Hint:} use Kraft's inequality.
+	\begin{subex}[(2pt)]
+	Show that for any probability distribution with probabilities $(p_1, ..., p_n)$, it is possible to construct a binary tree (the \emph{sampling tree} for this distribution) such that if $2^{-k} \in At_i$ for some $i$, then the tree contains a leaf with label $i$ at depth $k$. \textbf{Hint:} use Kraft's inequality. You may use, without proof, the fact that Kraft's inequality also holds for a countably infinite list of codeword lengths.
 	\end{subex}
-	\begin{subex}
+	\begin{subex}[(1pt)]
 	Let $Z_2$ be a random variable with $\mathcal{Z}_2 = \{a,b\}$ and $P_{Z_2}(a) = 1/3$, $P_{Z_2}(b) = 2/3$. Construct the sampling tree for $P_{Z_2}$. Find a fair coin and use it to sample from this distribution, following the strategy described by the sampling tree.
 	\end{subex}
 Let $ET(X)$ denote the expected number of coin tosses when sampling from $X$ using the sampling tree described above. In the rest of this exercise, you will show that this method of sampling from an arbitrary distribution $P_X$ using fair random bits is quite efficient in terms of $ET(X)$.
-	\begin{subex}
-	Given a sampling tree for an arbitrary distribution $P_X$, define a random variable $Y$ with $\mathcal{Y}$ the set of all leafs of the tree, and $P_Y(y) = 2^{-d(y)}$, where $d(y)$ is the depth of the leaf $y$ in the tree. Prove that $H(Y) = ET(X)$.
+	\begin{subex}[(2pt)]
+	Given a sampling tree for an arbitrary distribution $P_X$, define a random variable $Y_X$ with $\mathcal{Y}_X$ the set of all leafs of the tree, and $P_{Y_X}(y) = 2^{-d(y)}$, where $d(y)$ is the depth of the leaf $y$ in the tree. Prove that $H(Y_X) = ET(X)$.
 	\end{subex}
-	\begin{subex}
-	Use the result from (e) to prove that $H(X) \leq ET(X)$.
+	\begin{subex}[(1pt)]
+	Check that $H(Y_{Z_2}|Z_2) < 2$, where $Z_2$ is the random variable given in (d). For the rest of this exercise, you may use (without proof) that $H(Y|X) < 2$ for any distribution $P_X$ and the corresponding random variable $Y_X$ as defined in (e).
 	\end{subex}
-	\begin{subex**}
-	Prove that $H(Y|X) < 2$ (\textbf{Hint:} see Cover and Thomas, Section 5.12)
-	\end{subex**}
-	\begin{subex}
-	Use the result from $\bigstar$ to prove that $ET(X) < H(X) + 2$.
+	\begin{subex}[(2pt)]
+	Use the results from the previous subexercises to prove that $H(X) \leq ET(X) \leq H(X)+2$.
 	\end{subex}
 \end{exercise}
 
 
-\begin{exercise}[Programming project (10pt)]
+\begin{exercise}[Programming project (7pt)]
+\begin{subex}[(4pt)]
 Invent a compressor and uncompressor for a source file of $N=10000$
-bits each having probability $p=0.01$ of being a $1$. Implement them
-and estimate how well your method works.
-
-Evaluate the performance of your algorithm on \href{https://github.com/cschaffner/InformationTheory/raw/master/Problems/random01.txt}{this particular
+bits each having probability $p=0.01$ of being a $1$ and probability $1-p = 0.99$ of being a $0$. Your program should compress the $N=10000$ bits into a string that is as small as possible, but still allows you to uncompress into the original string correctly. Again, you do not have to hand in your code. Instead, give a high-level description of your approach.
+\end{subex}
+\begin{subex}[(3pt)]
+Estimate how well your method works. In particular, compare it to a relevant quantity related to the entropy of the source. You can evaluate the performance of your algorithm on \href{https://github.com/cschaffner/InformationTheory/raw/master/Problems/random01.txt}{this particular
   file}. Use \href{https://repl.it/@ChrisSchaffner/RandomFile}{this program} to generate more testdata.
+\end{subex}
 \end{exercise}
 
 
