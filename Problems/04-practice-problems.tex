@@ -28,25 +28,28 @@ A discrete memoryless source emits a sequence of of statistically independent bi
 provide codewords for all sequences with three or fewer 1's.
 	\end{subex}
 	\begin{subex}
-	Calculate the probability of observing a source sequence for which no codeword has
-been assigned.
+		In the first homework problem set, you were asked to prove Markov's inequality.
+		Use it to bound the probability of observing a source sequence for
+		which no codeword has been assigned.
 	\end{subex}
+    \begin{subex}
+    	In the first homework problem set, you were also asked to prove Chebyshev's inequality.
 	\begin{subex}
-	In the first homework problem set, you were asked to prove Chebyshev's inequality.
-	Use it to bound the probability of observing a source sequence for
-which no codeword has been assigned. Compare this bound with the actual probability computed
-in part (b).
+	Calculate the actual probability of observing a source sequence for which no codeword has
+been assigned. Compare this number with the bounds computed
+in part (b) and (c).
+	\end{subex}
 	\end{subex}
 \end{exercise}
 
 
 
-\begin{exercise}[Entropy diagram]
+\begin{exercise}[The middle part of the entropy diagram]
 Show that the value
 \[
 R(X;Y;Z) = I(X;Y) - I(X;Y|Z)
 \]
-is invariant under permutations of its arguments.
+is invariant under permutations of its arguments, using only the definitions and property on the canvas page for \href{https://canvas.uva.nl/courses/2205/pages/definition-mutual-information?module_item_id=17286}{mutual information} and \href{https://canvas.uva.nl/courses/2205/pages/definition-conditional-mutual-information?module_item_id=26474}{conditional mutual information}.
 \end{exercise}
 
 \begin{exercise}[]
@@ -77,7 +80,21 @@ I(X_1;X_2), I(X_2;X_3|X_1), ..., I(X_{n-1};X_n|X_1, ..., X_{n-2}).
 	\[
 	Z_n := \frac{P_{X^n}({X^n})P_{Y^n}(Y^n)}{P_{X^nY^n}(X^n,Y^n)}.
 	\]
-	What does $\frac{1}{n} \log Z_n$ converge to in probability? (\textbf{Hint:} look at the proof of the AEP for inspiration.) What does $Z_n$ converge to?
+	What does $\frac{1}{n} \log Z_n$ converge to in probability? (\textbf{Hint:} look at the proof of the AEP for inspiration.)
+\end{exercise}
+
+\begin{exercise}[Bernoulli typical sets]
+	Let $X_i$ be i.i.d. random variables, distributed according to a Bernoulli($p$) distribution: that is, $P_{X_i}(1) = p$ and $P_{X_i}(0) = 1-p$. Denote with $A_{\varepsilon}^{(n)}(p)$ the typical set for $X_1, ..., X_n$.
+	
+	\begin{subex}
+		Prove that for any $\varepsilon > 0$, $A_{\varepsilon}^{(n)}(1/2) = \{0,1\}^n$.
+	\end{subex}
+	\begin{subex}
+		Prove that for any $\epsilon > 0$, any $p < q \leq 1/2$, and big enough $n$, it holds that $|A_{\varepsilon}^{(n)}(p)| < |A_{\varepsilon}^{(n)}(q)|$.
+	\end{subex}
+\begin{subex}
+	Prove that for any $\epsilon > 0$, any $p \neq q$, and big enough $n$, it holds that $A_{\varepsilon}^{(n)}(p) \cup A_{\varepsilon}^{(n)}(q) = \emptyset$.
+\end{subex}
 \end{exercise}
 
 
