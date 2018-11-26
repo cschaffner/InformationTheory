@@ -11,6 +11,9 @@
 \usepackage[english]{exercises}
 \usepackage{wasysym}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
 \hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
 
 \begin{document}
@@ -49,9 +52,9 @@ Can you generalize the two properties above to Markov chains of $n>4$ random var
 
 
 
-\begin{exercise}[Ces\'{a}ro mean]
-Show that if $a_n \to a$ and $b_n = \frac{1}{n}\sum_{i=1}^n a_i$, then $b_n \to a$. This is Theorem~4.2.3 in Cover \& Thomas.
-\end{exercise}
+% \begin{exercise}[Ces\'{a}ro mean]
+% Show that if $a_n \to a$ and $b_n = \frac{1}{n}\sum_{i=1}^n a_i$, then $b_n \to a$. This is Theorem~4.2.3 in Cover \& Thomas.
+% \end{exercise}
 
 
 
@@ -68,6 +71,38 @@ $H(X_n|X_1, X_2, ..., X_{n-1}, X_{n+1})$ is nonincreasing in $n$.
 \begin{subex}
 $H(X_n|X_1, X_2, ..., X_{n-1}, X_{n+1}, ..., X_{2n})$ is nonincreasing in $n$.
 \end{subex}
+\end{exercise}
+
+
+\begin{exercise}[Entropy rate (33pt)]
+	Consider the following Markov chain:
+	
+	\begin{center}
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+		semithick]
+		\tikzstyle{every state}=[fill=none,draw=black,text=black]
+		\node[state] (A)		 				{\texttt{A}};
+		\node[state] (C)  [below right of=A] 	  {\texttt{C}};
+		\node[state] (B)  [above right of=C] 	  {\texttt{B}};
+		\path (A) edge[bend left=10] node {1} (B)
+				 (B) edge[bend left=10] node {0.7} (C)
+				       edge[bend left=10] node {0.3} (A)
+				 (C) edge[bend left=10] node {0.8} (B)
+				       edge node {0.2} (A);
+		
+		\end{tikzpicture}
+	\end{center}
+	\begin{subex}[(13pt)]
+		Give the transition matrix for this Markov chain, and calculate its stationary distribution. If necessary, round your answers to three decimals precision.
+	\end{subex}
+% 5 pt: transition matrix
+% 5: system of equations to find stationary distribution
+% 3: 1 for every correct outcome
+	\begin{subex}[(20pt)]
+                Assume the initial distribution $X_1$ fulfills that $P_{X_1}(\texttt{A})=1$. Derive the entropy rate $H(\{X_i\})=\lim_{n \to \infty} \frac{1}{n} H(X_1 \ldots X_n)$ for this process. If necessary, round your final answer to three decimals precision.
+	\end{subex}
+% use of Proposition... subtract 2 if aperiodicity and irreducibility is not checked.
+% correct derivation
 \end{exercise}
 
 
