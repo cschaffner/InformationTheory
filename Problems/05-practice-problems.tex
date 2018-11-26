@@ -36,7 +36,7 @@ Show that $W \leftrightarrow (X,Y) \leftrightarrow Z$ is a Markov chain with thr
 Show that $Z \rightarrow Y \rightarrow X \rightarrow W$. Therefore, it is also justified to write $W \leftrightarrow X \leftrightarrow Y \leftrightarrow Z$, as in the case for three RVs.
 \end{subex}
 \begin{subex**}
-Can you generalize the two properties above to Markov chains of $n>4$ random variables?
+Can you generalize the properties above to Markov chains of $n>4$ random variables?
 \end{subex**}
 \end{exercise}
 
@@ -74,7 +74,7 @@ $H(X_n|X_1, X_2, ..., X_{n-1}, X_{n+1}, ..., X_{2n})$ is nonincreasing in $n$.
 \end{exercise}
 
 
-\begin{exercise}[Entropy rate (33pt)]
+\begin{exercise}[Entropy rate]
 	Consider the following Markov chain:
 	
 	\begin{center}
@@ -92,13 +92,13 @@ $H(X_n|X_1, X_2, ..., X_{n-1}, X_{n+1}, ..., X_{2n})$ is nonincreasing in $n$.
 		
 		\end{tikzpicture}
 	\end{center}
-	\begin{subex}[(13pt)]
+	\begin{subex}
 		Give the transition matrix for this Markov chain, and calculate its stationary distribution. If necessary, round your answers to three decimals precision.
 	\end{subex}
 % 5 pt: transition matrix
 % 5: system of equations to find stationary distribution
 % 3: 1 for every correct outcome
-	\begin{subex}[(20pt)]
+	\begin{subex}
                 Assume the initial distribution $X_1$ fulfills that $P_{X_1}(\texttt{A})=1$. Derive the entropy rate $H(\{X_i\})=\lim_{n \to \infty} \frac{1}{n} H(X_1 \ldots X_n)$ for this process. If necessary, round your final answer to three decimals precision.
 	\end{subex}
 % use of Proposition... subtract 2 if aperiodicity and irreducibility is not checked.
@@ -132,7 +132,7 @@ $H(X_n|X_1, X_2, ..., X_{n-1}, X_{n+1}, ..., X_{2n})$ is nonincreasing in $n$.
 
 
 \begin{exercise}[Random walk on a chessboard]
-Consider a 3x3 chessboard. We place a knight (who can move 2 spaces horizontally and 1 vertically or 1 space horizontally and 2 vertically) in the top left corner, and let him perform a random walk on this chessboard, choosing his move uniformly random every time. What is the entropy rate of this process?
+Consider a 3x3 chessboard. We place a \href{https://en.wikipedia.org/wiki/Knight_(chess)}{knight} (who can move 2 spaces horizontally and 1 vertically or 1 space horizontally and 2 vertically) in the top left corner, and let him perform a random walk on this chessboard, choosing his move uniformly random every time. What is the entropy rate of this process?
 \end{exercise}
 
 
