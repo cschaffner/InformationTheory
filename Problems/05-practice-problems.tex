@@ -36,7 +36,8 @@ Show that $W \leftrightarrow (X,Y) \leftrightarrow Z$ is a Markov chain with thr
 Show that $Z \rightarrow Y \rightarrow X \rightarrow W$. Therefore, it is also justified to write $W \leftrightarrow X \leftrightarrow Y \leftrightarrow Z$, as in the case for three RVs.
 \end{subex}
 \begin{subex**}
-Can you generalize the properties above to Markov chains of $n>4$ random variables?
+How would the properties above generalize to Markov chains of $n>4$
+random variables? You don't have to work out the full proofs.
 \end{subex**}
 \end{exercise}
 
@@ -66,7 +67,7 @@ $H(X_n|X_0) = H(X_{-n}|X_0)$
 $H(X_n|X_0) \geq H(X_{n-1}|X_0)$
 \end{subex}
 \begin{subex}
-$H(X_n|X_1, X_2, ..., X_{n-1}, X_{n+1})$ is nonincreasing in $n$.
+$H(X_n|X_1, X_2, ..., X_{n-1})$ is nonincreasing in $n$.
 \end{subex}
 \begin{subex}
 $H(X_n|X_1, X_2, ..., X_{n-1}, X_{n+1}, ..., X_{2n})$ is nonincreasing in $n$.
@@ -99,7 +100,7 @@ $H(X_n|X_1, X_2, ..., X_{n-1}, X_{n+1}, ..., X_{2n})$ is nonincreasing in $n$.
 % 5: system of equations to find stationary distribution
 % 3: 1 for every correct outcome
 	\begin{subex}
-                Assume the initial distribution $X_1$ fulfills that $P_{X_1}(\texttt{A})=1$. Derive the entropy rate $H(\{X_i\})=\lim_{n \to \infty} \frac{1}{n} H(X_1 \ldots X_n)$ for this process. If necessary, round your final answer to three decimals precision.
+                Assume the initial distribution $X_1$ fulfills that $P_{X_1}(\texttt{A})=1$. Derive the entropy rate $H(\{X_i\})=\lim_{n \to \infty} \frac{1}{n} H(X_1 \ldots X_n)$ for this process. If necessary, round your final answer to three decimals precision. You are allowed to use without proof that if a distribution $P_{X_n Y_n}$ converges to $P_{\tilde{X} \tilde{Y}}$ for $n \to \infty$, then $H(X_n|Y_n)$ converges to $H(\tilde{X}|\tilde{Y})$.
 	\end{subex}
 % use of Proposition... subtract 2 if aperiodicity and irreducibility is not checked.
 % correct derivation
@@ -125,16 +126,29 @@ $H(X_n|X_1, X_2, ..., X_{n-1}, X_{n+1}, ..., X_{2n})$ is nonincreasing in $n$.
 
 
 
-
-
-
-
-
-
 \begin{exercise}[Random walk on a chessboard]
-Consider a 3x3 chessboard. We place a \href{https://en.wikipedia.org/wiki/Knight_(chess)}{knight} (who can move 2 spaces horizontally and 1 vertically or 1 space horizontally and 2 vertically) in the top left corner, and let him perform a random walk on this chessboard, choosing his move uniformly random every time. What is the entropy rate of this process?
+Consider a 3x3 chessboard. We place a \href{https://en.wikipedia.org/wiki/Bishop_(chess)}{bishop} (who can move diagonally as far as he likes) on the board, and let him perform a random walk on this chessboard, choosing his move uniformly at random from all legal moves every time. 
+
+\begin{subex}
+You can see this process as random walk on a graph. Draw this graph.
+\end{subex}
+
+\begin{subex}
+Assume the bishop starts in the top left corner of the board. What is the entropy rate of the resulting process? As in the problem above, you are allowed to use without proof that if a distribution $P_{X_n Y_n}$ converges to $P_{\tilde{X} \tilde{Y}}$ for $n \to \infty$, then $H(X_n|Y_n)$ converges to $H(\tilde{X}|\tilde{Y})$.
+\end{subex}
+
 \end{exercise}
 
+
+\begin{exercise}[Bernoulli process]
+Let $X_1, X_2, ...$ be distributed according to the Bernoulli$(p)$ distribution. Consider the associated Markov chain $\{Y_i\}_{i=1}^n$, where $Y_i$ is the number of 1's in the current run of 1's. For example, if $X^n = 101110...$, then $Y^n = 101230....$.
+\begin{subex}
+Find the entropy rate of $X^n$.
+\end{subex}
+\begin{subex}
+Find the entropy rate of $Y^n$
+\end{subex}
+\end{exercise}
 
 
 
