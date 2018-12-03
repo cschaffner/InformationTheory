@@ -1,7 +1,7 @@
 \documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
 
 %% Settings
-\newcommand\problemset{4}
+\newcommand\problemset{6}
 \newcommand\deadline{Wed, , 20:00h}
 \newif\ifcomments
 \commentsfalse % hide comments
@@ -20,62 +20,136 @@
 \homeworkproblems
 
 {\sffamily\noindent
-Your homework must be handed in \textbf{electronically via Moodle before \deadline}. This deadline is strict and late submissions are graded with a 0. At the end of the course, the lowest of your 6 weekly homework grades will be dropped. You are strongly encouraged to work together on the exercises, including the homework. However, after this discussion phase, you have to write down and submit your own individual solution. Numbers alone are never sufficient, always motivate your answers.
+Unless otherwise stated, you should provide exact answers rather than rounded numbers (e.g., $\log 3$ instead of 1.585) for non-programming exercises.
 }
 
-\newcommand{\typsetA}{A^{(n)}_{\varepsilon}}
-\newcommand{\typsetB}{B^{(n)}_{\delta}}
-
-\begin{exercise}[Calculation of the typical set (8pt)]
-To clarify the notion of a typical set $\typsetA$ and the smallest set of high probability $\typsetB$, we will calculate these sets for a simple example. Consider a sequence of i.i.d.\ binary random variables $X_1, X_2, . . . X_n$, where the probability that $P_X(1) = 0.6$ and $P_X(0) = 0.4$.
+\newcommand{\ip}[2]{\langle #1, #2\rangle}
+\begin{exercise}[Hadamard code (11pt)]
+For two $k$-bit strings $x$ and $y$, the inner product is defined as
+\[
+\ip{x}{y} := \sum_{i=1}^k x_i\cdot y_i \ \ \ \ \ \ \ \ \mod 2.
+\]
+Note that the inner product of two strings is a single bit. The $k$-bit Hadamard code is defined such that the codeword of $x$ is the concatenation of all possible inner products with $x$, i.e.
+\[
+\mathtt{enc}(x) := \left(\ip{x}{y}\right)_{y \in \{0,1\}^k}.
+\]
+Here, the $y$ are ordered \href{https://en.wikipedia.org/wiki/Lexicographical_order}{lexicographically}.
 	\begin{subex}[(1pt)]
-	Calculate $H(X)$.
+	Find the codewords for 010 and 1101 using the 3-bit and 4-bit Hadamard codes respectively.
 	\end{subex}
+	\begin{subex}[(1pt)]
+	Give the explicit generator matrix $G^T$ for $k = 3$.
+	\end{subex}
+	\begin{subex}[(2pt)]
+	For a fixed non-zero $x \in \{0,1\}^k$, how many $y \in \{0,1\}^k$ are there such that $\ip{x}{y} = 1$?
+	\end{subex}
+	\begin{subex}[(1pt)]
+	Use (c) to find the minimal distance of the $k$-bit Hadamard code.
+	\end{subex}
+There is some unnecessary redundancy in the Hadamard code. For example, the first bit of $\mathtt{enc}(x)$ is always 0, regardless of what $x$ is, because the inner product with the all-zero string is always 0. The \emph{punctured} $k$-bit Hadamard code attempts to resolve this. It considers only the inner products with strings $y$ such that $y_1 = 1$:
+\[
+\mathtt{enc}'(x) := \left(\ip{x}{y}\right)_{y \in \{1\} \times \{0,1\}^{k-1}}
+\]
 	\begin{subex}[(3pt)]
-	With $n = 25$ and $\varepsilon = 0.1$, which sequences fall in the typical set $\typsetA$? What is the probability of the typical set? How many elements are there in the typical set? (This involves computation of a table of probabilities for sequences with $k$ 1's, $0 \leq k \leq 25$, and finding those sequences that are in the typical set.)
-\\\textbf{Hint:} Here is the table: \url{http://goo.gl/sQCPM0}
+	Find the minimal distance of the punctured $k$-bit Hadamard code using a similar approach as in (c) and (d).
+	\\\textbf{Hint:} there are four cases to consider, depending on the value of the first bit $x_1$ and of the ``tail" $x_2\cdots x_k$.
 	\end{subex}
 	\begin{subex}[(2pt)]
-	How many elements are there in the smallest set that has probability 0.9? In other words, what is $|\typsetB|$ for $n = 25$ and $\delta = 0.1$?
+	Compute the rates of the $k$-bit Hadamard code and the punctured $k$-bit Hadamard code as a function of $k$. Which is better?
 	\end{subex}
-	\begin{subex}[(2pt)]
-	How many elements are there in the intersection $|\typsetA \cap \typsetB|$ of the sets computed in parts (b) and (c)? What is the probability of this intersection?
+	\begin{subex}[(1pt)]
+	What goes wrong if we try to puncture this code again? I.e. what breaks if we define the encoding function for a $k$-bit string as
+	\[
+	\mathtt{enc}''(x) := \left(\ip{x}{y}\right)_{y \in \{1\} \times \{1\} \times \{0,1\}^{k-2}}?
+	\]
 	\end{subex}
 \end{exercise}
 
-\begin{exercise}[Three random variables (3pt)]
-Let $A,B,C$ be random variables such that
-\begin{align*}
-I(A;B) &= 0\\
-I(A;C|B) &= I(A;B|C)\\
-H(A|BC) &= 0
-\end{align*}
-Prove one of the following possible relations between $H(A)$ and $H(C)$:
-\begin{align*}
-H(A)&=H(C) \, ,\\
-H(A) &\leq H(C) \, ,\\
-H(A) &\geq H(C) \, ,\\
-H(A) &< H(C) \, ,\\
-H(A) &> H(C) \, .
-\end{align*}
+\begin{exercise}[Shannon capacity of the complete graph (6pt)]
+A graph $G$ with $n$ vertices $V(G) = \{1,2,...,n\}$ is called complete if it has edges between any two vertices, i.e. $\forall i \neq j \ : \ (i,j) \in E(G)$.
+	\begin{subex}[(2pt)]
+	Compute $\alpha(K_n)$, the independence number of the complete graph of size $n$.
+	\end{subex}
+	\begin{subex}[(2pt)]
+	Show that $K_n \boxtimes K_n = K_{n^2}$.
+	\\\textbf{Hint:} the \LaTeX{} command for $\boxtimes$ is \texttt{$\backslash$boxtimes} (in the \texttt{amssymb} package). See also \href{http://detexify.kirelabs.org/classify.html}{Detexify}.
+	\end{subex}
+	\begin{subex}[(2pt)]
+	Use (a) and (b) to prove that the Shannon capacity of $K_n$ is 0. Note that this result formally confirms the intuition that channels whose confusability graphs are complete are useless for zero-error communication, because all symbols can possibly be confused with each other.
+	\end{subex}
 \end{exercise}
 
-\pagebreak
+\begin{exercise}[Disjoint graphs (5 pt)]
+For two graphs $G$ and $H$, the graph $G + H$ is defined as the disjoint union of the two graphs. Formally, assuming without loss of generality that $V(G) \cap V(H) = \emptyset$, then $V(G + H) = V(G) \cup V(H)$ and $E(G+H) = E(G) \cup E(H)$. (You can think of $G + H$ as $G$ and $H$ ``next to each other''.)
+	\begin{subex}[(2pt)]
+	Prove that $\alpha(G+H) = \alpha(G) + \alpha(H)$.
+	\end{subex}
 
-\begin{exercise}[Piece of cake (2pt)]
-A big cake is repeatedly sliced into two pieces. At every step, the \emph{smaller} part is discarded (or eaten). On the other part the process is continued. At every step, the remaining piece is cut randomly into two pieces with the following proportions:
-\begin{align*}
-\left(\frac{2}{3},\frac{1}{3}\right) &\mbox{ with probability } \frac{3}{4},\\
-\left(\frac{3}{5},\frac{2}{5}\right) &\mbox{ with probability } \frac{1}{4}.\\
-\end{align*}
-For example, three consecutive cuts might result in a piece of cake of size $\frac{3}{5} \cdot \frac{2}{3} \cdot \frac{2}{3}$. Let $T_n$ be the fraction of the cake left after $n$ cuts. Clearly, this fraction $T_n$ decreases exponentially with $n$, i.e. $T_n \approx c^n$ for some real constant $0<c<1$. Determine $c$ for large values of $n$.
+	\begin{subex}[(3pt)]
+	For any three graphs $G,H,L$, it holds that
+	\[
+	(G+H) \boxtimes L = (G \boxtimes L) + (H \boxtimes L)
+	\]
+	and also
+	\[
+	G \boxtimes (H + L) = (G \boxtimes H) + (G \boxtimes L).
+	\]
+	You can verify the above identities for yourself, but you do not have to hand in a proof. Use them to derive that for any natural number $k \in \mathbb{N}$, \[(G + G)^{\boxtimes k} = (G^{\boxtimes k})^{+2^k}.\]
+	\end{subex}
+\end{exercise}
 
-\textbf{Hint:} Let $C_i$ be a random variable describing the fraction of the cake that is cut (and kept) at the $i$th cut, i.e.\ $C_i = \frac{2}{3}$ with probability $\frac{3}{4}$, or $\frac{3}{5}$ otherwise.  Then use the weak law of large numbers.
+\begin{exercise}[Same-parity channel (6pt)]
+Let $\mathcal{X} = \mathcal{Y} = \{1,2,3,4,5,6\}$. In this exercise, you will compute the zero-error Shannon capacity of the noisy channel with transition probabilities $P_{Y|X}(y|x) = 1/3$ if and only if $x$ and $y$ have the same parity (i.e. $x \equiv y \mod 2$).
+	\begin{subex}[(2pt)]
+	Give the confusability graph $G$ of the noisy channel $P_{Y|X}$ described above.
+	\end{subex}
+	\begin{subex}[(4pt)]
+	Compute the Shannon capacity of $G$.
+	\\\textbf{Hint:} use several results from the previous two exercises.
+	\end{subex}
+\end{exercise}
 
+\begin{exercise}[Toggle channel (6pt)]
+Given two channels $(\mathcal{X}_1, P_{Y_1|X_1}, \mathcal{Y}_1)$ and $(\mathcal{X}_2, P_{Y_2|X_2}, \mathcal{Y}_2)$ with $\mathcal{X}_1 \cap \mathcal{X}_2 = \mathcal{Y}_1 \cap \mathcal{Y}_2 = \emptyset$, define the ``union channel'' $(\mathcal{X}, P_{Y|X},\mathcal{Y})$ by allowing the transmitter to choose between sending a signal through either channel 1 or channel 2 (but not both) each time. Let $C$ be the capacity of the new channel, and let $C_1$ and $C_2$ be the capacities of the ``component channels''.
+\begin{subex}[(4pt)]
+Prove that $2^C = 2^{C_1} + 2^{C_2}$. Solve any maximization problems analytically (i.e. by hand).
+\\\textbf{Hint:} think of $P_X$ as a tree, where the first step decides whether to use the first or the second channel.
+\end{subex}
 
+\begin{subex}[(1pt)]
+Use (a) to find the capacity of the following channel (in three decimals precision):
+\begin{center}
+\begin{tikzpicture}
+\fill[black] (0,3) circle (1mm);
+\fill[black] (0,2) circle (1mm);
+\fill[black] (0,1) circle (1mm);
+\fill[black] (2,0) circle (1mm);
+\fill[black] (2,1) circle (1mm);
+\fill[black] (2,2) circle (1mm);
+\fill[black] (2,3) circle (1mm);
 
+\draw (0,3) -- (2,3);
+\draw (0,2) -- (2,2);
+\draw (0,3) -- (2,2);
+\draw (0,2) -- (2,3);
+\draw (0,1) -- (2,1);
+\draw (0,1) -- (2,0);
 
+\node[anchor=south] at (1,3) {0.8};
+\node[anchor=north] at (1,2) {0.8};
+\node at (0.5,2.75) {0.2};
+\node at (0.5,2.25) {0.2};
 
+\node[anchor=south] at (1,1) {0.6};
+\node at (1,0) {0.4};
+
+\end{tikzpicture}
+\end{center}
+\end{subex}
+
+\begin{subex}[(1pt)]
+Use (a) to find the capacity of an arbitrary channel with capacity $C_1$ combined with an ideal channel with $k$ inputs.
+\end{subex}
 \end{exercise}
 
 
