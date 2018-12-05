@@ -54,27 +54,31 @@ Decode 1011, 1111, 1110, and 0011.
 \end{exercise}
 
 \begin{exercise}[Determining the minimal distance]
-Prove that for a linear code $C$ with parity check matrix $H$, the minimal distance $d_{min}$ equals the minimum number of linearly dependent columns in $H$.
+Prove that for a binary linear code $C$ with parity check matrix $H$, the minimal distance $d_{min}$ equals the minimum number of linearly dependent columns in $H$.
 
 Check that this lemma holds for the linear code from the previous exercise.
 \end{exercise}
 
 \begin{exercise}[Symmetric Channels]
-Consider the channel with transition matrix
-\[
-P_{Y|X} = \left[
-\begin{array}{c c c}
-0.3&0.2&0.5\\
-0.5&0.3&0.2\\
-0.2&0.5&0.3
-\end{array}
-\right].
-\]
 Recall that in a transition matrix, the entry in the $x$th row and the $y$th column denotes the conditional probability $P_{Y|X}(y|x)$ that $y$ is received when $x$ has been sent.
 
-A channel is said to be \textbf{symmetric} if the rows of the channel transition matrix $P_{Y|X}$ are permutations of each other, and the columns are permutations of each other. A channel is said to be \textbf{weakly symmetric} if every row of the transition matrix is a permutation of every other row and all the column sums $\sum_x P_{Y|X}(y|x)$ are equal.
+% A channel is said to be \textbf{symmetric} if the rows of the channel
+% transition matrix $P_{Y|X}$ are permutations of each other, and the
+% columns are permutations of each other. For example, consider the channel with transition matrix
+% \[
+% P_{Y|X} = \left[
+% \begin{array}{c c c}
+% 0.3&0.2&0.5\\
+% 0.5&0.3&0.2\\
+% 0.2&0.5&0.3
+% \end{array}
+% \right].
+% \]
 
-For instance, the channel $P_{Y|X}$ above is symmetric, and the channel
+A channel is said to be \textbf{(weakly) symmetric} if every row of the transition matrix is a permutation of every other row and all the column sums $\sum_x P_{Y|X}(y|x)$ are equal.
+
+For instance, % the channel $P_{Y|X}$ above is symmetric, and
+the channel
 \[
 Q_{Y|X} = \left[
 \begin{array}{c c c}
