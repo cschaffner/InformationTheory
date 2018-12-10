@@ -23,38 +23,6 @@
 This week's exercises deal with noisy-channel coding. \practiceinstructions
 }
 
-\begin{exercise}[Symmetric Channels]
-Consider the channel with transition matrix
-\[
-P_{Y|X} = \left[
-\begin{array}{c c c}
-0.3&0.2&0.5\\
-0.5&0.3&0.2\\
-0.2&0.5&0.3
-\end{array}
-\right].
-\]
-Recall that in a transition matrix, the entry in the $x$th row and the $y$th column denotes the conditional probability $P_{Y|X}(y|x)$ that $y$ is received when $x$ has been sent.
-
-A channel is said to be \textbf{symmetric} if the rows of the channel transition matrix $P_{Y|X}$ are permutations of each other, and the columns are permutations of each other. A channel is said to be \textbf{weakly symmetric} if every row of the transition matrix is a permutation of every other row and all the column sums $\sum_x P_{Y|X}(y|x)$ are equal.
-
-For instance, the channel $P_{Y|X}$ above is symmetric, and the channel
-\[
-Q_{Y|X} = \left[
-\begin{array}{c c c}
-\frac{1}{3}&\frac{1}{6}&\frac{1}{2}\\
-\frac{1}{3}&\frac{1}{2}&\frac{1}{6}
-\end{array}
-\right]
-\]
-is weakly symmetric but not symmetric.
-	\begin{subex}
-	Find the optimal input distribution and channel capacity of $Q_{Y|X}$.
-	\end{subex}
-	\begin{subex}
-	Give a general strategy how to compute the capacity of weakly symmetric channels. What is the optimal input distribution?
-	\end{subex}
-\end{exercise}
 
 \begin{exercise}[Multiple Channel Uses]
 Prove the lemma below stating that the capacity per transmission is not increased if we use a discrete memoryless channel many times. For inspiration, look again at the proof of the converse of Shannon's noisy-channel coding theorem.
@@ -65,46 +33,6 @@ Prove the lemma below stating that the capacity per transmission is not increase
 
 Does your proof also work in case of coding with feedback (i.e.\ $X_{i+1}$ is allowed to depend on $X^i$ and $Y^i$)? If not, point out the steps in your proof where you use that there is no feedback.
 \end{exercise}
-
-\begin{exercise}[Z-channel]
-The following channel is known as the \emph{Z-channel}:
-\begin{center}
-\begin{tikzpicture}
-\fill[black] (0,0) circle (1mm);
-\fill[black] (0,2) circle (1mm);
-\fill[black] (2,0) circle (1mm);
-\fill[black] (2,2) circle (1mm);
-\draw (0,2) -- (2,2);
-\node[anchor=south] at (1,2) {1};
-\draw (0,0) -- (2,0);
-\node[anchor=north] at (1,0) {$1-f$};
-\draw (0,0) -- (2,2);
-\node[anchor=east] at (1,1) {$f$};
-
-\node[anchor=east] at (0,2) {a};
-\node[anchor=east] at (0,0) {b};
-\node[anchor=west] at (2,2) {a};
-\node[anchor=west] at (2,0) {b};
-\end{tikzpicture}
-\end{center}
-Let $p \in [0,1]$ and write $P_X(a) = 1-p$, $P_X(b) = p$.
-
-\begin{subex}
-Express $I(X;Y)$ in terms of $p$ and $f$.
-\end{subex}
-
-\begin{subex}
-Find the optimal input distribution and the channel capacity for $f = 0.3$.
-\end{subex}
-\begin{subex}
-Do the same for $f = 0.15$ and $f = 0.01$. What do you observe?
-\end{subex}
-\end{exercise}
-
-
-
-
-
 
 
 
@@ -161,8 +89,13 @@ Now consider the channel with memory. Before transmission begins, $Z$ is randoml
 \end{subex}
 \end{exercise}
 
-\begin{exercise}[Practice]
-If you have solved all of the above problems before the exercise session is over, take the rest of the time to review previous exercise sets, homeworks or concept quizzes, or to ask any questions that you might have. When done, take on the \href{https://www.moodle.ch/lms/mod/forum/view.php?id=1788}{challenges}.
+\begin{exercise}[Additive noise]
+Let $R$ be a random variable such that $R$ takes on either value 0 or some arbitrary but fixed value $r \in \mathbb{R}$, both with probability $1/2$.
+
+Consider a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ with $\mathcal{X} = \{0,1\}$ and
+$Y = (X+R) \mod 4$.
+
+Find the capacity of this channel for all possible values of $r$.
 \end{exercise}
 
 
