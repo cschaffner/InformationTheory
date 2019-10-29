@@ -1,0 +1,91 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{2}
+\newcommand\deadline{...}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercises}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\begin{document}
+
+\practiceproblems
+
+{\sffamily\noindent
+This week's exercises deal with entropy. \practiceinstructions
+}
+
+\begin{exercise}[Properties of entropy]
+Let $X$ and $Y$ be random variables.
+	\begin{subex}
+	Prove that $H(X) = 0$ if and only if $X$ is \emph{constant}, i.e. there is an $x_0 \in \mathcal{X}$ such that $P_X(x_0) = 1$, and $P_X(x') = 0$ for all $x' \neq x_0$.
+	\end{subex}
+	
+	\begin{subex}
+	Prove that $H(XY) = H(X) + H(Y)$ if and only if $X$ and $Y$ are independent.
+	\end{subex}
+
+	\begin{subex}
+	Prove that $H(X) = \log |\mathcal{X}|$ if $X$ is uniformly distributed.
+	\end{subex}
+
+	\begin{subex**}
+	Prove that $X$ is uniformly distributed if $H(X) = \log |\mathcal{X}|$.
+	\end{subex**}
+	
+\end{exercise}
+
+\begin{exercise}[Entropy of a deck of cards]
+	\begin{subex}
+	Compute the entropy of a perfectly shuffled deck of 52 cards
+        (i.e.\ the set of cards is uniformly distributed over all
+        possible orders, not just the entropy of the first card).
+	\end{subex}
+	
+	\begin{subex}
+	Now suppose we have a perfectly shuffled big deck, consisting of two \emph{identical} decks of 52 cards (104 cards in total). You cannot tell the difference between, for example, the ace of spades of one deck and the ace of spades of the other. Compute the entropy of the shuffled big deck.
+	\end{subex}
+\end{exercise}
+
+
+\begin{exercise}[Mutual information]
+Let $X$, $Y$ and $Z$ be random variables such that $I(X;Y) = 0$ and $I(X;Z) = 0$. Does it follow that $I(Y;Z) = 0$? If so, prove it. If not, give a counterexample.
+\end{exercise}
+
+\begin{exercise}[Estimating entropy]
+(\href{http://www.inference.phy.cam.ac.uk/mackay/itila/book.html}{[MacKay]}, Example 2.13:) A source produces a character $x$ from alphabet $\mathcal{A} = \{\mathtt{0, 1, 2, ..., 9, a, b, c, ..., z}\}$. With probability $1/3$, $x$ is a uniformly random numeral $\mathtt{0,1,2,...,9}$, with probability $1/3$, $x$ is a random vowel $\mathtt{a,e,i,o,u}$ and with probability $1/3$, $x$ is one of the 21 consonants. Estimate the entropy of $X$. Can you give a good estimate without using a calculator?
+\end{exercise}
+
+\begin{exercise}[Geometric distribution]
+The geometric($p$) distribution of a random variable $X$ is defined as the number of times one has to flip a Bernoulli$(p)$ coin before it lands on heads:
+\[
+P_X(k) = (1-p)^{k-1}p \ \ \ \ \ \mbox{for } k = 1, 2, 3, ...
+\]
+Compute the entropy of the geometric distribution.
+\end{exercise}
+
+\begin{exercise}[Stirling's Approximation]
+Let $n \in \mathbb{N}$ and $p \in [0,1]$ such that $np \in \mathbb{N}$. Use the approximation $\ln(n!) \approx n \ln(n)$ to prove that
+\[
+{n \choose np} \approx 2^{n \cdot h(p)},
+\]
+where $h$ is the binary entropy function.
+\end{exercise}
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

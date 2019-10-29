@@ -1,0 +1,113 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{7}
+\newcommand\deadline{Friday November 18th, 20:00h}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercises}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\practiceproblems
+
+{\sffamily\noindent
+This week's exercises deal with noisy-channel coding. \practiceinstructions
+}
+
+
+\begin{exercise}[Multiple Channel Uses]
+Prove the \href{https://canvas.uva.nl/courses/2205/pages/definition-channel-capacity#lemma}{lemma below} stating that the capacity per transmission is not increased if we use a discrete memoryless channel many times. For inspiration, look again at the \href{https://canvas.uva.nl/courses/2205/pages/noisy-channel-theorem-converse}{proof of the converse of Shannon's noisy-channel coding theorem}.
+
+\medskip
+\noindent\textbf{Lemma on Multiple Channel Uses}\  Let $X_1, X_2, \ldots X_n = X^n$ be $n$ random variables with arbitrary joint distribution $P_{X^n}$. Let $Y^n$ be the result of passing $X^n$ through a discrete memoryless channel of capacity $C$. Prove that for all $P_{X^n}$, it holds that $I(X^n; Y^n) \leq nC$.
+\medskip
+
+Does your proof also work in case of coding with feedback (i.e.\ $X_{i+1}$ is allowed to depend on $X^i$ and $Y^i$)? If not, point out the steps in your proof where you use that there is no feedback.
+\end{exercise}
+
+
+
+
+\begin{exercise}[Encoder and decoder as part of the channel]
+% [CT, 7.16] 
+Consider a binary symmetric channel with crossover probability 0.1. A possible coding scheme for this channel with two codewords of length 3 is to encode message $w_1$ as 000 and $w_2$ as 111. Decoding happens by majority vote. With this coding scheme, we can consider the combination of encoder, channel, and decoder as forming a new BSC, with two inputs $w_1$ and $w_2$, and two outputs $w_1$ and $w_2$.
+
+\begin{subex}
+Draw the channel and calculate the crossover probability.
+\end{subex}
+
+\begin{subex}
+What is the capacity of the original channel?
+\end{subex}
+
+\begin{subex}
+What is the capacity of this new channel in bits per transmission of the original channel? Compare.
+\end{subex}
+
+\begin{subex}
+Prove the general statement that for any channel, considering the encoder, channel, and decoder together as a new channel from messages to estimated messages will not increase the capacity in bits per transmission of the original channel.
+\end{subex}
+
+\end{exercise}
+
+\begin{exercise}[Source and channel]
+% [CT, 7.31] 
+We wish to encode a Bernoulli($\alpha$) process $V_1, V_2, ...$ for transmission over a binary symmetric channel with crossover probability $\epsilon$.
+\begin{center}
+\begin{tikzpicture}
+\node at (0,0) {$V^n$};
+\node at (2,0) {$X^n(V^n)$};
+\node at (4,0) {BSC($\epsilon$)};
+\node at (6,0) {$Y^n$};
+\node at (8,0) {$\hat{V}^n$};
+\draw[->, >=latex] (0.5,0) -- (1.25,0);
+\draw[->, >=latex] (2.75,0) -- (3.5,0);
+\draw[->, >=latex] (4.75,0) -- (5.5,0);
+\draw[->, >=latex] (6.5,0) -- (7.5,0);
+\end{tikzpicture}
+\end{center}
+Find conditions on $(\alpha,\epsilon)$ under which the error probability $P[\hat{V}^n \neq V^n]$ can be made to go to zero as $n \to \infty$.
+\end{exercise}
+
+\begin{exercise}[Channel with memory]
+% [CT, 7.36] 
+Consider the discrete memoryless channel $(\mathcal{X}, P_{Y|X}, \mathcal{Y})$ with $\mathcal{X} = \{-1,1\}$, and $Y = ZX$ for a random variable $Z$ with $\mathcal{Z} = \{-1,1\}$.
+\begin{subex}
+What is the capacity of this channel when $Z$ is uniform?
+\end{subex}
+\begin{subex}
+Now consider the channel with memory. Before transmission begins, $Z$ is randomly chosen and fixed for all time. What is the capacity when $Z$ is uniform?
+\end{subex}
+\end{exercise}
+
+\begin{exercise}[Additive noise]
+Let $R$ be a random variable such that $R$ takes on either value 0 or some arbitrary but fixed value $r \in \mathbb{R}$, both with probability $1/2$.
+
+Consider a channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ with $\mathcal{X} = \{0,1\}$ and
+$Y = (X+R) \mod 4$.
+
+Find the capacity of this channel for all possible values of $r$.
+\end{exercise}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

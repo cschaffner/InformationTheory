@@ -1,0 +1,107 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{1}
+\newcommand\deadline{na}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercises}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\begin{document}
+
+\practiceproblems
+
+{\sffamily\noindent
+This week's exercises deal with basic probabilities. \practiceinstructions
+}
+
+\enlargethispage{1cm}
+\begin{exercise}[Two dice]
+Consider an experiment where we throw two fair six-sided dice: a red one and a blue one.
+	\begin{subex}
+	What is the probability space $(\Omega,\mathcal{F},P)$ for this experiment? What would be the probability space if the dice were both red (i.e. indistinguishable)?
+	\end{subex}
+	\begin{subex}
+	Let $X$ be the random variable that describes the sum of the two outcomes. Describe its range $\mathcal{X}$ and distribution $P_X$. What is $P_X(7) = P(X=7)$?
+	\end{subex}
+	\begin{subex}
+	Let $Y$ be the random variable that describes the \emph{parity} of the sum, i.e. $\mathcal{Y} = \{\mathsf{even}, \mathsf{odd}\}$. What is $P_{X|Y}(7|\mathsf{odd})$? And $P_{X|Y}(7|\mathsf{even})$?
+	\end{subex}
+	\begin{subex}
+	Verify that for an arbitrary random variable $X$, $(\mathcal{X},\mathcal{P}(\mathcal{X}),P_X)$ is a probability space.
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Inverse probabilities (birthday paradox)]
+What is the probability that two (or more) students in this exercise class have the same birthday? (Assume everybody was born in the same year.)
+\end{exercise}
+
+\begin{exercise}[Events]
+Let $\mathcal{A}, \mathcal{B}$ be events (subsets of some sample space $\Omega$). Prove the following identities:
+	\begin{subex}
+	$P[\overline{\mathcal{A}}] = 1 - P[\mathcal{A}]$
+	\end{subex}
+	
+	\begin{subex}
+	$P[\mathcal{A} \cup \mathcal{B}] = P[\mathcal{A}] + P[\mathcal{B}] - P[\mathcal{A},\mathcal{B}]$
+	\end{subex}
+	
+	\begin{subex}
+	$P[\mathcal{A}] = P[\mathcal{A},\mathcal{B}] + P[\mathcal{A},\overline{\mathcal{B}}]$
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Proof by induction]
+
+	\begin{subex}
+	Prove by induction on $n$ that for all $n \in \mathbb{N}_+$,
+	\[
+	\sum_{i=1}^n i = \frac{n(n+1)}{2}.
+	\]
+	\end{subex}
+	
+	\begin{subex}[Union bound]
+	Prove the union bound for a finite number of events, which states that for arbitrary events $\mathcal{A}_1, \mathcal{A}_2, ..., \mathcal{A}_n$,
+	\[
+	P \left( \bigcup_{i=1}^n \mathcal{A}_i \right) \leq \sum_{i=1}^n P(\mathcal{A}_i).
+	\]
+	\end{subex}
+
+	\begin{subex**}
+	Can you find an exact formula for $P\left( \bigcup_{i=1}^n \mathcal{A}_i \right)$?
+	\end{subex**}
+
+\end{exercise}
+
+\begin{exercise}[Probability urn]
+There are 4 white and 5 black balls in a urn. In the first round, 2
+balls are simultaneously drawn. If these two balls have different
+colors, 3 white balls are added to the urn, if they have the same
+color, 3 black balls are added. The two balls drawn in the first round
+are discarded. In a second round, one more ball is drawn. What is the
+probability that this last ball is white?
+\end{exercise}
+
+\begin{exercise}[Teams and slots]
+	Suppose we have 10 teams labeled $T_1, ..., T_{10}$. Suppose they are ordered by placing their names in a hat and drawing the names out one at a time, successively placing them into slots numbered 1 to 10.
+	
+	\begin{subex}
+		How many ways can it happen that all the odd numbered teams are in the odd numbered slots and all the even numbered teams are in the even numbered slots?
+	\end{subex}
+	\begin{subex}
+		What is the probability that all even numbered teams end up in even numbered slots?
+	\end{subex}
+\end{exercise}
+
+
+\enlargethispage{1cm}
+
+
+
+\end{document}
