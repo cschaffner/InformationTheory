@@ -1,8 +1,8 @@
 \documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
 
 %% Settings
-\newcommand\problemset{4}
-\newcommand\deadline{Wed, , 20:00h}
+\newcommand\problemset{5}
+\newcommand\deadline{Wed, 5 December 2018, 12:00h}
 \newif\ifcomments
 \commentsfalse % hide comments
 %\commentstrue % show comments
@@ -20,63 +20,87 @@
 \homeworkproblems
 
 {\sffamily\noindent
-Your homework must be handed in \textbf{electronically via Moodle before \deadline}. This deadline is strict and late submissions are graded with a 0. At the end of the course, the lowest of your 6 weekly homework grades will be dropped. You are strongly encouraged to work together on the exercises, including the homework. However, after this discussion phase, you have to write down and submit your own individual solution. Numbers alone are never sufficient, always motivate your answers.
+Unless otherwise stated, you should provide exact answers rather than rounded numbers (e.g., $\log 3$ instead of 1.585) for non-programming exercises.
 }
 
-\newcommand{\typsetA}{A^{(n)}_{\varepsilon}}
-\newcommand{\typsetB}{B^{(n)}_{\delta}}
+\begin{exercise}[Bottleneck (4pt)]
+Suppose a Markov chain starts in one of $n$ states, necks down to $k < n$ states, and then fans back to $m > k$ states. Thus $X_1 \to X_2 \to X_3$, with $\mathcal{X}_1 = \{1, 2, ..., n\}$, $\mathcal{X}_2 = \{1, 2, ..., k\}$, and $\mathcal{X}_3 = \{1, 2, ..., m\}$.
+\begin{subex}[(3pt)]
+Show that the dependence of $X_1$ and $X_3$ is limited by the bottleneck by proving that $I(X_1;X_3) \leq \log k$.
+\end{subex}
+\begin{subex}[(1pt)]
+Evaluate $I(X_1;X_3)$ for $k = 1$, and conclude that no dependence can survive such a bottleneck.
+\end{subex}
+\end{exercise}
 
-\begin{exercise}[Calculation of the typical set (8pt)]
-To clarify the notion of a typical set $\typsetA$ and the smallest set of high probability $\typsetB$, we will calculate these sets for a simple example. Consider a sequence of i.i.d.\ binary random variables $X_1, X_2, . . . X_n$, where the probability that $P_X(1) = 0.6$ and $P_X(0) = 0.4$.
+
+
+
+
+
+\begin{exercise}[A dog looking for a bone (6pt)]
+A dog walks on the integers, possibly reversing direction at each step with probability $p = 0.1$. Let $X_0 = 0$. The first step is equally likely to be positive or negative. A typical walk might look like this:
+\[
+(X_0, X_1, ...) = (0, -1, -2, -3, -4, -3, -2, -1, 0, 1, ...).
+\]
+	\begin{subex}[(2pt)]
+	What is the expected number of steps the dog takes in one direction, before reversing?
+	\end{subex}
 	\begin{subex}[(1pt)]
-	Calculate $H(X)$.
+	Is this a Markov process? If so, is it time-invariant?
 	\end{subex}
 	\begin{subex}[(3pt)]
-	With $n = 25$ and $\varepsilon = 0.1$, which sequences fall in the typical set $\typsetA$? What is the probability of the typical set? How many elements are there in the typical set? (This involves computation of a table of probabilities for sequences with $k$ 1's, $0 \leq k \leq 25$, and finding those sequences that are in the typical set.)
-\\\textbf{Hint:} Here is the table: \url{http://goo.gl/sQCPM0}
+	Find the entropy rate of this browsing dog.
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Run-length coding (3pt)]
+Let $X_1, X_2, ..., X_n$ be (possibly dependent) binary random variables.
+Suppose one calculates the run lengths $R = (R_1, R_2, ...)$ of this sequence (in order as they occur).
+For example, the sequence $X = 0001100100$ yields run lengths $R = (3, 2, 2, 1, 2)$. Compare
+$H(X_1, X_2, . . . , X_n)$, $H(R)$ and $H(X_n, R)$. Show all equalities and inequalities, and bound all the
+differences.
+\end{exercise}
+
+\begin{exercise}[Entropy rates of Markov chains (10pt)]
+	\begin{subex}[(2pt)]
+	Find the entropy rate of the two-state Markov chain with transition matrix
+	\[
+	P = \left[
+	\begin{array}{c c}
+	1-p_{ab} & p_{ab}\\
+	p_{ba} & 1 - p_{ba}
+	\end{array}
+	\right].
+	\]
+	\end{subex}
+	\begin{subex}[(1pt)]
+	Find values of $p_{ab}$ and $p_{ba}$ that maximize the entropy rate of part (a).
+	\end{subex}
+	\begin{subex}[(1pt)]
+	Find the entropy rate of the two-state Markov chain with transition matrix
+	\[
+	P = \left[
+	\begin{array}{c c}
+	1-p & p\\
+	1 & 0
+	\end{array}
+	\right].
+	\]
 	\end{subex}
 	\begin{subex}[(2pt)]
-	How many elements are there in the smallest set that has probability 0.9? In other words, what is $|\typsetB|$ for $n = 25$ and $\delta = 0.1$?
+	Find the maximum value of the entropy rate of for part (c). \\\textbf{Hint:} we expect that the maximizing value of $p$ should be less than 1/2, since the 0 state permits more information to be generated than the 1 state. This allows you to discard one possible solution.
 	\end{subex}
-	\begin{subex}[(2pt)]
-	How many elements are there in the intersection $|\typsetA \cap \typsetB|$ of the sets computed in parts (b) and (c)? What is the probability of this intersection?
+	\begin{subex}[(4pt)]
+	Let $N(t)$ be the number of allowable state sequences of length $t$ for the Markov chain of part (c). Find $N(t)$ and calculate
+	\[
+	H_0 := \lim_{t \to \infty} \frac{1}{t} \log N(t).
+	\]
+	Why is $H_0$ an upper bound on the entropy rate of the Markov chain? Compare $H_0$ with the maximum entropy found in (d).
+	\\\textbf{Hint:} Find $N(0)$ and $N(1)$, and find a linear \href{https://en.wikipedia.org/wiki/Recurrence_relation}{recurrence} that expresses $N(t)$ in terms of $N(t-1)$ and $N(t-2)$. What well-known sequence does this remind you of? You can use any known properties of this sequence.
 	\end{subex}
 \end{exercise}
 
-\begin{exercise}[Three random variables (3pt)]
-Let $A,B,C$ be random variables such that
-\begin{align*}
-I(A;B) &= 0\\
-I(A;C|B) &= I(A;B|C)\\
-H(A|BC) &= 0
-\end{align*}
-Prove one of the following possible relations between $H(A)$ and $H(C)$:
-\begin{align*}
-H(A)&=H(C) \, ,\\
-H(A) &\leq H(C) \, ,\\
-H(A) &\geq H(C) \, ,\\
-H(A) &< H(C) \, ,\\
-H(A) &> H(C) \, .
-\end{align*}
-\end{exercise}
-
-\pagebreak
-
-\begin{exercise}[Piece of cake (2pt)]
-A big cake is repeatedly sliced into two pieces. At every step, the \emph{smaller} part is discarded (or eaten). On the other part the process is continued. At every step, the remaining piece is cut randomly into two pieces with the following proportions:
-\begin{align*}
-\left(\frac{2}{3},\frac{1}{3}\right) &\mbox{ with probability } \frac{3}{4},\\
-\left(\frac{3}{5},\frac{2}{5}\right) &\mbox{ with probability } \frac{1}{4}.\\
-\end{align*}
-For example, three consecutive cuts might result in a piece of cake of size $\frac{3}{5} \cdot \frac{2}{3} \cdot \frac{2}{3}$. Let $T_n$ be the fraction of the cake left after $n$ cuts. Clearly, this fraction $T_n$ decreases exponentially with $n$, i.e. $T_n \approx c^n$ for some real constant $0<c<1$. Determine $c$ for large values of $n$.
-
-\textbf{Hint:} Let $C_i$ be a random variable describing the fraction of the cake that is cut (and kept) at the $i$th cut, i.e.\ $C_i = \frac{2}{3}$ with probability $\frac{3}{4}$, or $\frac{3}{5}$ otherwise.  Then use the weak law of large numbers.
-
-
-
-
-
-\end{exercise}
 
 
 
