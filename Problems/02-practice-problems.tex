@@ -70,8 +70,12 @@ P_X(k) = (1-p)^{k-1}p \ \ \ \ \ \mbox{for } k = 1, 2, 3, ...
 Compute the entropy of the geometric distribution.
 \end{exercise}
 
-\begin{exercise}[Stirling's Approximation]
-Let $n \in \mathbb{N}$ and $p \in [0,1]$ such that $np \in \mathbb{N}$. Use the approximation $\ln(n!) \approx n \ln(n)$ to prove that
+\begin{exercise}[Size of binomial coefficient from Stirling's Approximation]
+Let $n \in \mathbb{N}$ and $p \in [0,1]$ such that $np \in
+\mathbb{N}$. Use
+\href{https://en.wikipedia.org/wiki/Stirling's_approximation}{Stirling's
+  approximation} of the factorial function $\log(n!) \approx n \log(n)
+- n \log(e) $ to prove that
 \[
 {n \choose np} \approx 2^{n \cdot h(p)},
 \]
