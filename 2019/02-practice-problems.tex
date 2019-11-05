@@ -7,11 +7,14 @@
 \commentsfalse % hide comments
 %\commentstrue % show comments
 
+\usepackage{tikz}
+
 % Packages
 \usepackage[english]{exercises}
 \usepackage{wasysym}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
 
 \begin{document}
 
@@ -20,6 +23,29 @@
 {\sffamily\noindent
 This week's exercises deal with entropy. \practiceinstructions
 }
+
+\setcounter{exCount}{-1}
+\begin{exercise}[Extra practice problem (not assigned for presentation session): Fun with dice]
+	Consider the following random experiment with two fair (regular six-sided) dice. First, the first die is thrown -- let the outcome be $A$. Then, the second die is thrown until the outcome has the same parity (even, odd) as $A$. Let this final outcome of the second die be $B$. The random variables $X$, $Y$ and $Z$ are defined as follows:
+	\[
+	X = (A + B) \mod 2, \ \ \ \ \ Y = (A \cdot B) \mod 2, \ \ \ \ \ Z = |A - B|.
+	\]
+	\begin{subex}
+		Find the joint distribution $P_{AB}$.
+	\end{subex}
+	\begin{subex}
+		Determine $H(X), H(Y)$ and $H(Z)$.
+	\end{subex}
+	\begin{subex}
+		Compute $H(Z|A=1)$.
+	\end{subex}
+	\begin{subex}
+		Compute $H(AB)$, i.e.\ the joint entropy of $A$ and $B$.
+	\end{subex}
+	\begin{subex}
+		A random variable $M$ describes whether the sum $A + B$ is strictly larger than seven, between five and seven (both included) or strictly smaller than five. How much entropy is present in $M$?
+	\end{subex}
+\end{exercise}
 
 \begin{exercise}[Properties of entropy]
 Let $X$ and $Y$ be random variables.
@@ -55,7 +81,19 @@ Let $X$ and $Y$ be random variables.
 
 
 \begin{exercise}[Mutual information]
+	
+	\begin{subex}
+		Let the binary random variables $X$ and $Y$ be defined by the joint probability distribution $P_{XY}(00) = 1/2$, $P_{XY}(01) = 0$, $P_{XY}(10) = 1/4$, $P_{XY}(11) = 1/4$.
+		
+		Draw the entropy diagram for $X$ and $Y$, and compute $H(X)$, $H(Y)$, $H(XY)$, $H(X|Y)$, $H(Y|X)$, and $I(X;Y)$. Reading off a value from the diagram is a valid `computation', as long as you clearly state how you did it.
+		\begin{center}
+			\entropydiagramXY[1]{?}{?}{?}{?}{?}{?}
+		\end{center}
+	\end{subex}
+	
+	\begin{subex}
 Let $X$, $Y$ and $Z$ be random variables such that $I(X;Y) = 0$ and $I(X;Z) = 0$. Does it follow that $I(Y;Z) = 0$? If so, prove it. If not, give a counterexample.
+\end{subex}
 \end{exercise}
 
 \begin{exercise}[Estimating entropy]
@@ -81,6 +119,8 @@ Let $n \in \mathbb{N}$ and $p \in [0,1]$ such that $np \in
 \]
 where $h$ is the binary entropy function.
 \end{exercise}
+
+
 
 
 
