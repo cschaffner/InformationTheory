@@ -21,6 +21,45 @@
 This week's exercises deal with source codes and data compression. \practiceinstructions
 }
 
+\setcounter{exCount}{-1}
+\begin{exercise}[Extra practice problem (not assigned for presentation session): Huffman Coding]
+	Consider the binary source $P_X$ with $P_X(0) = \frac{1}{8}$ and $P_X(1) = \frac{7}{8}$.
+
+\begin{subex}
+	Design a Huffman code for $P_X$. What is the average codeword length?
+\end{subex}
+
+\begin{subex}
+	Design a Huffman code for blocks of $N=2$ bits drawn from the source $P_X$. What is the average codeword length?
+\end{subex}
+
+\begin{subex}
+	Design a Huffman code for blocks of $N=3$ bits drawn from the source $P_X$. What is the average codeword length?
+\end{subex}
+
+\begin{subex}
+	For the three codes you designed ($N=1,2,3$), divide the average codeword length by $N$, and compare these values to the optimal length, i.e., $H(X)$. What do you observe?
+\end{subex}
+
+\begin{subex}
+	If you were asked to design a Huffman code for a block of $N = 100$ bits, what problem would you run into?
+\end{subex}
+
+\begin{subex}
+	Consider the random variable $Z$ with
+	\begin{center}
+		\begin{tabular}{c | c c c c c c}
+			$z$ & 1 & 2 & 3 & 4 & 5 & 6\\
+			\hline
+			$P_Z(z)$ & 1/10 & 3/10 & 2/10 & 2/10 & 1/10 & 1/10\\
+		\end{tabular}
+	\end{center}
+	Design a \emph{ternary} Huffman code for $Z$ (i.e. using an alphabet with three symbols).
+\end{subex}
+
+\end{exercise}
+
+
 
 \begin{exercise}[Prefix-free arithmetic codes]
 	\begin{subex}
@@ -54,11 +93,11 @@ Let $X$ be a random variable which takes on values in the finite set $\mathcal{X
 	\begin{subex}
 	Show that if there exists an $n \in \mathbb{N}_{>0}$ such that for
         all $x \in \mathcal{X}$, $P_X(x) = \frac{1}{2^n}$, then there
-        exists a uniquely decodable source code whose expected length equals the entropy.
+        exists a uniquely decodable binary source code whose expected length equals the entropy.
 	\end{subex}
 	\begin{subex}
 	% (\href{http://www.inference.phy.cam.ac.uk/mackay/itila/book.html}{[MacKay]}, Exercise 5.25:) 
-        Show that if for all $x \in \mathcal{X}$, there exists an $n \in \mathbb{N}_{>0}$ such that $P_X(x) = \frac{1}{2^n}$, then there exists a uniquely decodable source code whose expected length equals the entropy.
+        Show that if for all $x \in \mathcal{X}$, there exists an $n_x \in \mathbb{N}_{>0}$ such that $P_X(x) = \frac{1}{2^{n_x}}$, then there exists a uniquely decodable binary source code whose expected length equals the entropy.
 	\end{subex}
 \end{exercise}
 
