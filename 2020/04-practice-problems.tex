@@ -1,0 +1,109 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{4}
+\newcommand\deadline{Friday November 18th, 20:00h}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercises}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\begin{document}
+
+\practiceproblems
+
+{\sffamily\noindent
+This week's exercises deal with AEP and encryption.  \practiceinstructions
+}
+
+\begin{exercise}[AEP and source coding]
+A discrete memoryless source emits a sequence of of statistically independent binary digits with probabilities $P_X(1) = 0.005$ and $P_X(0) = 0.995$. The digits are taken 100 at a time and a binary codeword is provided for every sequence of 100 digits containing three or fewer 1's.
+	\begin{subex}
+	Assuming that all codewords are the same length, find the minimum length required to
+provide codewords for all sequences with three or fewer 1's.
+	\end{subex}
+	\begin{subex}
+		In the first homework problem set, you were asked to prove Markov's inequality.
+		Use it to bound the probability of observing a source sequence for
+		which no codeword has been assigned.
+	\end{subex}
+    \begin{subex}
+    	In the first homework problem set, you were also asked to
+        prove Chebyshev's inequality. Use it to bound the probability of observing a source sequence for
+		which no codeword has been assigned.
+	\begin{subex}
+	Calculate the actual probability of observing a source sequence for which no codeword has
+been assigned. Compare this number with the bounds computed
+in part (b) and (c).
+	\end{subex}
+	\end{subex}
+\end{exercise}
+
+
+
+\begin{exercise}[The middle part of the entropy diagram]
+Show that the value
+\[
+R(X;Y;Z) = I(X;Y) - I(X;Y|Z)
+\]
+is invariant under permutations of its arguments, using only the definitions and properties on the canvas page for \href{https://canvas.uva.nl/courses/10933/pages/definition-mutual-information}{mutual information} and \href{https://canvas.uva.nl/courses/10933/pages/definition-conditional-mutual-information}{conditional mutual information}.
+\end{exercise}
+
+\begin{exercise}[Entropy Inequalities]
+For each statement below, specify a joint distribution $P_{XYZ}$ of random variables $X$, $Y$, and $Z$ ($P_{XY}$ of $X$ and $Y$ in (a)) such that the following inequalities hold.
+\begin{subex}
+There exists a $y$ such that $H(X|Y=y) > H(X)$.
+\end{subex}
+\begin{subex}
+$I(X;Y) > I(X;Y|Z)$
+\end{subex}
+\begin{subex}
+$I(X;Y) < I(X;Y|Z)$
+\end{subex}
+\end{exercise}
+
+\begin{exercise}[Conditional mutual information]
+Consider a sequence of $n$ binary random variables $X_1, X_2, ..., X_n$.
+Each sequence with an even number of 1's has probability $2^{-(n-1)}$ and each sequence with an odd number
+of 1's has probability 0. Find the mutual informations
+\[
+I(X_1;X_2), I(X_2;X_3|X_1), ..., I(X_{n-1};X_n|X_1, ..., X_{n-2}).
+\]
+\end{exercise}
+\vspace{-0.5cm}
+
+\begin{exercise}[Independence?]
+	Let $(X_i,Y_i)$ be drawn i.i.d. according to $P_{XY}$. We compare the hypothesis that $X$ and $Y$ are independent to the hypothesis that they are dependent, by defining a random variable
+	\[
+	Z_n := \frac{P_{X^n}({X^n})P_{Y^n}(Y^n)}{P_{X^nY^n}(X^n,Y^n)}.
+	\]
+	What does $\frac{1}{n} \log Z_n$ converge to in probability? (\textbf{Hint:} look at the proof of the AEP for inspiration.)
+\end{exercise}
+
+\begin{exercise}[Bernoulli typical sets]
+	Let $X_i$ be i.i.d. random variables, distributed according to a Bernoulli($p$) distribution: that is, $P_{X_i}(1) = p$ and $P_{X_i}(0) = 1-p$. Denote with $A_{\varepsilon}^{(n)}(p)$ the typical set for $X_1, ..., X_n$.
+	
+	\begin{subex}
+		For arbitrary $\varepsilon > 0$, what is $A_{\varepsilon}^{(n)}(1/2)$?
+	\end{subex}
+	\begin{subex}
+		Prove that for any $0 \leq p < q \leq 1/2$, there exists
+                an $\epsilon > 0$ such that for big enough $n$, it holds that $|A_{\varepsilon}^{(n)}(p)| < |A_{\varepsilon}^{(n)}(q)|$.
+	\end{subex}
+\begin{subex**}
+	Prove that for any $0\leq p < q \leq 1$ such that $p \neq \frac12$ and
+        $q \neq \frac12$, there exists an $\epsilon > 0$ such that for big enough $n$, it holds that $A_{\varepsilon}^{(n)}(p) \cap A_{\varepsilon}^{(n)}(q) = \emptyset$.
+\end{subex**}
+\end{exercise}
+
+
+
+
+
+
+\end{document}

@@ -1,0 +1,175 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{6}
+\newcommand\deadline{Friday November 18th, 20:00h}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercises}
+%\usepackage{amsthm}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+\usepackage{tikz}
+
+\newtheorem{lemma}{Lemma}
+
+\begin{document}
+
+\practiceproblems
+
+{\sffamily\noindent
+This week's exercises deal with zero-error coding and channel capacity. \practiceinstructions
+}
+
+\begin{exercise}[Parity-check code]
+Consider the linear code defined by appending to a 3-bit message string $x_1x_2x_3$ the parity bit $(x_1 \oplus x_2 \oplus x_3)$.
+
+\begin{subex}
+How long are the codewords of $C$? How many different codewords are there?
+\end{subex}
+
+\begin{subex}
+Find the generator matrix $G$.
+\end{subex}
+
+\begin{subex}
+Find the parity check matrix $H$.
+\end{subex}
+
+\begin{subex}
+What is the minimal distance? What kind of errors can $C$ correct for?
+\end{subex}
+
+\begin{subex}
+Encode the strings 101, 111 according to $C$.
+\end{subex}
+
+\begin{subex}
+Decode 1011, 1111, 1110, and 0011.
+\end{subex}
+\end{exercise}
+
+\begin{exercise}[Disjoint graphs]
+	For two graphs $G$ and $H$, the graph $G + H$ is defined as the disjoint union of the two graphs. Formally, assuming without loss of generality that $V(G) \cap V(H) = \emptyset$, then $V(G + H) = V(G) \cup V(H)$ and $E(G+H) = E(G) \cup E(H)$. (You can think of $G + H$ as $G$ and $H$ ``next to each other''.) For the disjoint union of $k$ times the same graph $G$, we write $G^{+k}$.
+	\begin{subex}
+		Prove that $\alpha(G+H) = \alpha(G) + \alpha(H)$.
+	\end{subex}
+	
+	\begin{subex}
+		For any three graphs $G,H,L$, it holds that
+		\[
+		(G+H) \boxtimes L = (G \boxtimes L) + (H \boxtimes L)
+		\]
+		and also
+		\[
+		G \boxtimes (H + L) = (G \boxtimes H) + (G \boxtimes L).
+		\]
+		(You can verify the above identities for yourself if you like.) Use them to derive that for any natural number $k \in \mathbb{N}$, \[(G + G)^{\boxtimes k} = (G^{\boxtimes k})^{+2^k}.\]
+	\end{subex}
+\end{exercise}
+
+%\begin{exercise}[Determining the minimal distance]
+%Prove that for a binary linear code $C$ with parity check matrix $H$, the minimal distance $d_{min}$ equals the minimum number of linearly dependent columns in $H$.
+%
+%Check that this lemma holds for the linear code from the previous exercise.
+%\end{exercise}
+
+\begin{exercise}[Symmetric Channels]
+Recall that in a transition matrix, the entry in the $x$th row and the $y$th column denotes the conditional probability $P_{Y|X}(y|x)$ that $y$ is received when $x$ has been sent.
+
+% A channel is said to be \textbf{symmetric} if the rows of the channel
+% transition matrix $P_{Y|X}$ are permutations of each other, and the
+% columns are permutations of each other. For example, consider the channel with transition matrix
+% \[
+% P_{Y|X} = \left[
+% \begin{array}{c c c}
+% 0.3&0.2&0.5\\
+% 0.5&0.3&0.2\\
+% 0.2&0.5&0.3
+% \end{array}
+% \right].
+% \]
+
+A channel is said to be \textbf{(weakly) symmetric} if every row of the transition matrix is a permutation of every other row and all the column sums $\sum_x P_{Y|X}(y|x)$ are equal.
+
+For instance, % the channel $P_{Y|X}$ above is symmetric, and
+the channel
+\[
+Q_{Y|X} = \left[
+\begin{array}{c c c}
+\frac{1}{3}&\frac{1}{6}&\frac{1}{2}\\
+\frac{1}{3}&\frac{1}{2}&\frac{1}{6}
+\end{array}
+\right]
+\]
+is weakly symmetric.
+	\begin{subex}
+	Find the optimal input distribution and channel capacity of $Q_{Y|X}$.
+	\end{subex}
+	\begin{subex}
+	Give a general strategy how to compute the capacity of weakly symmetric channels. What is the optimal input distribution?
+	\end{subex}
+\end{exercise}
+
+\begin{exercise}[Z-channel]
+The following channel is known as the \emph{Z-channel}:
+\begin{center}
+\begin{tikzpicture}
+\fill[black] (0,0) circle (1mm);
+\fill[black] (0,2) circle (1mm);
+\fill[black] (2,0) circle (1mm);
+\fill[black] (2,2) circle (1mm);
+\draw (0,2) -- (2,2);
+\node[anchor=south] at (1,2) {1};
+\draw (0,0) -- (2,0);
+\node[anchor=north] at (1,0) {$1-f$};
+\draw (0,0) -- (2,2);
+\node[anchor=east] at (1,1) {$f$};
+
+\node[anchor=east] at (0,2) {a};
+\node[anchor=east] at (0,0) {b};
+\node[anchor=west] at (2,2) {a};
+\node[anchor=west] at (2,0) {b};
+\end{tikzpicture}
+\end{center}
+Let $p \in [0,1]$ and write $P_X(a) = 1-p$, $P_X(b) = p$.
+
+\begin{subex}
+Express $I(X;Y)$ in terms of $p$ and $f$.
+\end{subex}
+
+\begin{subex}
+Find the optimal input distribution and the channel capacity for $f = 0.3$, using the fact that
+\[
+\frac{d}{dp} h(p) = \log\left(\frac{1-p}{p}\right).
+\]
+\end{subex}
+\begin{subex}
+Do the same for $f = 0.15$ and $f = 0.01$, using a computer if you want. What do you observe?
+\end{subex}
+\end{exercise}
+
+\begin{exercise}[Comparing capacities]
+In this problem, you will compare the Shannon capacity of a discrete memoryless channel $(\mathcal{X},P_{Y|X},\mathcal{Y})$ to the Shannon capacity of its confusability graph $G$.
+
+\begin{subex}
+Prove that $\log(\alpha(G)) \leq \max_{P_X} I(X;Y)$.
+\end{subex}
+\begin{subex}
+Generalize the previous subproblem by proving that for any natural number $n \geq 1$, it holds that $\log(\alpha(G^{\boxtimes n})) \leq \max_{P_{X^n}} I(X^n;Y^n)$.
+\end{subex}
+\begin{subex}
+Conclude that the Shannon capacity of the confusability graph can never exceed the Shannon capacity of the channel. Is this result surprising? Why or why not?
+\end{subex}
+\end{exercise}
+
+
+
+
+
+
+\end{document}

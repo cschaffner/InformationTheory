@@ -1,0 +1,155 @@
+\documentclass[a4paper,10pt,landscape,twocolumn]{scrartcl}
+
+%% Settings
+\newcommand\problemset{5}
+\newcommand\deadline{Friday November 18th, 20:00h}
+\newif\ifcomments
+\commentsfalse % hide comments
+%\commentstrue % show comments
+
+% Packages
+\usepackage[english]{exercises}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+\hypersetup{colorlinks=true, urlcolor = blue, linkcolor = blue}
+
+\begin{document}
+
+\practiceproblems
+
+{\sffamily\noindent
+This week's exercises deal with random processes. \practiceinstructions
+}
+
+\begin{exercise}[Markov chains with 4 random variables]
+Let $W \rightarrow X \rightarrow Y \rightarrow Z$ be a Markov chain with 4 RVs, i.e.,\ it holds that $P_{Z|YXW} = P_{Z|Y}$ and $W \leftrightarrow X \leftrightarrow Y$ is a Markov chain with three random variables as defined in the lecture.
+\begin{subex}
+	Show that $X \leftrightarrow Y \leftrightarrow Z$ is a Markov chain.
+\end{subex}
+\begin{subex}
+Show that $W \leftrightarrow (X,Y) \leftrightarrow Z$ is a Markov chain with three random variables $W, (XY), Z$.
+\end{subex}
+\begin{subex}
+Show that $Z \rightarrow Y \rightarrow X \rightarrow W$. Therefore, it is also justified to write $W \leftrightarrow X \leftrightarrow Y \leftrightarrow Z$, as in the case for three RVs.
+\end{subex}
+\begin{subex**}
+How would the properties above generalize to Markov chains of $n>4$
+random variables? You don't have to work out the full proofs.
+\end{subex**}
+\end{exercise}
+
+% \begin{exercise}[Bernoulli process]
+% Let $X_1, X_2, ...$ be distributed according to the Bernoulli$(p)$ distribution. Consider the associated Markov chain $\{Y_i\}_{i=1}^n$, where $Y_i$ is the number of 1's in the current run of 1's. For example, if $X^n = 101110...$, then $Y^n = 101230....$.
+% \begin{subex}
+% Find the entropy rate of $X^n$.
+% \end{subex}
+% \begin{subex}
+% Find the entropy rate of $Y^n$
+% \end{subex}
+% \end{exercise}
+
+
+
+% \begin{exercise}[Ces\'{a}ro mean]
+% Show that if $a_n \to a$ and $b_n = \frac{1}{n}\sum_{i=1}^n a_i$, then $b_n \to a$. This is Theorem~4.2.3 in Cover \& Thomas.
+% \end{exercise}
+
+
+
+\begin{exercise}[Stationary processes] Let $..., X_{-1}, X_0, X_1, ...$ be a stationary (not necessarily Markov) stochastic process. Recall that this means that for any $n \in \mathbb{N}$ and $k \in \mathbb{Z}$, it holds that $P_{X_1 \ldots X_n} = P_{X_{1+k},\ldots,X_{n+k}}$. Which of the following statements are true? Prove or provide a counterexample.
+\begin{subex}
+$H(X_n|X_0) = H(X_{-n}|X_0)$
+\end{subex}
+\begin{subex}
+$H(X_n|X_0) \geq H(X_{n-1}|X_0)$
+\end{subex}
+\begin{subex}
+$H(X_n|X_1, X_2, ..., X_{n-1})$ is nonincreasing in $n$.
+\end{subex}
+\begin{subex}
+$H(X_n|X_1, X_2, ..., X_{n-1}, X_{n+1}, ..., X_{2n})$ is nonincreasing in $n$.
+\end{subex}
+\end{exercise}
+
+
+\begin{exercise}[Entropy rate]
+	Consider the following Markov process:
+	
+	\begin{center}
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+		semithick]
+		\tikzstyle{every state}=[fill=none,draw=black,text=black]
+		\node[state] (A)		 				{\texttt{A}};
+		\node[state] (C)  [below right of=A] 	  {\texttt{C}};
+		\node[state] (B)  [above right of=C] 	  {\texttt{B}};
+		\path (A) edge[bend left=10] node {1} (B)
+				 (B) edge[bend left=10] node {0.7} (C)
+				       edge[bend left=10] node {0.3} (A)
+				 (C) edge[bend left=10] node {0.8} (B)
+				       edge node {0.2} (A);
+		
+		\end{tikzpicture}
+	\end{center}
+	\begin{subex}
+		Give the transition matrix for this Markov process, and calculate its stationary distribution. If necessary, round your answers to three decimals precision.
+	\end{subex}
+% 5 pt: transition matrix
+% 5: system of equations to find stationary distribution
+% 3: 1 for every correct outcome
+	\begin{subex}
+                Assume the initial distribution $X_1$ fulfills that $P_{X_1}(\texttt{A})=1$. Derive the entropy rate $H(\{X_i\})=\lim_{n \to \infty} \frac{1}{n} H(X_1 \ldots X_n)$ for this process. If necessary, round your final answer to three decimals precision. You are allowed to use without proof that if a distribution $P_{X_n Y_n}$ converges to $P_{\tilde{X} \tilde{Y}}$ for $n \to \infty$, then $H(X_n|Y_n)$ converges to $H(\tilde{X}|\tilde{Y})$.
+	\end{subex}
+% use of Proposition... subtract 2 if aperiodicity and irreducibility is not checked.
+% correct derivation
+\end{exercise}
+
+
+% \begin{exercise}[Branching process]
+% A random process repeatedly flips a fair coin to choose between the two words \texttt{ab} and \texttt{abc}. A typical sample from this process is
+% \[
+% \mathtt{a b c a b c a b a b a b c a b c a b c a b c a b c a b a b a b c a b a b a b c a b c ...}
+% \]
+% Let $X_i$ denote the letter at the $i$th position.
+% \begin{subex}
+% Draw the transition diagram for the process $X_1, X_2, X_3, ...$.
+% \end{subex}
+% \begin{subex}
+% Is this process stationary?
+% \end{subex}
+% \begin{subex}
+% Compute the entropy rate of this process.
+% \end{subex}
+% \end{exercise}
+
+
+
+\begin{exercise}[Random walk on a chessboard]
+Consider a 3x3 chessboard. We place a \href{https://en.wikipedia.org/wiki/Bishop_(chess)}{bishop} (who can move diagonally as far as he likes) on the board, and let him perform a random walk on this chessboard, choosing his move uniformly at random from all legal moves every time. 
+
+\begin{subex}
+You can see this process as random walk on a graph. Draw this graph.
+\end{subex}
+
+\begin{subex}
+Assume the bishop starts in the top left corner of the board. What is the entropy rate of the resulting process? As in the problem above, you are allowed to use without proof that if a distribution $P_{X_n Y_n}$ converges to $P_{\tilde{X} \tilde{Y}}$ for $n \to \infty$, then $H(X_n|Y_n)$ converges to $H(\tilde{X}|\tilde{Y})$.
+\end{subex}
+
+\end{exercise}
+
+
+\begin{exercise}[Bernoulli process]
+Let $X_1, X_2, ...$ be distributed according to the Bernoulli$(p)$ distribution. Consider the associated Markov chain $\{Y_i\}_{i=1}^n$, where $Y_i$ is the number of 1's in the current run of 1's. For example, if $X^n = 101110...$, then $Y^n = 101230....$.
+\begin{subex}
+Find the entropy rate of $X^n$.
+\end{subex}
+\begin{subex}
+Find the entropy rate of $Y^n$
+\end{subex}
+\end{exercise}
+
+
+
+\end{document}
