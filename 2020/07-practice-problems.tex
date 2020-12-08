@@ -25,7 +25,7 @@ This week's exercises deal with noisy-channel coding. \practiceinstructions
 
 
 \begin{exercise}[Multiple Channel Uses]
-Prove the \href{https://canvas.uva.nl/courses/2205/pages/definition-channel-capacity#lemma}{lemma below} stating that the capacity per transmission is not increased if we use a discrete memoryless channel many times. For inspiration, look again at the \href{https://canvas.uva.nl/courses/2205/pages/noisy-channel-theorem-converse}{proof of the converse of Shannon's noisy-channel coding theorem}.
+Prove the \href{https://canvas.uva.nl/courses/17524/pages/definition-channel-capacity#lemma}{lemma below} stating that the capacity per transmission is not increased if we use a discrete memoryless channel many times. For inspiration, look again at the \href{https://canvas.uva.nl/courses/17524/pages/noisy-channel-theorem-converse}{proof of the converse of Shannon's noisy-channel coding theorem}.
 
 \medskip
 \noindent\textbf{Lemma on Multiple Channel Uses}\  Let $X_1, X_2, \ldots X_n = X^n$ be $n$ random variables with arbitrary joint distribution $P_{X^n}$. Let $Y^n$ be the result of passing $X^n$ through a discrete memoryless channel of capacity $C$. Prove that for all $P_{X^n}$, it holds that $I(X^n; Y^n) \leq nC$.
@@ -85,7 +85,7 @@ Consider the discrete memoryless channel $(\mathcal{X}, P_{Y|X}, \mathcal{Y})$ w
 What is the capacity of this channel when $Z$ is uniform?
 \end{subex}
 \begin{subex}
-Now consider the channel with memory. Before transmission begins, $Z$ is randomly chosen and fixed for all time. What is the capacity when $Z$ is uniform?
+Now consider the channel with memory. Before transmission begins, $Z$ is randomly chosen and fixed for all time. How much information can you send over this channel in the limit of infinitely many channel uses? Come up with an explicit encoding and decoding scheme to show a lower bound on the achievable rate, then show an upper bound on the rate of any noisy-channel code for this channel. Argue that these bounds match in the limit of infinitely many channel uses.
 \end{subex}
 \end{exercise}
 
