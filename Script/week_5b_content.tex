@@ -26,7 +26,7 @@ Look again at channel (b) from Example~\ref{example:channel}, now with some spec
 \node[anchor=west] at (6,2) {1};
 \end{tikzpicture}
 \end{center}
-We can send two messages, $m_1$ and $m_2$, over the channel by defining $\enc{m_1} = a$ and $\enc{m_2} = b$. The decoding is defined as $\dec{0} = m_1$, and $\dec{1} = \dec{2} = m_2$.
+We can send two messages, $m_1$ and $m_2$, over the channel by defining $\enc{m_1} = a$ and $\enc{m_2} = b$. The decoding is defined as $\dec{1} = m_1$, and $\dec{2} = \dec{3} = m_2$.
 \end{example}
 
 
@@ -141,7 +141,7 @@ Let $(\mathcal{X},P_{Y|X},\mathcal{Y})$ be a channel. The confusability graph $G
 \[V(G) := \mathcal{X},\]
 the set of input symbols of the channel, and
 \[
-E(G) := \{\{x,x'\} \subset \mathcal{X} \mid x \neq x' \mbox{ and } \exists y \in \mathcal{Y} \mbox{ s.t. } P_{Y|X}(y|x) \cdot P_{Y_X}(y|x') > 0\}
+E(G) := \{\{x,x'\} \subset \mathcal{X} \mid x \neq x' \mbox{ and } \exists y \in \mathcal{Y} \mbox{ s.t. } P_{Y|X}(y|x) \cdot P_{Y|X}(y|x') > 0\}
 \]
 is the set of input pairs that are confusable (because they reach a shared output symbol $y \in \mathcal{Y}$).
 \end{definition}
